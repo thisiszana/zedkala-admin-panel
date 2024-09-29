@@ -1,5 +1,4 @@
 export const MESSAGES = {
-  login: "Logged in successfully!",
   update: "Updated!",
   delete: "Deleted!",
   productCreated: "Product Created",
@@ -18,7 +17,6 @@ export const MESSAGES = {
   categoryEdited: "Category Edited",
   badRequest: "Bad Request!",
   unAuthorized: "You are not authorized!",
-  userNotFound: "Username or password is In-Correct!",
   noMatchPassword: "Current Password is in-correct!",
   forbidden: "Access Denied!",
   fields: "Fill all fields!",
@@ -28,7 +26,9 @@ export const MESSAGES = {
   deleteAdmin: "User Deleted!",
   adminHasContent: "Admin has content!",
   
+  userNotFound: "نام کاربری یا رمز عبور صحیح نیست!",
   register: "ثبت نام با موفقیت انجام شد",
+  login: "با موفقیت وارد شدید!",
   user_exist: "نام کاربری از قبل وجود دارد!",
   fillInp: "لطفا داده های معتبر را وارد کنید!",
   success: "موفق",
