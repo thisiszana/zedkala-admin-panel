@@ -9,9 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/tailwindcss": "^0.2.1",
+    "@nextui-org/react": "^2.4.8",
+    "antd": "^5.21.1",
+    "axios": "^1.7.7",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "moment": "^2.30.1",
+    "mongoose": "^8.7.0",
+    "next": "14.2.13",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.13"
+    "react-hot-toast": "^2.4.1",
+    "react-loader-spinner": "^6.1.6"
   },
   "devDependencies": {
     "postcss": "^8",
