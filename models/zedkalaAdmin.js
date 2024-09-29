@@ -17,7 +17,7 @@ const zedkalaAdminSchema = new Schema(
     blogsCreated: [{ type: Schema.Types.ObjectId, ref: "ZedkalaBlog" }],
     gender: {
       type: String,
-      enum: ["man", "female", "etc"],
+      enum: ["man", "female", "etc", ""],
       default: "",
     },
   },

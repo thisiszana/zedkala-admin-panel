@@ -1,6 +1,4 @@
 export const MESSAGES = {
-  success: "success!",
-  register: "Signed Up successfully!",
   login: "Logged in successfully!",
   update: "Updated!",
   delete: "Deleted!",
@@ -30,8 +28,10 @@ export const MESSAGES = {
   deleteAdmin: "User Deleted!",
   adminHasContent: "Admin has content!",
   
+  register: "ثبت نام با موفقیت انجام شد",
   user_exist: "نام کاربری از قبل وجود دارد!",
   fillInp: "لطفا داده های معتبر را وارد کنید!",
+  success: "موفق",
   failed: "شکست خورد",
   server: "خطا در ارتباط با سرور",
 };
