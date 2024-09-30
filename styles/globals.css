@@ -47,6 +47,15 @@ html.dark {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
+.sidebarScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebarScroll {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 /* Tailwind */
 .Transition {
   @apply transition duration-200 ease-in-out;
@@ -54,4 +63,7 @@ html.dark {
 
 .iconButton {
   @apply hover:bg-lightGray dark:hover:bg-gray-500 Transition p-3 rounded-full;
+}
+.hoverable {
+  @apply hover:bg-lightGray Transition;
 }
