@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html.dark {
+  background-color: rgb(51, 65, 85);
+}
+
 /* Input Styles */
 .input-group {
   position: relative;
@@ -41,4 +45,13 @@
 
 .form-container {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Tailwind */
+.Transition {
+  @apply transition duration-200 ease-in-out;
+}
+
+.iconButton {
+  @apply hover:bg-lightGray dark:hover:bg-gray-500 Transition p-3 rounded-full;
 }

@@ -2,6 +2,6 @@
 
 export default function NavbarSearchBox() {
   return (
-    <div>NavbarSearchBox</div>
+    <div>سرچ باکس</div>
   )
 }

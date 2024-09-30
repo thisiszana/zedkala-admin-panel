@@ -2,6 +2,6 @@
 
 export default function NotifcationBox() {
   return (
-    <div>NotifcationBox</div>
+    <div>اعلانات</div>
   )
 }

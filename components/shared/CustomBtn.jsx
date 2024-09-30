@@ -11,13 +11,15 @@ export default function CustomBtn({
   icon,
   onClick,
 }) {
-  const baseClassNames = ``;
+  const bassClassNames = `rounded-lg px-[20px] h-[40px] Transition flex items-center gap-2 ${
+    isLoading ? "bg-gray-200" : "bg-baseDark text-white"
+  }`;
   return (
     <button
-      className={classNames ? classNames : baseClassNames}
-      onClick={onClick || null}
+      type={type || "button"}
+      className={classNames ? classNames : bassClassNames}
       disabled={disabled}
-      title={title || "ذخیره"}
+      onClick={onClick || null}
     >
       {isLoading ? (
         <Loader width={15} height={15} />

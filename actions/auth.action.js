@@ -1,13 +1,15 @@
 "use server";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
+import { hashedPassword, verifyPassword } from "@/utils/fun";
+import { SECRET_KEY, SESSION_EXPIRATION } from "@/utils/var";
+import { MESSAGES, STATUS_CODES } from "@/utils/message";
 import ZedkalaAdmin from "@/models/zedkalaAdmin";
 import connectDB from "@/utils/connectDB";
-import { hashedPassword, verifyPassword } from "@/utils/fun";
-import { MESSAGES, STATUS_CODES } from "@/utils/message";
-import { SECRET_KEY, SESSION_EXPIRATION } from "@/utils/var";
+
 import { sign } from "jsonwebtoken";
-import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
 
 export const CreateAdmin = async (data) => {
   try {
@@ -122,4 +124,9 @@ export const loginAdmin = async (data) => {
       code: STATUS_CODES.server,
     };
   }
+};
+
+export const signOut = () => {
+  cookies().delete("accessToken");
+  redirect("/");
 };
