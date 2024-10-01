@@ -26,12 +26,12 @@ export default function Sidebar() {
     <>
       <Navbar isCollapsed={isCollapsed} />
       <aside
-        className={`fixed z-30 right-0 h-screen max-md:hidden bg-white dark:bg-slate-700 overflow-y-auto border-l border-gray-200 sidebarScroll transition-all duration-300 ease-in-out ${
+        className={`fixed z-30 right-0 h-screen max-md:hidden bg-white dark:bg-dark2 overflow-y-auto border-l border-gray-200 dark:border-none sidebarScroll transition-all duration-300 ease-in-out ${
           isCollapsed ? "min-w-[80px] " : "min-w-[250px]"
         }`}
       >
         <div
-          className={`flex items-center justify-between fixed bg-white dark:bg-slate-700 p-4 top-0 right-0 z-20 transition-all duration-300 ease-in-out ${
+          className={`flex items-center justify-between fixed bg-white dark:bg-dark2 p-4 mt-[9px] top-0 right-0 z-20 transition-all duration-300 ease-in-out ${
             isCollapsed ? "min-w-[75px]" : "min-w-[250px]"
           }`}
         >
@@ -53,36 +53,38 @@ export default function Sidebar() {
         </div>
 
         <nav className="pt-[74px] pb-5 mt-[60px] transition-opacity duration-300 ease-in-out">
-          <Link
-            href="/account"
-            className="border-2 rounded-full p-2 mx-4 flex items-center justify-between gap-2 cursor-pointer hoverable"
-          >
-            {isLoading && (
-              <div className="flex items-center justify-center w-full py-1">
-                <Loader width={20} height={20} />
-              </div>
-            )}
-            {isError && <p>Error!</p>}
-            {data?.success && (
-              <div
-                className={`flex items-center gap-2 ${
-                  isCollapsed ? "hidden" : ""
-                }`}
-              >
-                <Image
-                  as={NextImage}
-                  src={data?.session?.image || images.admin}
-                  width={35}
-                  height={35}
-                  alt="user"
-                  radius="full"
-                  className="w-[35px] h-[35px]"
-                />
-                <p className="text-p2 capitalize">{data?.session?.firstName}</p>
-                <MenuDots size={15} wrapperClassName="iconButton" />
-              </div>
-            )}
-          </Link>
+          {!isCollapsed && (
+            <Link
+              href="/account"
+              className="border-2 rounded-full p-2 mx-4 flex items-center justify-between gap-2 cursor-pointer hoverable"
+            >
+              {isLoading && (
+                <div className="flex items-center justify-center w-full py-1">
+                  <Loader width={20} height={20} />
+                </div>
+              )}
+              {isError && <p>Error!</p>}
+              {data?.success && (
+                <>
+                  <div className="flex items-center gap-2">
+                    <Image
+                      as={NextImage}
+                      src={data?.session?.image || images.admin}
+                      width={35}
+                      height={35}
+                      alt="user"
+                      radius="full"
+                      className="w-[35px] h-[35px]"
+                    />
+                    <p className="text-p2 capitalize">
+                      {data?.session?.firstName}
+                    </p>
+                  </div>
+                  <MenuDots size={15} wrapperClassName="iconButton" />
+                </>
+              )}
+            </Link>
+          )}
 
           <div className="mr-4 mb-2 mt-5">
             <h1 className="text-p1 text-gray-400 dark:text-white">نمای کلی</h1>
@@ -90,7 +92,9 @@ export default function Sidebar() {
 
           <ul
             className={`${
-              isCollapsed ? "flex flex-col gap-y-5" : "min-w-[250px]"
+              isCollapsed
+                ? "flex flex-col items-center gap-y-5"
+                : "min-w-[250px]"
             }`}
           >
             {menuLinks.map((item) => (
@@ -99,8 +103,8 @@ export default function Sidebar() {
                   className={`rounded-l-btn ml-4 transition-all duration-300 ease-in-out mb-[2px] border-r-4 ${
                     pathname === item.link
                       ? "bg-baseLight text-baseDark border-darkPurple"
-                      : "bg-white dark:bg-slate-700 text-black dark:text-white hover:bg-lightGray dark:hover:bg-slate-700 border-transparent"
-                  } ${isCollapsed ? "pr-2 py-2" : ""} flex items-center`}
+                      : "bg-white dark:bg-dark2 text-black dark:text-white hover:bg-lightGray dark:hover:bg-darkHover border-transparent"
+                  } ${isCollapsed ? "pr-2 py-2 px-3" : ""} flex items-center`}
                 >
                   <Tooltip title={item.title} placement="right">
                     <Link

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html.dark {
-  background-color: rgb(51, 65, 85);
+  background-color: #33384d;
 }
 
 /* Input Styles */
@@ -62,8 +62,8 @@ html.dark {
 }
 
 .iconButton {
-  @apply hover:bg-lightGray dark:hover:bg-gray-500 Transition p-3 rounded-full;
+  @apply hover:bg-lightGray dark:hover:bg-darkHover Transition p-3 rounded-full;
 }
 .hoverable {
-  @apply hover:bg-lightGray Transition;
+  @apply hover:bg-lightGray dark:bg-dark2 dark:hover:bg-darkHover Transition;
 }

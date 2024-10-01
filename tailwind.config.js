@@ -30,7 +30,8 @@ module.exports = {
         darkSlate: "#64748b",
         darkBlue: "#2563eb",
         darkGreen: "#22c55e",
-        dark1: "#212b36",
+        darkHover: "#6b7280",
+        dark1: "#33384d",
         dark2: "#232b33",
         // base color:
         baseLight: "#ede9fe",
