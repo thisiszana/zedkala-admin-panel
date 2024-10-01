@@ -10,7 +10,6 @@ export default function PagesLayout({ children }) {
   if (!session) redirect("/register");
   return (
     <div>
-      <Navbar />
       <Sidebar />
       <div className="space-y-[20px]">
         <div>{children}</div>
