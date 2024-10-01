@@ -33,12 +33,38 @@ export default function ProductForm({ type, form, setForm, onChange }) {
     </div>
   );
 
+  const properties = (
+    <div className="flex flex-wrap gap-box w-full h-full">
+      <CustomInp
+        type="number"
+        name="price"
+        label="قیمت *"
+        value={form.price}
+        onChange={onChange}
+        wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+      />
+      <CustomInp
+        type="number"
+        name="stock"
+        label="موجودی *"
+        value={form.stock}
+        onChange={onChange}
+        wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+      />
+    </div>
+  );
+
   return (
     <div className="space-y-8">
       <DetailedBox
         title="جزئیات اولیه"
         subtitle="عنوان، توضیحات، تصویر"
         content={basicDetails}
+      />
+      <DetailedBox
+        title="ویژگی ها"
+        subtitle="قیمت، موجودی، تخفیف، ..."
+        content={properties}
       />
     </div>
   );
