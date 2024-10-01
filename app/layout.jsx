@@ -3,6 +3,7 @@ import "../styles/globals.css";
 
 import { Toaster } from "react-hot-toast";
 import DarkModeProvider from "@/providers/DarkModeProvider";
+import ReactQueryClientProvider from "@/providers/ReactQueryClientProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -22,17 +23,19 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <DarkModeProvider>
-      <html lang="fa" dir="rtl">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          {children}
-          <div>
-            <Toaster position="top-center" />
-          </div>
-        </body>
-      </html>
-    </DarkModeProvider>
+    <ReactQueryClientProvider>
+      <DarkModeProvider>
+        <html lang="fa" dir="rtl">
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          >
+            {children}
+            <div>
+              <Toaster position="top-center" />
+            </div>
+          </body>
+        </html>
+      </DarkModeProvider>
+    </ReactQueryClientProvider>
   );
 }

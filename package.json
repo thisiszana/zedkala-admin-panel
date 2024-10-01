@@ -11,6 +11,7 @@
   "dependencies": {
     "@headlessui/tailwindcss": "^0.2.1",
     "@nextui-org/react": "^2.4.8",
+    "@tanstack/react-query": "^5.56.2",
     "antd": "^5.21.1",
     "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",

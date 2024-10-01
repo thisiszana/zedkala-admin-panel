@@ -1,21 +1,26 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import NextImage from "next/image";
 import Link from "next/link";
+
 import { Fragment, useState } from "react";
+
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
+import { Image } from "@nextui-org/react";
 import { Tooltip } from "antd";
 
+import { LayerPlus, MenuDots } from "@/components/icons/Icons";
+import { images, menuLinks } from "@/constants";
+import useSession from "@/hooks/useSession";
 import Loader from "../Loader";
-import { menuLinks } from "@/constants";
-import { LayerPlus } from "@/components/icons/Icons";
 import Navbar from "./Navbar";
 
 export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const pathname = usePathname();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const { data, isError, isLoading } = useSession();
 
   return (
     <>
@@ -31,7 +36,6 @@ export default function Sidebar() {
           }`}
         >
           <Link href="/dashboard" className="flex items-center gap-[10px]">
-            {/* لوگو */}
             {!isCollapsed && (
               <div className="flex items-center italic font-bold">
                 <span className="text-baseDark">Zedkala</span>
@@ -58,7 +62,26 @@ export default function Sidebar() {
                 <Loader width={20} height={20} />
               </div>
             )}
-            {/* محتوای دیگر */}
+            {isError && <p>Error!</p>}
+            {data?.success && (
+              <div
+                className={`flex items-center gap-2 ${
+                  isCollapsed ? "hidden" : ""
+                }`}
+              >
+                <Image
+                  as={NextImage}
+                  src={data?.session?.image || images.admin}
+                  width={35}
+                  height={35}
+                  alt="user"
+                  radius="full"
+                  className="w-[35px] h-[35px]"
+                />
+                <p className="text-p2 capitalize">{data?.session?.firstName}</p>
+                <MenuDots size={15} wrapperClassName="iconButton" />
+              </div>
+            )}
           </Link>
 
           <div className="mr-4 mb-2 mt-5">
