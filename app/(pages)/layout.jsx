@@ -11,8 +11,10 @@ export default function PagesLayout({ children }) {
   return (
     <div>
       <Sidebar />
-      <div className="space-y-[20px]">
-        <div>{children}</div>
+      <div className="pages_spaces">
+        <div className="space-y-[20px]">
+          <div>{children}</div>
+        </div>
       </div>
     </div>
   );

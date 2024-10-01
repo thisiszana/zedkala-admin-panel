@@ -6,11 +6,13 @@ const productSchema = new Schema({
   images: { type: [String], required: true },
   price: { type: Number, required: true },
   stock: { type: Number, required: true },
-  discount: {
-    value: { type: Number, default: 0 },
-    title: { type: String },
-    expiresAt: { type: Date },
-  },
+  discount: [
+    {
+      value: { type: Number, default: 0 },
+      title: { type: String },
+      expiresAt: { type: Date },
+    },
+  ],
   category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
   subCategory: { type: Schema.Types.ObjectId, ref: "Category" },
   keywords: { type: [String], default: [] },
@@ -26,15 +28,15 @@ const productSchema = new Schema({
     },
   ],
   colors: { type: [String], default: ["#ffffff"] },
-  sizes: { type: [String], default: [] },
   returnPolicy: { type: String },
+  warranty: { type: String },
   createdAt: {
     type: Date,
     default: () => Date.now(),
     immutable: true,
   },
   published: { type: Boolean, default: false },
-  createdBy: { type: Schema.Types.ObjectId, ref: "AdminSorme" },
+  createdBy: { type: Schema.Types.ObjectId, ref: "ZedkalaAdmin" },
   specifications: [
     {
       label: { type: String, required: true },
@@ -47,25 +49,19 @@ const productSchema = new Schema({
       quantity: { type: Number },
     },
   ],
-  warehouses: [
-    {
-      location: { type: String, required: true },
-      stock: { type: Number, required: true },
-    },
-  ],
   relatedProducts: [{ type: Schema.Types.ObjectId, ref: "ZedkalProducts" }],
   deliveryOptions: {
     fastDelivery: { type: Boolean, default: false },
     freeDelivery: { type: Boolean, default: false },
   },
-  insurance: {
+  insurance: [{
     insuranceType: { type: String },
     insuranceDuration: { type: Number },
     insuranceCost: { type: Number },
     insuranceTerms: { type: String },
     optionalInsurance: { type: Boolean, default: true },
     mandatoryInsurance: { type: Boolean, default: false },
-  },
+  }],
 });
 
 productSchema.index({ title: "text", description: "text", brand: "text" });

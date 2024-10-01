@@ -41,7 +41,7 @@ export default function CustomInp({
         max={max || max}
         readOnly={readOnly}
         disabled={disabled}
-        className="input w-full"
+        className="input w-full dark:text-white"
         onFocus={onFocus}
         onBlur={onBlur}
       />

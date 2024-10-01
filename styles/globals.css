@@ -41,6 +41,7 @@ html.dark {
   padding: 0 0.4em;
   color: rgb(57, 57, 57);
   right: 8px;
+  border-radius: 5px;
 }
 
 .form-container {
@@ -66,4 +67,16 @@ html.dark {
 }
 .hoverable {
   @apply hover:bg-lightGray dark:bg-dark2 dark:hover:bg-darkHover Transition;
+}
+
+.pages_spaces {
+  @apply pt-[100px] pr-[280px] lg:pr-[270px] max-md:px-4 md:pr-4 max-lg:pb-[50px] lg:mb-[200px] min-h-screen transition-all duration-150;
+}
+
+.cardShadow3 {
+  @apply shadow-[0_10px_50px_-12px_rgba(0,0,0,0.1)];
+}
+
+.box {
+  @apply rounded-box p-6 cardShadow3;
 }
