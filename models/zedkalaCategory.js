@@ -8,12 +8,7 @@ const categorySchema = new Schema(
       trim: true,
       unique: true,
     },
-    subCategories: [
-      {
-        name: { type: String, trim: true }, 
-        image: { type: String, trim: true }, 
-      },
-    ],
+    subCategories: { type: [String], default: [] },
     image: {
       type: String,
       trim: true,

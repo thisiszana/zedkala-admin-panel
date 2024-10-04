@@ -25,7 +25,9 @@ export const MESSAGES = {
   updateRole: "User Role Updated!",
   deleteAdmin: "User Deleted!",
   adminHasContent: "Admin has content!",
-  
+
+  addKeywords: "کلید واژه اضافه شد",
+  sameKey: "شما قبلاً این کلمه کلیدی را انتخاب کرده اید",
   userNotFound: "نام کاربری یا رمز عبور صحیح نیست!",
   register: "ثبت نام با موفقیت انجام شد",
   login: "با موفقیت وارد شدید!",
