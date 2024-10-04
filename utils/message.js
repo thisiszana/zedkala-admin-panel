@@ -16,9 +16,7 @@ export const MESSAGES = {
   productEdited: "Product Edited",
   categoryEdited: "Category Edited",
   badRequest: "Bad Request!",
-  unAuthorized: "You are not authorized!",
   noMatchPassword: "Current Password is in-correct!",
-  forbidden: "Access Denied!",
   fields: "Fill all fields!",
   image: "Please put image!",
   updateProfile: "Profile Updated",
@@ -26,6 +24,8 @@ export const MESSAGES = {
   deleteAdmin: "User Deleted!",
   adminHasContent: "Admin has content!",
 
+  unAuthorized: "شما مجاز نیستید!",
+  forbidden: "دسترسی ممنوع!",
   addKeywords: "کلید واژه اضافه شد",
   sameKey: "شما قبلاً این کلمه کلیدی را انتخاب کرده اید",
   userNotFound: "نام کاربری یا رمز عبور صحیح نیست!",
