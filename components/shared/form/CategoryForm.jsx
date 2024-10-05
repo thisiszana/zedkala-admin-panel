@@ -7,9 +7,16 @@ import UploadedImage from "./UploadedImage";
 import CustomSelection from "./CustomSelection";
 import CustomBtn from "../CustomBtn";
 import { Switch } from "antd";
+import toast from "react-hot-toast";
+import { uploadImage } from "@/utils/fun";
+import { createCategory } from "@/actions/category.action";
+import { useRouter } from "next/navigation";
+import { MESSAGES } from "@/utils/message";
 
 export default function CategoryForm({ type, form, setForm, onChange }) {
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   const basicDetails = (
     <div className="flex flex-col gap-box w-full h-full">
@@ -25,9 +32,32 @@ export default function CategoryForm({ type, form, setForm, onChange }) {
     </div>
   );
 
-  console.log(form)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleSubmit = (e) => {};
+    if (!form.categoryName || !form.image) toast.error(MESSAGES.fillInp);
+
+    setLoading(true);
+
+    const uploadResult = await uploadImage(form.image[0]);
+
+    const payload = {
+      ...form,
+      image: uploadResult.imageUrl,
+    };
+
+    let res;
+    res = await createCategory(payload);
+
+    setLoading(false);
+
+    if (res.code === 200 || res.code === 201 || res.code === 202) {
+      toast.success(res.message);
+      router.push("/categories");
+    } else {
+      toast.error(res.message);
+    }
+  };
   return (
     <div className="space-y-8">
       <DetailedBox
@@ -53,7 +83,9 @@ export default function CategoryForm({ type, form, setForm, onChange }) {
 
         <CustomBtn
           classNames={`${
-            loading ? "bg-lightGray" : "bg-dark1 text-white dark:bg-white dark:text-dark1"
+            loading
+              ? "bg-lightGray"
+              : "bg-dark1 text-white dark:bg-white dark:text-dark1"
           } flex items-center justify-center w-[150px] h-[50px] rounded-btn text-p1 font-bold`}
           type="button"
           disabled={loading}

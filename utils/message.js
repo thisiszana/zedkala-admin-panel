@@ -25,6 +25,7 @@ export const MESSAGES = {
   adminHasContent: "Admin has content!",
 
   unAuthorized: "شما مجاز نیستید!",
+  categoryAlreadyExists: "دسته‌بندی از قبل وجود دارد!",
   forbidden: "دسترسی ممنوع!",
   addKeywords: "کلید واژه اضافه شد",
   sameKey: "شما قبلاً این کلمه کلیدی را انتخاب کرده اید",
@@ -47,5 +48,6 @@ export const STATUS_CODES = {
   forbidden: 403,
   exist: 422,
   not_found: 404,
+  conflict: 409,
   server: 500,
 };

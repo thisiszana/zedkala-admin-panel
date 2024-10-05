@@ -32,6 +32,15 @@ export const createCategory = async (data) => {
 
     const { categoryName, subCategories, image, published } = data;
 
+    const existingCategory = await ZedkalaCategory.findOne({ categoryName });
+
+    if (existingCategory)
+      return {
+        message: MESSAGES.categoryAlreadyExists,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.conflict,
+      };
+
     const newCategory = await ZedkalaCategory.create({
       categoryName,
       subCategories,
@@ -51,6 +60,7 @@ export const createCategory = async (data) => {
       code: STATUS_CODES.success,
     };
   } catch (error) {
+    console.log("error in create category:", error.message);
     return {
       message: MESSAGES.server,
       status: MESSAGES.failed,
