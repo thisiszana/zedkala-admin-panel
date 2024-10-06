@@ -68,3 +68,31 @@ export const createCategory = async (data) => {
     };
   }
 };
+
+export const getCategories = async () => {
+  try {
+    await connectDB();
+
+    const category = await ZedkalaCategory.find()
+      .populate({
+        path: "createdBy",
+        model: ZedkalaAdmin,
+        select: "username firstName image",
+      })
+      .lean();
+
+    return {
+      category,
+      message: MESSAGES.success,
+      status: MESSAGES.success,
+      code: STATUS_CODES.success,
+    };
+  } catch (error) {
+    console.log("error in get category:", error.message);
+    return {
+      message: MESSAGES.server,
+      status: MESSAGES.failed,
+      code: STATUS_CODES.server,
+    };
+  }
+};
