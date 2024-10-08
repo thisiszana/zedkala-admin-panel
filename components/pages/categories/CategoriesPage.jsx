@@ -17,12 +17,16 @@ export default async function CategoriesPage() {
           className="h-fit flex items-center gap-3 p-btn rounded-btn bg-dark1 dark:bg-white text-white dark:text-dark1"
         >
           <Category />
-          New
+          جدید
         </Link>
       </div>
-      <Suspense fallback={<Loaderbar />}>
-        <CategoriesList cateogories={JSON.parse(JSON.stringify(data))} />
-      </Suspense>
+      <div className="cardShadow3 rounded-2xl border overflow-hidden mt-8 ml-2">
+        <Suspense fallback={<Loaderbar />}>
+          <CategoriesList
+            cateogories={JSON.parse(JSON.stringify(data.category))}
+          />
+        </Suspense>
+      </div>
     </>
   );
 }

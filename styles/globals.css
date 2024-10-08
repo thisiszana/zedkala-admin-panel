@@ -139,3 +139,7 @@ html.dark {
 .box {
   @apply rounded-box p-6 cardShadow3;
 }
+
+.cardShadow3 {
+  @apply shadow-[0_10px_50px_-12px_rgba(0,0,0,0.1)];
+}
