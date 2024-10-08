@@ -38,3 +38,12 @@ export const uploadImage = async (path) => {
     };
   }
 };
+
+export const shorterText = (text, maxCharacter) => {
+  const t = String(text);
+  if (t.length > maxCharacter) {
+    return `${t.substring(0, maxCharacter)}...`;
+  } else {
+    return text;
+  }
+};
