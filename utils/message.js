@@ -1,5 +1,4 @@
 export const MESSAGES = {
-  update: "Updated!",
   delete: "Deleted!",
   productCreated: "Product Created",
   categoryCreated: "Category Created",
@@ -14,16 +13,18 @@ export const MESSAGES = {
   invalidId: "Invalid Id",
   noContent: "There is no data!",
   productEdited: "Product Edited",
-  categoryEdited: "Category Edited",
   badRequest: "Bad Request!",
   noMatchPassword: "Current Password is in-correct!",
-  fields: "Fill all fields!",
-  image: "Please put image!",
   updateProfile: "Profile Updated",
   updateRole: "User Role Updated!",
   deleteAdmin: "User Deleted!",
   adminHasContent: "Admin has content!",
-
+  
+  categoryEdited: "دسته‌بندی ویرایش شد",
+  categoryDeleted: "دسته‌بندی حذف شد",
+  categoryNotFound: "دسته‌بندی پیدا نشد",
+  putImage: "تصویر مورد نظر را قرار بدید!",
+  fields: "تمام فیلدها را پر کنید!",
   unAuthorized: "شما مجاز نیستید!",
   categoryAlreadyExists: "دسته‌بندی از قبل وجود دارد!",
   forbidden: "دسترسی ممنوع!",
@@ -35,6 +36,7 @@ export const MESSAGES = {
   user_exist: "نام کاربری از قبل وجود دارد!",
   fillInp: "لطفا داده های معتبر را وارد کنید!",
   success: "موفق",
+  update: "آپدیت شد!",
   failed: "شکست خورد",
   server: "خطا در ارتباط با سرور",
 };
