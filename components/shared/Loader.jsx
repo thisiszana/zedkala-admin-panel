@@ -10,7 +10,7 @@ export default function Loader({ h, w, color }) {
       radius="9"
       ariaLabel="three-dots-loading"
       wrapperStyle={{}}
-      wrapperClass=""
+      wrapperClass="dark:text-white"
     />
   );
 }

@@ -33,7 +33,7 @@ export const categoriesDataSourse = (categories) =>
     date: moment(c.createdAt).format("jYYYY/jMM/jDD"),
     status: (
       <CustomBadge
-        condition={c.isPublished}
+        condition={c.published}
         title={c.published ? "منتشر شد" : "پیش نویس"}
       />
     ),
@@ -58,5 +58,5 @@ export const categoriesDataSourse = (categories) =>
         </p>
       </Link>
     ),
-    action: <CategoryActions categoryId={c._id} published={c.published} />,
+    actions: <CategoryActions categoryId={c._id} published={c.published} />,
   }));

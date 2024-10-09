@@ -143,3 +143,11 @@ html.dark {
 .cardShadow3 {
   @apply shadow-[0_10px_50px_-12px_rgba(0,0,0,0.1)];
 }
+
+.popContainer {
+  @apply flex flex-col gap-1 p-1;
+}
+
+.popButton {
+  @apply w-full py-1.5 px-3 rounded-btn flex items-center gap-4 dark:text-white;
+}
