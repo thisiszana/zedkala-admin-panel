@@ -1,19 +1,22 @@
 "use client";
 
-import { useState } from "react";
-import DetailedBox from "../DetailedBox";
-import CustomInp from "./CustomInp";
-import UploadedImage from "./UploadedImage";
-import CustomSelection from "./CustomSelection";
-import CustomBtn from "../CustomBtn";
-import { Switch } from "antd";
-import toast from "react-hot-toast";
-import { uploadImage } from "@/utils/fun";
-import { createCategory } from "@/actions/category.action";
 import { useRouter } from "next/navigation";
-import { MESSAGES } from "@/utils/message";
 
-export default function CategoryForm({ type, form, setForm, onChange }) {
+import { useState } from "react";
+
+import toast from "react-hot-toast";
+import { Switch } from "antd";
+
+import { createCategory, editCategory } from "@/actions/category.action";
+import CustomSelection from "./CustomSelection";
+import UploadedImage from "./UploadedImage";
+import { MESSAGES } from "@/utils/message";
+import DetailedBox from "../DetailedBox";
+import { uploadImage } from "@/utils/fun";
+import CustomBtn from "../CustomBtn";
+import CustomInp from "./CustomInp";
+
+export default function CategoryForm({ type, form, setForm, onChange, id }) {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -32,12 +35,10 @@ export default function CategoryForm({ type, form, setForm, onChange }) {
     </div>
   );
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    if (!form.categoryName) return toast.error(MESSAGES.fields);
 
-    if (!form.categoryName || !form.image) toast.error(MESSAGES.fillInp);
-
-    setLoading(true);
+    setLoading(() => true);
 
     const uploadResult = await uploadImage(form.image[0]);
 
@@ -47,9 +48,14 @@ export default function CategoryForm({ type, form, setForm, onChange }) {
     };
 
     let res;
-    res = await createCategory(payload);
 
-    setLoading(false);
+    if (type === "CREATE") {
+      res = await createCategory(payload);
+    } else {
+      res = await editCategory({ ...payload, id });
+    }
+
+    setLoading(() => false);
 
     if (res.code === 200 || res.code === 201 || res.code === 202) {
       toast.success(res.message);
@@ -58,6 +64,7 @@ export default function CategoryForm({ type, form, setForm, onChange }) {
       toast.error(res.message);
     }
   };
+
   return (
     <div className="space-y-8">
       <DetailedBox
@@ -91,7 +98,7 @@ export default function CategoryForm({ type, form, setForm, onChange }) {
           disabled={loading}
           isLoading={loading}
           onClick={handleSubmit}
-          title={"ایجاد دسته بندی"}
+          title={type === "CREATE" ? "ایجاد دسته‌بندی" : "ویرایش دسته‌بندی"}
         />
       </div>
     </div>

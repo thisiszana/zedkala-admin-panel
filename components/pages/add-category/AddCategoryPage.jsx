@@ -1,17 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import CategoryForm from "@/components/shared/form/CategoryForm";
 import PageHeading from "@/components/shared/PageHeading";
 
-export default function AddCategoryPage() {
+export default function AddCategoryPage({ category }) {
   const [form, setForm] = useState({
     categoryName: "",
-    subCategories: [],
+    subCategories: category?.subCategories || [],
     image: "",
     published: false,
   });
+
+  useEffect(() => {
+    if (category) setForm(category);
+  }, []);
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -22,10 +26,11 @@ export default function AddCategoryPage() {
     <>
       <PageHeading title="افزودن دسته بندی" />
       <CategoryForm
-        type="create"
+        type={`${category ? "EDIT" : "CREATE"}`}
         form={form}
         setForm={setForm}
         onChange={onChange}
+        id={category?._id}
       />
     </>
   );

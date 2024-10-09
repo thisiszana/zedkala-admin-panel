@@ -17,7 +17,7 @@ export default function CategoryAction({ id }) {
         <Tooltip placement="bottom" title="زنده">
           <Link href="/" target="_blank">
             <CustomBtn
-              icon={<EyeOpen className="text-darkGray" />}
+              icon={<EyeOpen className="text-darkGray dark:hover:text-white" />}
               classNames="iconButton"
             />
           </Link>
@@ -25,7 +25,7 @@ export default function CategoryAction({ id }) {
         <Tooltip placement="bottom" title="ویرایش">
           <Link href={`/categories/edit/${id}`}>
             <CustomBtn
-              icon={<Edit className="text-darkGray" />}
+              icon={<Edit className="text-darkGray dark:hover:text-white" />}
               classNames="iconButton"
             />
           </Link>

@@ -122,10 +122,10 @@ html.dark {
 }
 
 .iconButton {
-  @apply hover:bg-lightGray dark:hover:bg-darkHover Transition p-3 rounded-full;
+  @apply hover:bg-lightGray dark:hover:bg-darkHover dark:hover:text-white Transition p-3 rounded-full;
 }
 .hoverable {
-  @apply hover:bg-lightGray dark:bg-dark2 dark:hover:bg-darkHover Transition;
+  @apply hover:bg-lightGray dark:bg-dark2 dark:hover:bg-darkHover dark:hover:text-white Transition;
 }
 
 .pages_spaces {
