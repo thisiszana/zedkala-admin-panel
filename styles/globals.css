@@ -151,3 +151,7 @@ html.dark {
 .popButton {
   @apply w-full py-1.5 px-3 rounded-btn flex items-center gap-4 dark:text-white;
 }
+
+.backLink {
+  @apply rounded-btn flex items-center gap-2 hoverable p-2 w-fit;
+}
