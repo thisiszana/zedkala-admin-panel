@@ -9,11 +9,12 @@ import DetailedBox from "../DetailedBox";
 import CustomInp from "./CustomInp";
 import UploadedImage from "./UploadedImage";
 import CategorySelection from "./CategorySelection";
+import CustomDataPicker from "./CustomDataPicker";
 
 export default function ProductForm({ type, form, setForm, onChange }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
+console.log(form)
   const basicDetails = (
     <div className="flex flex-col gap-box w-full h-full">
       <CustomInp
@@ -52,10 +53,37 @@ export default function ProductForm({ type, form, setForm, onChange }) {
         onChange={onChange}
         wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
       />
-      <CategorySelection
-        form={form}
-        onChange={onChange}
-      />
+      <CategorySelection form={form} onChange={onChange} />
+      <div className="flex flex-wrap gap-box w-full h-full">
+        <CustomInp
+          type="number"
+          name="discountValue"
+          label="مقدار‌تخفیف"
+          value={form.discount[0]?.value || 0}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              discount: [{ ...form.discount[0], value: e.target.value }],
+            })
+          }
+          wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+        />
+
+        <CustomInp
+          type="text"
+          name="discountTitle"
+          label="عنوان‌تخفیف"
+          value={form.discount[0]?.title || ""}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              discount: [{ ...form.discount[0], title: e.target.value }],
+            })
+          }
+          wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+        />
+        <CustomDataPicker form={form} setForm={setForm} />
+      </div>
     </div>
   );
 

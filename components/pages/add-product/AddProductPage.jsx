@@ -11,7 +11,7 @@ export default function AddProductPage() {
     images: [],
     price: 0,
     stock: 0,
-    discount: [{ value: 0, title: "", expiresAt: "" }],
+    discount: [{ value: 0, title: "", expiresAt: new Date() }],
     categoryName: "",
     subCategories: "",
     keywords: [],
