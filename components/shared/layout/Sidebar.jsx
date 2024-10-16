@@ -26,7 +26,7 @@ export default function Sidebar() {
     <>
       <Navbar isCollapsed={isCollapsed} />
       <aside
-        className={`fixed z-30 right-0 h-screen max-md:hidden bg-white dark:bg-dark2 overflow-y-auto border-l border-gray-200 dark:border-none sidebarScroll transition-all duration-300 ease-in-out ${
+        className={`fixed z-30 right-0 h-screen max-lg:hidden bg-white dark:bg-dark2 overflow-y-auto border-l border-gray-200 dark:border-none sidebarScroll transition-all duration-300 ease-in-out ${
           isCollapsed ? "min-w-[80px] " : "min-w-[250px]"
         }`}
       >

@@ -8,6 +8,7 @@ import CustomTextarea from "./CustomTextarea";
 import DetailedBox from "../DetailedBox";
 import CustomInp from "./CustomInp";
 import UploadedImage from "./UploadedImage";
+import CategorySelection from "./CategorySelection";
 
 export default function ProductForm({ type, form, setForm, onChange }) {
   const [loading, setLoading] = useState(false);
@@ -50,6 +51,10 @@ export default function ProductForm({ type, form, setForm, onChange }) {
         value={form.stock}
         onChange={onChange}
         wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+      />
+      <CategorySelection
+        form={form}
+        onChange={onChange}
       />
     </div>
   );

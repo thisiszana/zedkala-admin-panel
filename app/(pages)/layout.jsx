@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 
 import { getServerSession } from "@/utils/session";
-import Navbar from "@/components/shared/layout/Navbar";
 import Sidebar from "@/components/shared/layout/Sidebar";
 
 export default function PagesLayout({ children }) {

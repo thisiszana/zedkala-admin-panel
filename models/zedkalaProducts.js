@@ -13,8 +13,12 @@ const productSchema = new Schema({
       expiresAt: { type: Date },
     },
   ],
-  category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
-  subCategory: { type: Schema.Types.ObjectId, ref: "Category" },
+  categoryName: {
+    type: Schema.Types.ObjectId,
+    ref: "ZedkalaCategory",
+    required: true,
+  },
+  subCategories: { type: Schema.Types.ObjectId, ref: "ZedkalaCategory" },
   keywords: { type: [String], default: [] },
   brand: { type: String, required: true },
   likes: [{ type: Schema.Types.ObjectId, ref: "Like", default: [] }],
@@ -54,14 +58,16 @@ const productSchema = new Schema({
     fastDelivery: { type: Boolean, default: false },
     freeDelivery: { type: Boolean, default: false },
   },
-  insurance: [{
-    insuranceType: { type: String },
-    insuranceDuration: { type: Number },
-    insuranceCost: { type: Number },
-    insuranceTerms: { type: String },
-    optionalInsurance: { type: Boolean, default: true },
-    mandatoryInsurance: { type: Boolean, default: false },
-  }],
+  insurance: [
+    {
+      insuranceType: { type: String },
+      insuranceDuration: { type: Number },
+      insuranceCost: { type: Number },
+      insuranceTerms: { type: String },
+      optionalInsurance: { type: Boolean, default: true },
+      mandatoryInsurance: { type: Boolean, default: false },
+    },
+  ],
 });
 
 productSchema.index({ title: "text", description: "text", brand: "text" });

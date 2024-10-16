@@ -47,7 +47,7 @@ export default function MobileNav() {
         classNames="iconButton"
       />
       <Drawer
-        placement="left"
+        placement="right"
         onClose={onClose}
         open={open}
         closeIcon={false}
