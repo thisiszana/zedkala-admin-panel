@@ -14,12 +14,12 @@ export default function AddProductPage() {
     discount: [{ value: 0, title: "", expiresAt: new Date() }],
     categoryName: "",
     subCategories: "",
-    keywords: [],
-    brand: "",
+    specifications: [{ label: "", value: "" }],
     colors: [],
+    brand: "",
+    keywords: [],
     returnPolicy: "",
     published: false,
-    specifications: [{ label: "", value: "" }],
     warranty: "",
     insurance: [
       {

@@ -10,11 +10,12 @@ import CustomInp from "./CustomInp";
 import UploadedImage from "./UploadedImage";
 import CategorySelection from "./CategorySelection";
 import CustomDataPicker from "./CustomDataPicker";
+import Specifications from "./Specifications";
 
 export default function ProductForm({ type, form, setForm, onChange }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-console.log(form)
+
   const basicDetails = (
     <div className="flex flex-col gap-box w-full h-full">
       <CustomInp
@@ -98,6 +99,11 @@ console.log(form)
         title="ویژگی ها"
         subtitle="قیمت، موجودی، تخفیف، ..."
         content={properties}
+      />
+      <DetailedBox
+        title="مشخصات"
+        subtitle="مشخصات را اضافه یا حذف کنید"
+        content={<Specifications form={form} setForm={setForm} />}
       />
     </div>
   );
