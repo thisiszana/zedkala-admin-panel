@@ -12,7 +12,7 @@ export default function CategorySelection({ name, form, label, onChange }) {
     const fetchCategory = async () => {
       try {
         const { category } = await getCategories();
-        setCategories(category);
+        setCategories(JSON.parse(JSON.stringify(category)));
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
@@ -35,11 +35,16 @@ export default function CategorySelection({ name, form, label, onChange }) {
     <div className="flex flex-wrap gap-box w-full h-full">
       <select
         name="categoryName"
-        className="input w-full"
+        className="input w-full dark:text-white"
         value={form.categoryName}
         onChange={onChange}
       >
         <option value="">دسته‌بندی را انتخاب کنید ...</option>
+        {!!categories && (
+          <option value="" disabled className="text-center text-red-500">
+            خطا در ارتباط با سرور
+          </option>
+        )}
         {categories.map((c) => (
           <option key={c._id} value={c.categoryName}>
             {c.categoryName}
@@ -49,7 +54,7 @@ export default function CategorySelection({ name, form, label, onChange }) {
       {subCategories.length > 0 && (
         <select
           name="subCategories"
-          className="input w-full"
+          className="input w-full dark:text-white"
           value={form.subCategories}
           onChange={onChange}
         >

@@ -14,6 +14,7 @@ export default function CustomInp({
   max,
   readOnly,
   disabled,
+  ...rest 
 }) {
   const [active, setActive] = useState(false);
   const [inpType, setInpType] = useState(type || "text");
@@ -37,13 +38,14 @@ export default function CustomInp({
         name={name || label}
         value={value}
         onChange={onChange}
-        min={min || min}
-        max={max || max}
+        min={min}
+        max={max}
         readOnly={readOnly}
         disabled={disabled}
         className="input w-full dark:text-white"
         onFocus={onFocus}
         onBlur={onBlur}
+        {...rest} 
       />
       {label && (
         <label className={`user-label ${active && "active"}`}>{label}</label>
