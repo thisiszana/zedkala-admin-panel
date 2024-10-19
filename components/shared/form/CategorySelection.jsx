@@ -6,6 +6,7 @@ import { getCategories } from "@/actions/category.action";
 
 export default function CategorySelection({ name, form, label, onChange }) {
   const [categories, setCategories] = useState([]);
+  const [errorState, setErrorState] = useState(false);
   const [subCategories, setSubCategories] = useState([]);
 
   useEffect(() => {
@@ -15,6 +16,7 @@ export default function CategorySelection({ name, form, label, onChange }) {
         setCategories(JSON.parse(JSON.stringify(category)));
       } catch (error) {
         console.error("Error fetching categories:", error);
+        setErrorState(true);
       }
     };
     fetchCategory();
@@ -40,16 +42,17 @@ export default function CategorySelection({ name, form, label, onChange }) {
         onChange={onChange}
       >
         <option value="">دسته‌بندی را انتخاب کنید ...</option>
-        {!!categories && (
+        {errorState ? ( 
           <option value="" disabled className="text-center text-red-500">
             خطا در ارتباط با سرور
           </option>
+        ) : (
+          categories.map((c) => (
+            <option key={c._id} value={c.categoryName}>
+              {c.categoryName}
+            </option>
+          ))
         )}
-        {categories.map((c) => (
-          <option key={c._id} value={c.categoryName}>
-            {c.categoryName}
-          </option>
-        ))}
       </select>
       {subCategories.length > 0 && (
         <select

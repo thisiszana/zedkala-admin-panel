@@ -1,16 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-import { useState } from "react";
-
-import CustomTextarea from "./CustomTextarea";
-import DetailedBox from "../DetailedBox";
-import CustomInp from "./CustomInp";
-import UploadedImage from "./UploadedImage";
 import CategorySelection from "./CategorySelection";
 import CustomDataPicker from "./CustomDataPicker";
+import CustomTextarea from "./CustomTextarea";
 import Specifications from "./Specifications";
+import UploadedImage from "./UploadedImage";
+import DetailedBox from "../DetailedBox";
+import CustomInp from "./CustomInp";
+import KeywordsSelection from "./KeywordsSelection";
 
 export default function ProductForm({ type, form, setForm, onChange }) {
   const [loading, setLoading] = useState(false);
@@ -42,6 +42,7 @@ export default function ProductForm({ type, form, setForm, onChange }) {
         type="number"
         name="price"
         label="قیمت *"
+        min={0}
         value={form.price}
         onChange={onChange}
         wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
@@ -50,6 +51,7 @@ export default function ProductForm({ type, form, setForm, onChange }) {
         type="number"
         name="stock"
         label="موجودی *"
+        min={0}
         value={form.stock}
         onChange={onChange}
         wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
@@ -60,7 +62,8 @@ export default function ProductForm({ type, form, setForm, onChange }) {
           type="number"
           name="discountValue"
           label="مقدار‌تخفیف"
-          value={form.discount[0]?.value || 0}
+          min={0}
+          value={form.discount[0]?.value}
           onChange={(e) =>
             setForm({
               ...form,
@@ -85,8 +88,129 @@ export default function ProductForm({ type, form, setForm, onChange }) {
         />
         <CustomDataPicker form={form} setForm={setForm} />
       </div>
+      <CustomInp
+        type="text"
+        name="brand"
+        label="نام تجاری"
+        value={form.brand}
+        onChange={onChange}
+        wrapperClassName="flex flex-2 xl:min-w-[400px] min-w-[200px]"
+      />
     </div>
   );
+
+  const insuranceDetails = (
+    <div className="flex flex-wrap gap-box w-full h-full">
+      <div className="flex flex-wrap gap-box">
+        <CustomInp
+          type="text"
+          wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+          name="insuranceType"
+          label="نوع بیمه"
+          value={form.insurance[0]?.insuranceType || ""}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              insurance: [
+                { ...form.insurance[0], insuranceType: e.target.value },
+              ],
+            })
+          }
+        />
+        <CustomInp
+          type="number"
+          wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+          name="insuranceDuration"
+          label="مدت بیمه (ماه)"
+          value={form.insurance[0]?.insuranceDuration}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              insurance: [
+                { ...form.insurance[0], insuranceDuration: e.target.value },
+              ],
+            })
+          }
+        />
+        <CustomInp
+          type="number"
+          wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+          name="insuranceCost"
+          label="هزینه بیمه"
+          value={form.insurance[0]?.insuranceCost}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              insurance: [
+                { ...form.insurance[0], insuranceCost: e.target.value },
+              ],
+            })
+          }
+        />
+      </div>
+      <CustomTextarea
+        name="insuranceTerms"
+        wrapperClassName="w-full h-full"
+        label="شرایط بیمه"
+        value={form.insurance[0]?.insuranceTerms || ""}
+        onChange={(e) =>
+          setForm({
+            ...form,
+            insurance: [
+              { ...form.insurance[0], insuranceTerms: e.target.value },
+            ],
+          })
+        }
+      />
+      <div className="flex flex-col gap-box w-full">
+        <label className="font-semibold">نوع بیمه:</label>
+        <div className="flex gap-4 items-center">
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="insuranceOption"
+              checked={form.insurance[0]?.mandatoryInsurance || false}
+              onChange={() =>
+                setForm({
+                  ...form,
+                  insurance: [
+                    {
+                      ...form.insurance[0],
+                      mandatoryInsurance: true,
+                      optionalInsurance: false,
+                    },
+                  ],
+                })
+              }
+            />
+            بیمه اجباری
+          </label>
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="insuranceOption"
+              checked={form.insurance[0]?.optionalInsurance || false}
+              onChange={() =>
+                setForm({
+                  ...form,
+                  insurance: [
+                    {
+                      ...form.insurance[0],
+                      optionalInsurance: true,
+                      mandatoryInsurance: false,
+                    },
+                  ],
+                })
+              }
+            />
+            بیمه اختیاری
+          </label>
+        </div>
+      </div>
+    </div>
+  );
+
+  
 
   return (
     <div className="space-y-8">
@@ -104,6 +228,48 @@ export default function ProductForm({ type, form, setForm, onChange }) {
         title="مشخصات"
         subtitle="مشخصات را اضافه یا حذف کنید"
         content={<Specifications form={form} setForm={setForm} />}
+      />
+      <DetailedBox
+        title="بیمه"
+        subtitle="جزئیات بیمه محصول"
+        content={insuranceDetails}
+      />
+      <DetailedBox
+        title="گارانتی"
+        subtitle="مشخصات گارانتی"
+        content={
+          <div className="flex flex-col gap-box w-full h-full">
+            <CustomInp
+              type="text"
+              name="warranty"
+              label="گارانتی"
+              value={form.warranty}
+              onChange={onChange}
+            />
+          </div>
+        }
+      />
+      <DetailedBox
+        title="سیاست بازگشت"
+        subtitle="سیاست بازگشت کالا را مشخص کنید"
+        content={
+          <div className="flex flex-col gap-box w-full h-full">
+            <CustomTextarea
+              name="returnPolicy"
+              label="سیاست بازگشت"
+              value={form.returnPolicy || ""}
+              onChange={onChange}
+            />
+          </div>
+        }
+      />
+      <DetailedBox
+        title="کلمات‌کلیدی"
+        content={
+          <div className="w-full h-full">
+            <KeywordsSelection form={form} setForm={setForm} />
+          </div>
+        }
       />
     </div>
   );

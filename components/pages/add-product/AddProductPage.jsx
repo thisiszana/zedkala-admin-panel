@@ -1,37 +1,51 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import ProductForm from "@/components/shared/form/ProductForm";
 import PageHeading from "@/components/shared/PageHeading";
-import { useState } from "react";
 
 export default function AddProductPage() {
-  const [form, setForm] = useState({
-    title: "",
-    description: "",
-    images: [],
-    price: 0,
-    stock: 0,
-    discount: [{ value: 0, title: "", expiresAt: new Date() }],
-    categoryName: "",
-    subCategories: "",
-    specifications: [{ label: "", value: "" }],
-    colors: [],
-    brand: "",
-    keywords: [],
-    returnPolicy: "",
-    published: false,
-    warranty: "",
-    insurance: [
-      {
-        insuranceType: "",
-        insuranceDuration: 0,
-        insuranceCost: 0,
-        insuranceTerms: "",
-        optionalInsurance: true,
-        mandatoryInsurance: false,
-      },
-    ],
-  });
+  const [form, setForm] = useState(
+    {
+      title: "",
+      description: "",
+      images: [],
+      price: 0,
+      stock: 0,
+      discount: [{ value: 0, title: "", expiresAt: new Date() }],
+      categoryName: "",
+      subCategories: "",
+      specifications: [{ label: "", value: "" }],
+      colors: [],
+      brand: "",
+      keywords: [],
+      returnPolicy: "",
+      published: false,
+      warranty: "",
+      insurance: [
+        {
+          insuranceType: "",
+          insuranceDuration: 0,
+          insuranceCost: 0,
+          insuranceTerms: "",
+          optionalInsurance: true,
+          mandatoryInsurance: false,
+        },
+      ],
+    } || JSON.parse(localStorage.getItem("form"))
+  );
+
+  useEffect(() => {
+    const savedForm = JSON.parse(localStorage.getItem("form"));
+    if (savedForm) {
+      setForm(savedForm);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("form", JSON.stringify(form));
+  }, [form]);
 
   const onChange = (e) => {
     const { name, value } = e.target;
