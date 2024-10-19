@@ -44,7 +44,7 @@ export default function UploadedImage({ form, setForm, image }) {
             <UploadIcon />
           </div>
           <div>
-            <p>Drop or Select files</p>
+            <p>عکس را انتخاب کنید</p>
             <p>JPG, PNG, JPEG, WEBP maximum 1 MB</p>
           </div>
         </div>

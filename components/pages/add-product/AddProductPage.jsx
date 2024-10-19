@@ -33,19 +33,19 @@ export default function AddProductPage() {
           mandatoryInsurance: false,
         },
       ],
-    } || JSON.parse(localStorage.getItem("form"))
+    }
   );
 
-  useEffect(() => {
-    const savedForm = JSON.parse(localStorage.getItem("form"));
-    if (savedForm) {
-      setForm(savedForm);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const savedForm = JSON.parse(localStorage.getItem("form"));
+  //   if (savedForm) {
+  //     setForm(savedForm);
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    localStorage.setItem("form", JSON.stringify(form));
-  }, [form]);
+  // useEffect(() => {
+  //   localStorage.setItem("form", JSON.stringify(form));
+  // }, [form]);
 
   const onChange = (e) => {
     const { name, value } = e.target;

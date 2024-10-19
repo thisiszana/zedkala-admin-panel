@@ -11,6 +11,11 @@ import UploadedImage from "./UploadedImage";
 import DetailedBox from "../DetailedBox";
 import CustomInp from "./CustomInp";
 import KeywordsSelection from "./KeywordsSelection";
+import { Switch } from "antd";
+import CustomBtn from "../CustomBtn";
+import toast from "react-hot-toast";
+import { MESSAGES } from "@/utils/message";
+import { uploadImage } from "@/utils/fun";
 
 export default function ProductForm({ type, form, setForm, onChange }) {
   const [loading, setLoading] = useState(false);
@@ -91,10 +96,10 @@ export default function ProductForm({ type, form, setForm, onChange }) {
       <CustomInp
         type="text"
         name="brand"
-        label="نام تجاری"
+        label="نام تجاری *"
         value={form.brand}
         onChange={onChange}
-        wrapperClassName="flex flex-2 xl:min-w-[400px] min-w-[200px]"
+        wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
       />
     </div>
   );
@@ -210,7 +215,35 @@ export default function ProductForm({ type, form, setForm, onChange }) {
     </div>
   );
 
-  
+  const uploadImages = async (images) => {
+    const uploadedImages = await Promise.all(
+      images?.map(async (image) => {
+        const uploadRes = await uploadImage(image);
+        return uploadRes.imageUrl;
+      })
+    );
+    return uploadedImages;
+  };
+
+  const handleSubmit = async () => {
+    if (
+      !form.title ||
+      !form.description ||
+      !form.image ||
+      !form.price ||
+      !form.stock ||
+      !form.subCategories ||
+      !form.brand ||
+      form.keywords.length === 0
+    )
+      return toast.error(MESSAGES.fields);
+
+    setLoading(() => true);
+
+    const uploadedImages = await uploadImages(form.image);
+
+
+  };
 
   return (
     <div className="space-y-8">
@@ -271,6 +304,32 @@ export default function ProductForm({ type, form, setForm, onChange }) {
           </div>
         }
       />
+      <div className="flex items-center justify-start gap-10">
+        <div className="flex items-center gap-2">
+          <Switch
+            id="publish"
+            defaultChecked
+            value={form.published}
+            name="published"
+            onChange={(checked) => {
+              setForm({ ...form, published: checked });
+            }}
+          />
+          <label htmlFor="publish" className="text-p1">
+            منتشر شود؟
+          </label>
+        </div>
+        <CustomBtn
+          classNames={`${
+            loading ? "bg-lightGray" : "bg-dark1 text-white"
+          } flex items-center justify-center w-[150px] h-[50px] rounded-btn text-p1 font-bold`}
+          type="button"
+          disabled={loading}
+          isLoading={loading}
+          onClick={handleSubmit}
+          title="ایجاد محصول"
+        />
+      </div>
     </div>
   );
 }

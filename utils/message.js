@@ -1,6 +1,5 @@
 export const MESSAGES = {
   delete: "Deleted!",
-  productCreated: "Product Created",
   categoryCreated: "Category Created",
   taskCreated: "Task Created",
   taskUpdated: "Task Updated",
@@ -20,6 +19,7 @@ export const MESSAGES = {
   deleteAdmin: "User Deleted!",
   adminHasContent: "Admin has content!",
   
+  productCreated: "محصول ایجاد شد",
   categoryEdited: "دسته‌بندی ویرایش شد",
   categoryDeleted: "دسته‌بندی حذف شد",
   categoryNotFound: "دسته‌بندی پیدا نشد",
