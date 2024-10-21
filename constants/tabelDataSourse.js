@@ -6,7 +6,7 @@ import moment from "moment-jalaali";
 
 import CategoryActions from "@/components/pages/categories/ui/CategoryActions";
 import CustomBadge from "@/components/shared/CustomBadge";
-import { shorterText } from "@/utils/fun";
+import { e2p, shorterText } from "@/utils/fun";
 import { images } from ".";
 
 export const categoriesDataSourse = (categories) =>
@@ -30,7 +30,7 @@ export const categoriesDataSourse = (categories) =>
         <p>{shorterText(c.categoryName, 15)}...</p>
       </Link>
     ),
-    date: moment(c.createdAt).format("jYYYY/jMM/jDD"),
+    date: e2p(moment(c.createdAt).format("jYYYY/jMM/jDD")),
     status: (
       <CustomBadge
         condition={c.published}

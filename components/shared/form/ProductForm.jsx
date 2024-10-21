@@ -16,6 +16,7 @@ import CustomBtn from "../CustomBtn";
 import toast from "react-hot-toast";
 import { MESSAGES } from "@/utils/message";
 import { uploadImage } from "@/utils/fun";
+import { createProduct } from "@/actions/product.action";
 
 export default function ProductForm({ type, form, setForm, onChange }) {
   const [loading, setLoading] = useState(false);
@@ -228,21 +229,36 @@ export default function ProductForm({ type, form, setForm, onChange }) {
   const handleSubmit = async () => {
     if (
       !form.title ||
-      !form.description ||
-      !form.image ||
+      !form.images ||
       !form.price ||
       !form.stock ||
+      !form.categoryName ||
       !form.subCategories ||
       !form.brand ||
       form.keywords.length === 0
     )
       return toast.error(MESSAGES.fields);
-
+    console.log(form);
     setLoading(() => true);
 
     const uploadedImages = await uploadImages(form.image);
 
+    const payload = {
+      ...form,
+      images: uploadedImages,
+    };
 
+    let res;
+    res = await createProduct(JSON.parse(JSON.stringify(payload)));
+
+    setLoading(() => false);
+
+    if (res.code === 200 || res.code === 201 || res.code === 202) {
+      toast.success(res.message);
+      router.push("/products");
+    } else {
+      toast.error(res.message);
+    }
   };
 
   return (

@@ -10,12 +10,10 @@ import CustomBtn from "../CustomBtn";
 import CustomInp from "./CustomInp";
 
 export default function Specifications({ form, setForm }) {
-  const [specifications, setSpecifications] = useState(
-    JSON.parse(localStorage.getItem("specifications")) || form.specifications
-  );
+  const [specifications, setSpecifications] = useState(form.specifications);
 
   const [colors, setColors] = useState(
-    JSON.parse(localStorage.getItem("colors")) || []
+     []
   );
   const [currentColor, setCurrentColor] = useState("#fff");
 
@@ -127,16 +125,16 @@ export default function Specifications({ form, setForm }) {
     </div>
   ));
 
-  useEffect(() => {
-    const savedSpecifications = JSON.parse(
-      localStorage.getItem("specifications")
-    );
-    if (savedSpecifications) setSpecifications(savedSpecifications);
-  }, []);
+  // useEffect(() => {
+  //   const savedSpecifications = JSON.parse(
+  //     localStorage.getItem("specifications")
+  //   );
+  //   if (savedSpecifications) setSpecifications(savedSpecifications);
+  // }, []);
 
-  useEffect(() => {
-    localStorage.setItem("specifications", JSON.stringify(specifications));
-  }, [specifications]);
+  // useEffect(() => {
+  //   localStorage.setItem("specifications", JSON.stringify(specifications));
+  // }, [specifications]);
 
   return (
     <div className="flex flex-col xl:flex-row justify-between items-center gap-8 lg:gap-20">

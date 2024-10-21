@@ -32,7 +32,7 @@ export const createProduct = async (data) => {
     const {
       title,
       description,
-      image,
+      images,
       price,
       stock,
       discount,
@@ -51,7 +51,7 @@ export const createProduct = async (data) => {
     const newProduct = await ZedkalProducts.create({
       title,
       description,
-      image,
+      images,
       price,
       stock,
       discount,
@@ -79,6 +79,7 @@ export const createProduct = async (data) => {
       code: STATUS_CODES.success,
     };
   } catch (error) {
+    console.log("error in add product", error.message)
     return {
       message: MESSAGES.server,
       status: MESSAGES.failed,
