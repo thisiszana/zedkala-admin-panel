@@ -62,7 +62,7 @@ export default function ProductForm({ type, form, setForm, onChange }) {
         onChange={onChange}
         wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
       />
-      <CategorySelection form={form} onChange={onChange} />
+      {/* <CategorySelection form={form} onChange={onChange} /> */}
       <div className="flex flex-wrap gap-box w-full h-full">
         <CustomInp
           type="number"
