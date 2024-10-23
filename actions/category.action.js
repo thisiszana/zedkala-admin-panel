@@ -73,7 +73,7 @@ export const getCategories = async () => {
   try {
     await connectDB();
 
-    const category = await ZedkalaCategory.find()
+    const categories = await ZedkalaCategory.find()
       .populate({
         path: "createdBy",
         model: ZedkalaAdmin,
@@ -81,8 +81,17 @@ export const getCategories = async () => {
       })
       .lean();
 
+    const sanitizedCategories = categories.map((category) => ({
+      ...category,
+      _id: category._id.toString(),
+      createdBy: {
+        ...category.createdBy,
+        _id: category.createdBy?._id?.toString(),
+      },
+    }));
+
     return {
-      category,
+      category: sanitizedCategories,
       message: MESSAGES.success,
       status: MESSAGES.success,
       code: STATUS_CODES.success,

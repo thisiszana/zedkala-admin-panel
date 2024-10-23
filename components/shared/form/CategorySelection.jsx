@@ -13,7 +13,7 @@ export default function CategorySelection({ name, form, label, onChange }) {
     const fetchCategory = async () => {
       try {
         const { category } = await getCategories();
-        setCategories(JSON.parse(JSON.stringify(category)));
+        setCategories(category);
       } catch (error) {
         console.error("Error fetching categories:", error);
         setErrorState(true);
@@ -42,7 +42,7 @@ export default function CategorySelection({ name, form, label, onChange }) {
         onChange={onChange}
       >
         <option value="">دسته‌بندی را انتخاب کنید ...</option>
-        {errorState ? ( 
+        {errorState ? (
           <option value="" disabled className="text-center text-red-500">
             خطا در ارتباط با سرور
           </option>
