@@ -138,6 +138,7 @@ export const getProducts = async (searchParams) => {
       ...query,
       ...filters,
     });
+    const totalPages = Math.ceil(totalProducts / perPage);
 
     const products = await ZedkalProducts.find({ ...filters, ...query })
       .sort({
@@ -157,7 +158,7 @@ export const getProducts = async (searchParams) => {
       .limit(perPage)
       .populate({
         path: "createdBy",
-        model: AdminSorme,
+        model: ZedkalaAdmin,
         select: "username firstName image",
       })
       .lean();
