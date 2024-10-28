@@ -1,7 +1,9 @@
-import React from 'react'
+import React from "react";
 
-export default function ProductsPagination() {
-  return (
-    <div>ProductsPagination</div>
-  )
+export default function ProductsPagination({
+  totalPages,
+  totalProducts,
+  searchParams,
+}) {
+  return <div>ProductsPagination</div>;
 }
