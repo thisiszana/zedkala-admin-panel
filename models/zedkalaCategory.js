@@ -1,5 +1,7 @@
 import { Schema, models, model } from "mongoose";
 
+import slugify from "slugify";
+
 const categorySchema = new Schema(
   {
     categoryName: {
@@ -7,6 +9,12 @@ const categorySchema = new Schema(
       required: true,
       trim: true,
       unique: true,
+    },
+    slug: {
+      type: String,
+      unique: true,
+      required: true,
+      trim: true,
     },
     subCategories: { type: [String], default: [] },
     image: {
@@ -21,6 +29,14 @@ const categorySchema = new Schema(
   },
   { timestamps: true }
 );
+
+
+categorySchema.pre("validate", function (next) {
+  if (this.categoryName && !this.slug) {
+    this.slug = slugify(this.categoryName, { lower: true, strict: true });
+  }
+  next();
+});
 
 const ZedkalaCategory =
   models.ZedkalaCategory || model("ZedkalaCategory", categorySchema);

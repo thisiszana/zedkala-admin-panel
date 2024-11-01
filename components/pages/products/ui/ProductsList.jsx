@@ -5,7 +5,7 @@ import { productsDataSourse } from "@/constants/tabelDataSourse";
 import { Empty, Table } from "antd";
 
 export default function ProductsList({ products }) {
-  console.log("table data", products)
+
   return (
     <div>
       <Table

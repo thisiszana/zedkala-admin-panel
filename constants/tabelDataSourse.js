@@ -82,7 +82,7 @@ export const productsDataSourse = (products) =>
         </div>
         <div>
           <p>{shorterText(product.title, 15)}...</p>
-          <p>In {product.category}</p>
+          <p>در {product.categoryName}</p>
         </div>
       </Link>
     ),
@@ -93,9 +93,9 @@ export const productsDataSourse = (products) =>
           "text-darkRose px-2 rounded-xl bg-lightRose font-bold text-xs"
         }`}
       >
-        {product.stock === e2p(0)
+        {product.stock === 0
           ? "None!"
-          : e2p(product.stock.toLocaleString())}
+          : product.stock.toLocaleString()}
       </p>
     ),
     price: `${sp(product.price)}`,
