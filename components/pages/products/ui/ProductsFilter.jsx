@@ -15,13 +15,13 @@ import CustomBtn from "@/components/shared/CustomBtn";
 export default function ProductsFilter() {
   const [categories, setCategories] = useState([]);
   const [filters, setFilters] = useState([]);
-  console.log("filters", filters);
+
   const router = useRouter();
   const { searchParams, setSearchParams, params } = useSetSearchQuery();
 
   const handleSearchQuery = useDebouncedCallback((query) => {
     setSearchParams("page", "1");
-    setSearchParams("search", encodeURIComponent(query));
+    setSearchParams("search", query);
   }, 300);
 
   useEffect(() => {
@@ -106,6 +106,20 @@ export default function ProductsFilter() {
         setSearchParams("discount", e.target.value.toLowerCase());
       },
     },
+    {
+      label: "مرتب‌سازی",
+      items: [
+        { key: "1", label: "تاریخ: جدید به قدیم" },
+        { key: "2", label: "تاریخ: قدیم به جدید" },
+        { key: "3", label: "قیمت: بالا به پایین" },
+        { key: "4", label: "قیمت: پایین به بالا" },
+        { key: "5", label: "بیشترین سفارش" },
+      ],
+      onChange: (e) => {
+        setSearchParams("page", "1");
+        setSearchParams("sort", e.target.value);
+      },
+    },
   ];
 
   return (
@@ -119,6 +133,7 @@ export default function ProductsFilter() {
               ? searchParams.get("search")?.toString()
               : ""
           }
+          wrapperClassName="w-full sm:w-auto"
           onChange={(e) => handleSearchQuery(e.target.value)}
         />
         {selectFilters?.map((select, index) => (
