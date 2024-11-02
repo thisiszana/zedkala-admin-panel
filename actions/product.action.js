@@ -181,6 +181,70 @@ export const getProducts = async (searchParams) => {
   }
 };
 
+export const changeProductStatus = async (data) => {
+  try {
+    await connectDB();
+
+    const session = getServerSession();
+
+    if (!session)
+      return {
+        message: MESSAGES.unAuthorized,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.unAuthorized,
+      };
+
+    if (session.roll === "USER")
+      return {
+        message: MESSAGES.forbidden,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.forbidden,
+      };
+
+    const product = await ZedkalProducts.findById(data.id);
+
+    if (!product)
+      return {
+        message: MESSAGES.productNotFound,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.not_found,
+      };
+
+    if (
+      session.roll === "ADMIN" &&
+      session.userId !== product.createdBy.toString()
+    ) {
+      return {
+        message: MESSAGES.forbidden,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.forbidden,
+      };
+    }
+
+    if (product.action === "publish") {
+      product.published = true;
+      await product.save();
+    } else if (product.action === "draft") {
+      product.published = false;
+      await product.save();
+    }
+
+    revalidatePath("/products");
+
+    return {
+      message: MESSAGES.update,
+      status: MESSAGES.success,
+      code: STATUS_CODES.success,
+    };
+  } catch (error) {
+    return {
+      message: MESSAGES.server,
+      status: MESSAGES.failed,
+      code: STATUS_CODES.server,
+    };
+  }
+};
+
 export const deleteProduct = async (data) => {
   try {
     await connectDB();
@@ -205,7 +269,7 @@ export const deleteProduct = async (data) => {
 
     if (!product)
       return {
-        message: MESSAGES.notFound,
+        message: MESSAGES.productNotFound,
         status: MESSAGES.failed,
         code: STATUS_CODES.not_found,
       };

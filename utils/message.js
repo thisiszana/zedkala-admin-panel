@@ -24,6 +24,7 @@ export const MESSAGES = {
   categoryEdited: "دسته‌بندی ویرایش شد",
   categoryDeleted: "دسته‌بندی حذف شد",
   categoryNotFound: "دسته‌بندی پیدا نشد",
+  productNotFound: "محصول پیدا نشد",
   putImage: "تصویر مورد نظر را قرار بدید!",
   fields: "تمام فیلدها را پر کنید!",
   unAuthorized: "شما مجاز نیستید!",
