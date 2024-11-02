@@ -20,6 +20,7 @@ export const MESSAGES = {
   
   categoryCreated: "دسته‌بندی ایجاد شد",
   productCreated: "محصول ایجاد شد",
+  productDeleted: "محصول حذف شد",
   categoryEdited: "دسته‌بندی ویرایش شد",
   categoryDeleted: "دسته‌بندی حذف شد",
   categoryNotFound: "دسته‌بندی پیدا نشد",
