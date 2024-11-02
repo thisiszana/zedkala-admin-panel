@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import { getCategories } from "@/actions/category.action";
+import CustomInp from "./CustomInp";
 
 export default function CategorySelection({ name, form, label, onChange }) {
   const [categories, setCategories] = useState([]);
   const [errorState, setErrorState] = useState(false);
   const [subCategories, setSubCategories] = useState([]);
+  const [slug, setSlug] = useState("");
 
   useEffect(() => {
     const fetchCategory = async () => {
@@ -28,8 +29,11 @@ export default function CategorySelection({ name, form, label, onChange }) {
     );
     if (selectedCategory) {
       setSubCategories(selectedCategory.subCategories || []);
+      setSlug(selectedCategory.slug);
+      onChange({ target: { name: "slug", value: selectedCategory.slug } });
     } else {
       setSubCategories([]);
+      setSlug("");
     }
   }, [form.categoryName, categories]);
 
@@ -68,6 +72,17 @@ export default function CategorySelection({ name, form, label, onChange }) {
             </option>
           ))}
         </select>
+      )}
+      {slug.length > 0 && (
+        <CustomInp
+          label="اسلاگ"
+          type="text"
+          name="slug"
+          value={slug}
+          onChange={onChange}
+          wrapperClassName="w-full dark:text-white"
+          readOnly
+        />
       )}
     </div>
   );

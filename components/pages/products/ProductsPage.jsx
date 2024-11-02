@@ -20,14 +20,14 @@ export default function ProductsPage({ searchParams }) {
       <div className="flex justify-between gap-1 mx-2">
         <PageHeading title="محصولات" />
         <Link
-          href="/add-products"
+          href="/add-product"
           className="h-fit flex items-center gap-3 p-btn rounded-btn bg-dark1 dark:bg-white text-white dark:text-dark1"
         >
           <LayerPlus />
           جدید
         </Link>
       </div>
-      <div className="cardShadow3 rounded-2xl border overflow-hidden">
+      <div className="cardShadow3 rounded-2xl border overflow-hidden mt-8">
         <ProductsFilter />
         <Suspense
           key={search + page + category + stock + discount + sort + published}

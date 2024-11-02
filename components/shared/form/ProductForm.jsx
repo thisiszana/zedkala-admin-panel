@@ -21,6 +21,7 @@ import { createProduct } from "@/actions/product.action";
 export default function ProductForm({ type, form, setForm, onChange }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  console.log("formmmmmmmmmmmmmmmm", form);
 
   const basicDetails = (
     <div className="flex flex-col gap-box w-full h-full">
@@ -229,7 +230,6 @@ export default function ProductForm({ type, form, setForm, onChange }) {
   const handleSubmit = async () => {
     if (
       !form.title ||
-      !form.images ||
       !form.price ||
       !form.stock ||
       !form.categoryName ||
@@ -238,7 +238,6 @@ export default function ProductForm({ type, form, setForm, onChange }) {
       form.keywords.length === 0
     )
       return toast.error(MESSAGES.fields);
-    console.log(form);
     setLoading(() => true);
 
     const uploadedImages = await uploadImages(form.image);

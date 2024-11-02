@@ -65,7 +65,7 @@ export default function ProductsFilter() {
     {
       label: "دسته‌بندی",
       items: categories.map((c) => ({
-        key: c.categoryName.toLowerCase(),
+        key: c.slug,
         label: c.categoryName,
       })),
       onChange: (e) => {

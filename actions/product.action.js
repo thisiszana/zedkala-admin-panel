@@ -46,6 +46,7 @@ export const createProduct = async (data) => {
       warranty,
       published,
       insurance,
+      slug,
     } = data;
 
     const newProduct = await ZedkalProducts.create({
@@ -57,6 +58,7 @@ export const createProduct = async (data) => {
       discount,
       categoryName: categoryName.toLowerCase(),
       subCategories: subCategories.toLowerCase(),
+      slug,
       specifications,
       colors,
       brand,
@@ -116,15 +118,13 @@ export const getProducts = async (searchParams) => {
 
     if (search && search.trim() !== "") query = { $text: { $search: search } };
 
-    if (stock)
-      query == "in-stock" ? (filters.stock = { $gt: 0 }) : (filters.stock = 0);
+    if (stock) filters.stock = stock === "in-stock" ? { $gt: 0 } : { $eq: 0 };
 
     if (discount)
-      discount == "has-discount"
-        ? (filters.discount = { $gt: 0 })
-        : (filters.discount = 0);
+      filters["discount.value"] =
+        discount === "has-discount" ? { $gt: 0 } : { $eq: 0 };
 
-    if (category) filters.category = category;
+    if (category) filters.slug = category.toLowerCase();
 
     if (published)
       published === "true"

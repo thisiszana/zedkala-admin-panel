@@ -19,6 +19,7 @@ const productSchema = new Schema({
     required: true,
   },
   subCategories: { type: String, ref: "ZedkalaCategory" },
+  slug: { type: String },
   keywords: { type: [String], default: [] },
   brand: { type: String, required: true },
   likes: [{ type: Schema.Types.ObjectId, ref: "Like", default: [] }],

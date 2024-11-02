@@ -94,8 +94,8 @@ export const productsDataSourse = (products) =>
         }`}
       >
         {product.stock === 0
-          ? "None!"
-          : product.stock.toLocaleString()}
+          ? "ناموجود"
+          : sp(product.stock.toLocaleString())}
       </p>
     ),
     price: `${sp(product.price)}`,
