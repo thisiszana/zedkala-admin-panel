@@ -68,6 +68,8 @@ import {
 
 import { IoIosColorPalette } from "react-icons/io";
 
+export const sizesDefault = ["XS", "S", "M", "L", "XL"];
+
 export const icons = {
   home: <Home />,
   deliveryTruck: <Truck />,

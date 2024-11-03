@@ -1,20 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
+import { useState } from "react";
 import { SketchPicker } from "react-color";
-import { Modal, Input, Tooltip } from "antd";
-
+import { Modal, Input, Tooltip, Select } from "antd";
 import { Trash } from "@/components/icons/Icons";
 import CustomBtn from "../CustomBtn";
 import CustomInp from "./CustomInp";
+import { sizesDefault } from "@/constants";
 
 export default function Specifications({ form, setForm }) {
   const [specifications, setSpecifications] = useState(form.specifications);
-
-  const [colors, setColors] = useState(
-     []
-  );
+  const [sizes, setSizes] = useState([]); 
+  const [selectedSize, setSelectedSize] = useState(""); 
+  const [customSize, setCustomSize] = useState(""); 
+  const [colors, setColors] = useState([]);
   const [currentColor, setCurrentColor] = useState("#fff");
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -93,6 +92,32 @@ export default function Specifications({ form, setForm }) {
     (spec) => spec.label.trim() !== ""
   );
 
+  const handleAddSize = () => {
+    if (selectedSize && !sizes.includes(selectedSize)) {
+      const updatedSizes = [...sizes, selectedSize];
+      setSizes(updatedSizes);
+      setForm((prevForm) => ({
+        ...prevForm,
+        sizes: updatedSizes,
+      }));
+    }
+    if (customSize && !sizes.includes(customSize)) {
+      const updatedSizes = [...sizes, customSize];
+      setSizes(updatedSizes);
+      setForm((prevForm) => ({
+        ...prevForm,
+        sizes: updatedSizes,
+      }));
+      setCustomSize(""); 
+    }
+  };
+
+  const handleRemoveSize = (size) => {
+    const updatedSizes = sizes.filter((s) => s !== size);
+    setSizes(updatedSizes);
+    setForm({ ...form, sizes: updatedSizes });
+  };
+
   const specificationFields = specifications.map((spec, index) => (
     <div key={index} className="flex gap-4 items-center">
       <CustomInp
@@ -103,7 +128,7 @@ export default function Specifications({ form, setForm }) {
         onChange={(e) =>
           handleSpecificationChange(index, "label", e.target.value)
         }
-        wrapperClassName=" flex flex-5"
+        wrapperClassName="flex flex-5"
       />
       <CustomInp
         type="text"
@@ -119,22 +144,10 @@ export default function Specifications({ form, setForm }) {
         type="button"
         icon={<Trash />}
         classNames="bg-red-500 text-white px-4 py-[18px] rounded-[10px]"
-        disabled={index === 0}
         onClick={() => handleRemoveSpecification(index)}
       />
     </div>
   ));
-
-  // useEffect(() => {
-  //   const savedSpecifications = JSON.parse(
-  //     localStorage.getItem("specifications")
-  //   );
-  //   if (savedSpecifications) setSpecifications(savedSpecifications);
-  // }, []);
-
-  // useEffect(() => {
-  //   localStorage.setItem("specifications", JSON.stringify(specifications));
-  // }, [specifications]);
 
   return (
     <div className="flex flex-col xl:flex-row justify-between items-center gap-8 lg:gap-20">
@@ -150,7 +163,7 @@ export default function Specifications({ form, setForm }) {
           disabled={!canAddSpecification}
         />
       </div>
-      <div className="flex flex-col gap-4 ">
+      <div className="flex flex-col gap-4 items-center">
         <SketchPicker
           color={currentColor}
           onChangeComplete={(color) => setCurrentColor(color.hex)}
@@ -161,48 +174,80 @@ export default function Specifications({ form, setForm }) {
           onClick={handleAddColor}
           title="افزودن رنگ"
         />
-      </div>
-      <div className="flex flex-wrap justify-center gap-2 w-[420px]">
-        {colors?.map((color, index) => (
-          <Tooltip key={index} title="ویرایش رنگ">
-            {" "}
-            <div className="flex items-center gap-2 border-1 border-dark1 dark:border-white px-2 py-1 rounded">
-              <div
-                style={{
-                  backgroundColor: color,
-                  width: "30px",
-                  height: "30px",
-                  borderRadius: "50%",
-                  border: "1px solid #ccc",
-                }}
-                onClick={() => showModal(index)}
-              />
-              <CustomBtn
-                type="button"
-                icon={<Trash width={15} />}
-                classNames="bg-red-500 text-white px-2 py-1 rounded"
-                onClick={() => handleRemoveColor(color)}
-              />
-            </div>
-          </Tooltip>
-        ))}
+        <div className="flex flex-wrap gap-2 w-[420px]">
+          {colors?.map((color, index) => (
+            <Tooltip key={index} title="ویرایش رنگ">
+              <div className="flex items-center gap-2 border-1 border-dark1 dark:border-white px-2 py-1 rounded">
+                <div
+                  style={{
+                    backgroundColor: color,
+                    width: "30px",
+                    height: "30px",
+                    borderRadius: "50%",
+                    border: "1px solid #ccc",
+                  }}
+                  onClick={() => showModal(index)}
+                />
+                <CustomBtn
+                  type="button"
+                  icon={<Trash width={15} />}
+                  classNames="bg-red-500 text-white px-2 py-1 rounded"
+                  onClick={() => handleRemoveColor(color)}
+                />
+              </div>
+            </Tooltip>
+          ))}
+        </div>
+        <Select
+          placeholder="انتخاب سایز استاندارد"
+          onChange={(value) => setSelectedSize(value)}
+          style={{ width: 200 }}
+        >
+          {sizesDefault.map(
+            (size) => (
+              <Select.Option key={size} value={size}>
+                {size}
+              </Select.Option>
+            )
+          )}
+        </Select>
+        <Input
+          placeholder="یا سایز دلخواه وارد کنید"
+          value={customSize}
+          onChange={(e) => setCustomSize(e.target.value)}
+          style={{ width: 200 }}
+        />
+        <CustomBtn
+          classNames="bg-dark1 dark:bg-white dark:text-dark1 text-white px-4 py-2 rounded w-[12]"
+          type="button"
+          onClick={handleAddSize}
+          title="افزودن سایز"
+        />
+        <div className="flex flex-wrap gap-2 w-[420px]">
+          {sizes?.map((size, index) => (
+            <Tooltip key={index} title="حذف سایز">
+              <div className="flex items-center gap-2 border-1 border-dark1 dark:border-white px-2 py-1 rounded">
+                <span>{size}</span>
+                <CustomBtn
+                  type="button"
+                  icon={<Trash width={15} />}
+                  classNames="bg-red-500 text-white px-2 py-1 rounded"
+                  onClick={() => handleRemoveSize(size)}
+                />
+              </div>
+            </Tooltip>
+          ))}
+        </div>
       </div>
       <Modal
         title="ویرایش رنگ"
         open={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
-        okText="تایید"
-        cancelText="لغو"
-        okButtonProps={{ className: "bg-red-500 text-white hover:bg-red-600" }}
-        cancelButtonProps={{
-          className: "bg-gray-300 text-black hover:bg-gray-400",
-        }}
       >
-        <Input
-          value={newColor}
-          onChange={(e) => setNewColor(e.target.value)}
-          placeholder="کد رنگ جدید را وارد کنید"
+        <SketchPicker
+          color={newColor}
+          onChangeComplete={(color) => setNewColor(color.hex)}
         />
       </Modal>
     </div>

@@ -18,6 +18,7 @@ export default function AddProductPage() {
     subCategories: "",
     specifications: [{ label: "", value: "" }],
     colors: [],
+    sizes:[],
     brand: "",
     keywords: [],
     returnPolicy: "",

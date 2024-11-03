@@ -33,6 +33,7 @@ const productSchema = new Schema({
     },
   ],
   colors: { type: [String], default: ["#ffffff"] },
+  sizes: { type: [String], default: [] },
   returnPolicy: { type: String },
   warranty: { type: String },
   createdAt: {
