@@ -221,10 +221,10 @@ export const changeProductStatus = async (data) => {
       };
     }
 
-    if (product.action === "publish") {
+    if (data.action === "publish") {
       product.published = true;
       await product.save();
-    } else if (product.action === "draft") {
+    } else if (data.action === "draft") {
       product.published = false;
       await product.save();
     }
@@ -237,6 +237,7 @@ export const changeProductStatus = async (data) => {
       code: STATUS_CODES.success,
     };
   } catch (error) {
+    console.log("error in change product status", error.message);
     return {
       message: MESSAGES.server,
       status: MESSAGES.failed,
