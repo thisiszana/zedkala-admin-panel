@@ -21,10 +21,10 @@ export const categoriesDataSourse = (categories) =>
         <div className="w-[100px] h-[100px] flex items-center justify-center">
           <Image
             as={NextImage}
-            src={c.image}
+            src={c.image[0]}
             width={100}
             height={100}
-            alt="Category"
+            alt="دسته‌بندی"
             property
           />
         </div>
@@ -50,7 +50,7 @@ export const categoriesDataSourse = (categories) =>
             width={200}
             height={200}
             style={{ width: "500px", height: "auto" }}
-            alt="admin"
+            alt="ادمین"
             className="rounded-full"
           />
         </div>
@@ -77,7 +77,7 @@ export const productsDataSourse = (products) =>
             width={100}
             height={100}
             alt="product"
-            priority
+            priority="true"
           />
         </div>
         <div>

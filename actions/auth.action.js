@@ -49,7 +49,6 @@ export const CreateAdmin = async (data) => {
       code: STATUS_CODES.created,
     };
   } catch (error) {
-    console.log("create admin error", error.message);
     return {
       message: MESSAGES.server,
       status: MESSAGES.failed,

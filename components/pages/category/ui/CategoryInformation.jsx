@@ -9,22 +9,22 @@ import moment from "moment-jalaali";
 import CustomBadge from "@/components/shared/CustomBadge";
 import { Clock } from "@/components/icons/Icons";
 import { images } from "@/constants";
+import SubCategoryAccordion from "./SubCategoryAccordion";
 
 export default function CategoryInformation({ info }) {
-  console.log(info);
   return (
     <div className="flex flex-col xl:flex-row gap-box ml-3">
       <div className="w-full xl:w-[50%] h-fit flex justify-center box border">
         <Image
           as={NextImage}
-          src={info.image}
+          src={info.image[0]}
           width={500}
           height={500}
           alt={info?.name}
           className="rounded-box"
         />
       </div>
-      <div className="w-full xl:w-[50%] space-y-5 box border">
+      <div className="w-full xl:w-[50%] space-y-5 box border p-4">
         <div className="flex gap-2 items-center">
           <Clock
             className="text-darkGray dark:text-white"
@@ -39,10 +39,12 @@ export default function CategoryInformation({ info }) {
             </p>
           </div>
         </div>
+
         <CustomBadge
           condition={info?.published}
           title={info?.published ? "منتشر شده" : "پیش‌نویس"}
         />
+
         <div className="space-y-2">
           <p className="text-p2">ساخته‌شده توسط :</p>
           <Link
@@ -52,10 +54,10 @@ export default function CategoryInformation({ info }) {
             <Image
               as={NextImage}
               src={info?.createdBy.image || images.admin}
-              width={100}
-              height={100}
+              width={50}
+              height={50}
               alt="creator"
-              className="rounded-full w-30 h-30"
+              className="rounded-full"
             />
             <div>
               <p className="text-p1 font-medium">{info?.createdBy?.username}</p>
@@ -65,18 +67,42 @@ export default function CategoryInformation({ info }) {
             </div>
           </Link>
         </div>
-        <p className="font-bold text-h3">{info?.categoryName}</p>
+
+        <p className="font-bold text-h3">{info?.name}</p>
+
         <div className="space-y-2">
           <p className="text-p1 font-bold">زیر دسته‌ها :</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
-            {info.subCategories.map((c) => (
-              <div key={c._id}>
-                <div className="bg-gray-200 py-2 px-3 rounded-lg dark:bg-dark2">
-                  <p className="text-p1 text-xs font-bold capitalize">{c}</p>
+          <SubCategoryAccordion categories={info} />
+        </div>
+
+        <div className="space-y-2">
+          <p className="text-p1 font-bold">برندها :</p>
+          <div className="flex flex-wrap gap-2">
+            {info.brands.length > 0 ? (
+              info.brands.map((brand, brandIndex) => (
+                <div key={brandIndex} className="bg-gray-100 p-2 rounded-lg dark:bg-dark2">
+                  <p className="font-medium">{brand.name}</p>
+                  {brand.logo && (
+                    <Image
+                      as={NextImage}
+                      src={brand.logo}
+                      width={30}
+                      height={30}
+                      alt={brand.name}
+                      className="rounded-full"
+                    />
+                  )}
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-darkGray dark:text-white">برندی موجود نیست</p>
+            )}
           </div>
+        </div>
+
+        <div className="space-y-2">
+          <p className="text-p1 font-bold">ترتیب نمایش :</p>
+          <p className="text-darkGray dark:text-white">{info.order}</p>
         </div>
       </div>
     </div>

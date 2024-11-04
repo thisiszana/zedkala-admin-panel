@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import NextImage from "next/image";
 
 import { useState } from "react";
 
@@ -17,6 +17,7 @@ import { uploadImage } from "@/utils/fun";
 import DetailedBox from "../DetailedBox";
 import CustomBtn from "../CustomBtn";
 import CustomInp from "./CustomInp";
+import { Image } from "@nextui-org/react";
 
 export default function CategoryForm({ type, form, setForm, onChange, id }) {
   const [newBrand, setNewBrand] = useState({ name: "", logo: null });
@@ -127,6 +128,7 @@ export default function CategoryForm({ type, form, setForm, onChange, id }) {
               <p>{brand.name}</p>
               {brand.logo && (
                 <Image
+                  as={NextImage}
                   src={
                     typeof brand.logo === "string"
                       ? brand.logo
@@ -181,6 +183,7 @@ export default function CategoryForm({ type, form, setForm, onChange, id }) {
         />
         {previewURL && (
           <Image
+            as={NextImage}
             src={previewURL}
             width={100}
             height={100}
@@ -214,8 +217,6 @@ export default function CategoryForm({ type, form, setForm, onChange, id }) {
       ...form,
       image: uploadResult ? uploadResult.imageUrl : form.image,
     };
-
-    console.log(payload);
 
     let res;
     if (type === "CREATE") {

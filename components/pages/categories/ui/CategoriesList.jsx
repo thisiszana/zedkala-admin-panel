@@ -3,11 +3,9 @@
 import { categoryColumn } from "@/constants/tabelColumns";
 import { categoriesDataSourse } from "@/constants/tabelDataSourse";
 import { useDarkMode } from "@/providers/DarkModeProvider";
-import { Table } from "antd";
+import { Empty, Table } from "antd";
 
 export default function CategoriesList({ cateogories }) {
-  const { isDarkMode } = useDarkMode();
-  console.log(cateogories);
   return (
     <div>
       <Table
@@ -16,7 +14,12 @@ export default function CategoriesList({ cateogories }) {
         columns={categoryColumn}
         dataSource={categoriesDataSourse(cateogories)}
         locale={{
-          emptyText: "دیتایی وجود ندارد",
+          emptyText: (
+            <Empty
+              description="بدون داده"
+              image={Empty.PRESENTED_IMAGE_DEFAULT}
+            />
+          ),
         }}
       />
     </div>

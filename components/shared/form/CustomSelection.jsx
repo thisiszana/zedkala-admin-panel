@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import NextImage from "next/image";
 
 import { useState } from "react";
 
@@ -11,6 +11,7 @@ import { shorterText, uploadImage } from "@/utils/fun";
 import { MESSAGES } from "@/utils/message";
 import CustomBtn from "../CustomBtn";
 import CustomInp from "./CustomInp";
+import { Image } from "@nextui-org/react";
 
 export default function CustomSelection({ form, setForm }) {
   const [subImagePreview, setSubImagePreview] = useState(null);
@@ -141,6 +142,7 @@ export default function CustomSelection({ form, setForm }) {
               />
               {item.preview && (
                 <Image
+                  as={NextImage}
                   src={item.preview}
                   width={50}
                   height={50}
@@ -179,6 +181,7 @@ export default function CustomSelection({ form, setForm }) {
 
         {subImagePreview && (
           <Image
+            as={NextImage}
             src={subImagePreview}
             width={100}
             height={100}
@@ -228,6 +231,7 @@ export default function CustomSelection({ form, setForm }) {
               />
               {sub.image && (
                 <Image
+                  as={NextImage}
                   src={
                     typeof sub.image === "string"
                       ? sub.image

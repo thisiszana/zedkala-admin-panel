@@ -16,7 +16,6 @@ export default function AddCategoryPage({ category }) {
     subcategories: [],
     published: false,
   });
-  console.log("category form", form);
 
   useEffect(() => {
     if (category) setForm(category);

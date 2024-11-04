@@ -10,7 +10,6 @@ const useServerAction = (asyncAction, inpData, afterAction) => {
     setLoading(() => true);
 
     const res = await asyncAction(inpData);
-    console.log(res)
     setLoading(() => false);
 
     if (res.code === 200 || res.code === 201 || res.code === 202) {
