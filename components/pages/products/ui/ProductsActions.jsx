@@ -18,7 +18,7 @@ import {
   MenuDots,
   Publish,
   Trash,
-} from "@/components/icons/IconS";
+} from "@/components/icons/Icons";
 
 export default function ProductsActions({ productId, published }) {
   const [open, setOpen] = useState(false);

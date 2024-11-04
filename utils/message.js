@@ -18,6 +18,9 @@ export const MESSAGES = {
   deleteAdmin: "User Deleted!",
   adminHasContent: "Admin has content!",
   
+  nameRequired:"فیلد نام را پر کنید",
+  slugRequired:"فیلد اسلاگ را پر کنید",
+  slugAlreadyExists:"اسلاگ از قبل وجو دارد",
   categoryCreated: "دسته‌بندی ایجاد شد",
   productCreated: "محصول ایجاد شد",
   productDeleted: "محصول حذف شد",
@@ -31,6 +34,7 @@ export const MESSAGES = {
   categoryAlreadyExists: "دسته‌بندی از قبل وجود دارد!",
   forbidden: "دسترسی ممنوع!",
   addKeywords: "کلید واژه اضافه شد",
+  addSubcategories: "زیردسته‌بندی اضافه شد",
   sameKey: "شما قبلاً این کلمه کلیدی را انتخاب کرده اید",
   userNotFound: "نام کاربری یا رمز عبور صحیح نیست!",
   register: "ثبت نام با موفقیت انجام شد",

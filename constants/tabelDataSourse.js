@@ -28,7 +28,7 @@ export const categoriesDataSourse = (categories) =>
             property
           />
         </div>
-        <p>{shorterText(c.categoryName, 15)}...</p>
+        <p>{shorterText(c.name, 15)}...</p>
       </Link>
     ),
     date: e2p(moment(c.createdAt).format("jYYYY/jMM/jDD")),
@@ -98,7 +98,7 @@ export const productsDataSourse = (products) =>
           : sp(product.stock.toLocaleString())}
       </p>
     ),
-    price: `${sp(product.price)}`,
+    price: `${sp(product.price)} تومان`,
     discount: product.discount.map((dis) => e2p(dis.value) || "_"),
     orders: (e2p(product.orders) && product.orders.length) || "_",
     comments: (e2p(product.comments) && product.comments.length) || "_",

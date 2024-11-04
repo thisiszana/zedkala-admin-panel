@@ -7,11 +7,16 @@ import PageHeading from "@/components/shared/PageHeading";
 
 export default function AddCategoryPage({ category }) {
   const [form, setForm] = useState({
-    categoryName: "",
-    subCategories: category?.subCategories || [],
+    name: "",
+    slug: "",
     image: "",
+    isFeatured: false,
+    brands: [],
+    order: 0,
+    subcategories: [],
     published: false,
   });
+  console.log("category form", form);
 
   useEffect(() => {
     if (category) setForm(category);

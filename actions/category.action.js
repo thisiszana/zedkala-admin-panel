@@ -3,10 +3,10 @@
 import { revalidatePath } from "next/cache";
 
 import ZedkalaAdmin from "@/models/zedkalaAdmin";
-import ZedkalaCategory from "@/models/zedkalaCategory";
 import connectDB from "@/utils/connectDB";
 import { MESSAGES, STATUS_CODES } from "@/utils/message";
 import { getServerSession } from "@/utils/session";
+import { ZedkalaCategory } from "@/models/zedkalaCategory";
 
 export const createCategory = async (data) => {
   try {
@@ -30,10 +30,40 @@ export const createCategory = async (data) => {
 
     const admin = await ZedkalaAdmin.findById(session.userId);
 
-    const { categoryName, subCategories, image, published } = data;
+    const {
+      name,
+      slug,
+      isFeatured,
+      brands,
+      order,
+      subcategories,
+      image,
+      published,
+    } = data;
 
-    const existingCategory = await ZedkalaCategory.findOne({ categoryName });
+    if (!name)
+      return {
+        message: MESSAGES.nameRequired,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.badRequest,
+      };
 
+    if (!slug)
+      return {
+        message: MESSAGES.slugRequired,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.badRequest,
+      };
+
+    const existingSlug = await ZedkalaCategory.findOne({ slug });
+    if (existingSlug)
+      return {
+        message: MESSAGES.slugAlreadyExists,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.conflict,
+      };
+
+    const existingCategory = await ZedkalaCategory.findOne({ name });
     if (existingCategory)
       return {
         message: MESSAGES.categoryAlreadyExists,
@@ -42,8 +72,12 @@ export const createCategory = async (data) => {
       };
 
     const newCategory = await ZedkalaCategory.create({
-      categoryName,
-      subCategories,
+      name,
+      slug,
+      isFeatured,
+      brands,
+      order,
+      subcategories,
       image,
       published,
       createdBy: session.userId,
@@ -184,7 +218,7 @@ export const editCategory = async (data) => {
 
     const { categoryName, subCategories, image, published, id } = data;
 
-    if (!categoryName || !subCategories || !id)
+    if (!name || !subCategories || !id)
       return {
         message: MESSAGES.fields,
         status: MESSAGES.update,
