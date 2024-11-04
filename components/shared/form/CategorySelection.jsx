@@ -3,11 +3,13 @@
 import { useEffect, useState } from "react";
 import { getCategories } from "@/actions/category.action";
 import CustomInp from "./CustomInp";
+import SubCategoryItemsSelection from "./SubCategoryItemsSelection";
 
-export default function CategorySelection({ name, form, label, onChange }) {
+export default function CategorySelection({ form, setForm, onChange }) {
   const [categories, setCategories] = useState([]);
   const [errorState, setErrorState] = useState(false);
   const [subCategories, setSubCategories] = useState([]);
+  const [selectedSubCategoryItems, setSelectedSubCategoryItems] = useState([]);
   const [slug, setSlug] = useState("");
 
   useEffect(() => {
@@ -25,17 +27,37 @@ export default function CategorySelection({ name, form, label, onChange }) {
 
   useEffect(() => {
     const selectedCategory = categories.find(
-      (c) => c.categoryName === form.categoryName
+      (c) => c.name === form.categoryName
     );
     if (selectedCategory) {
-      setSubCategories(selectedCategory.subCategories || []);
+      const formattedSubcategories = selectedCategory.subcategories.map(
+        (sub) => ({
+          name: sub.name,
+          items: sub.items.map((item) => item.name),
+        })
+      );
+      setSubCategories(formattedSubcategories);
       setSlug(selectedCategory.slug);
-      onChange({ target: { name: "slug", value: selectedCategory.slug } });
+      setForm((prevForm) => ({ ...prevForm, slug: selectedCategory.slug }));
     } else {
       setSubCategories([]);
       setSlug("");
+      setSelectedSubCategoryItems([]);
     }
   }, [form.categoryName, categories]);
+
+  const handleSubCategoryChange = (e) => {
+    const selectedSubCategory = subCategories.find(
+      (sub) => sub.name === e.target.value
+    );
+    setSelectedSubCategoryItems(
+      selectedSubCategory ? selectedSubCategory.items : []
+    );
+    setForm((prevForm) => ({
+      ...prevForm,
+      subCategories: selectedSubCategory,
+    }));
+  };
 
   return (
     <div className="flex flex-wrap gap-box w-full h-full">
@@ -52,27 +74,35 @@ export default function CategorySelection({ name, form, label, onChange }) {
           </option>
         ) : (
           categories.map((c) => (
-            <option key={c._id} value={c.categoryName}>
-              {c.categoryName}
+            <option key={c._id} value={c.name}>
+              {c.name}
             </option>
           ))
         )}
       </select>
+
       {subCategories.length > 0 && (
         <select
-          name="subCategories"
+          name="subCategory"
           className="input w-full dark:text-white"
-          value={form.subCategories}
-          onChange={onChange}
+          onChange={handleSubCategoryChange}
         >
-          <option value="">زیر ‌دسته‌بندی را انتخاب کنبد...</option>
+          <option value="">زیر‌دسته‌بندی را انتخاب کنید...</option>
           {subCategories.map((sub) => (
-            <option key={sub} value={sub}>
-              {sub}
+            <option key={sub.name} value={sub.name}>
+              {sub.name}
             </option>
           ))}
         </select>
       )}
+      {selectedSubCategoryItems.length > 0 && (
+        <SubCategoryItemsSelection
+          form={form}
+          setForm={setForm}
+          subCategoryItems={selectedSubCategoryItems}
+        />
+      )}
+
       {slug.length > 0 && (
         <CustomInp
           label="اسلاگ"

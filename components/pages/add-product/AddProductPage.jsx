@@ -15,10 +15,10 @@ export default function AddProductPage() {
     stock: 0,
     discount: [{ value: 0, title: "", expiresAt: new Date() }],
     categoryName: "",
-    subCategories: "",
+    subCategories: [],
     specifications: [{ label: "", value: "" }],
     colors: [],
-    sizes:[],
+    sizes: [],
     brand: "",
     keywords: [],
     returnPolicy: "",
@@ -35,7 +35,7 @@ export default function AddProductPage() {
       },
     ],
   });
-
+console.log(form)
   // useEffect(() => {
   //   const savedForm = JSON.parse(localStorage.getItem("form"));
   //   if (savedForm) {

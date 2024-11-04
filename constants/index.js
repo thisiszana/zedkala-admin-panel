@@ -67,6 +67,7 @@ import {
 } from "@/components/icons/Icons";
 
 import { IoIosColorPalette } from "react-icons/io";
+import { FiArrowDown } from "react-icons/fi";
 
 export const sizesDefault = ["XS", "S", "M", "L", "XL"];
 
@@ -133,6 +134,7 @@ export const icons = {
   printer: <Printer />,
   television: <Television />,
   color: <IoIosColorPalette />,
+  downArrow: <FiArrowDown />,
 };
 
 export const images = {
