@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import toast from "react-hot-toast";
+
 import { CircleClose, Trash } from "@/components/icons/Icons";
 import CustomInp from "./CustomInp";
 import CustomBtn from "../CustomBtn";
@@ -57,7 +58,7 @@ const KeywordsSelection = ({ form, setForm }) => {
           type="button"
           title="اضافه"
           onClick={onClick}
-          classNames="w-fit p-btn bg-lightGray rounded-btn"
+          classNames="w-fit p-btn bg-lightGray dark:text-dark2 rounded-btn"
         />
       </div>
       {keywords.length !== 0 && (
@@ -82,8 +83,7 @@ const KeywordsSelection = ({ form, setForm }) => {
           <CustomBtn
             type="button"
             onClick={() => setKeyWords([])}
-            classNames="rounded-btn flex items-center gap-btn text-[#ff5630] hover:bg-lightOrange Transition p-2"
-            title={<p className="text-p1 font-bold">حذف</p>}
+            classNames="rounded-btn dark:bg-lightGray flex items-center gap-btn text-[#ff5630] hover:bg-lightOrange dark:hover:bg-lightOrange Transition p-2"
             icon={<Trash />}
           />
         </div>

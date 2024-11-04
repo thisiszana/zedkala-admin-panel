@@ -1,18 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { SketchPicker } from "react-color";
+
 import { Modal, Input, Tooltip, Select } from "antd";
+import { SketchPicker } from "react-color";
+
 import { Trash } from "@/components/icons/Icons";
+import { sizesDefault } from "@/constants";
 import CustomBtn from "../CustomBtn";
 import CustomInp from "./CustomInp";
-import { sizesDefault } from "@/constants";
 
 export default function Specifications({ form, setForm }) {
   const [specifications, setSpecifications] = useState(form.specifications);
-  const [sizes, setSizes] = useState([]); 
-  const [selectedSize, setSelectedSize] = useState(""); 
-  const [customSize, setCustomSize] = useState(""); 
+  const [sizes, setSizes] = useState([]);
+  const [selectedSize, setSelectedSize] = useState("");
+  const [customSize, setCustomSize] = useState("");
   const [colors, setColors] = useState([]);
   const [currentColor, setCurrentColor] = useState("#fff");
 
@@ -108,7 +110,7 @@ export default function Specifications({ form, setForm }) {
         ...prevForm,
         sizes: updatedSizes,
       }));
-      setCustomSize(""); 
+      setCustomSize("");
     }
   };
 
@@ -169,7 +171,7 @@ export default function Specifications({ form, setForm }) {
           onChangeComplete={(color) => setCurrentColor(color.hex)}
         />
         <CustomBtn
-          classNames="bg-dark1 dark:bg-white dark:text-dark1 text-white px-4 py-2 rounded"
+          classNames="bg-dark1 dark:bg-lightGray dark:text-dark1 text-white px-4 py-2 rounded"
           type="button"
           onClick={handleAddColor}
           title="افزودن رنگ"
@@ -203,13 +205,11 @@ export default function Specifications({ form, setForm }) {
           onChange={(value) => setSelectedSize(value)}
           style={{ width: 200 }}
         >
-          {sizesDefault.map(
-            (size) => (
-              <Select.Option key={size} value={size}>
-                {size}
-              </Select.Option>
-            )
-          )}
+          {sizesDefault.map((size) => (
+            <Select.Option key={size} value={size}>
+              {size}
+            </Select.Option>
+          ))}
         </Select>
         <Input
           placeholder="یا سایز دلخواه وارد کنید"
@@ -218,7 +218,7 @@ export default function Specifications({ form, setForm }) {
           style={{ width: 200 }}
         />
         <CustomBtn
-          classNames="bg-dark1 dark:bg-white dark:text-dark1 text-white px-4 py-2 rounded w-[12]"
+          classNames="bg-dark1 dark:bg-lightGray dark:text-dark1 text-white px-4 py-2 rounded w-[12]"
           type="button"
           onClick={handleAddSize}
           title="افزودن سایز"

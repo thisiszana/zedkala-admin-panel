@@ -43,9 +43,9 @@ const SubCategoryItemsSelection = ({ form, setForm, subCategoryItems }) => {
         <select
           value={value}
           onChange={onSelectItem}
-          className="input w-full dark:text-white bg-red-400"
+          className="input w-full dark:text-white dark:bg-dark1"
         >
-          <option value="">یک آیتم از زیردسته‌بندی انتخاب کنید...</option>
+          <option value="" className="mt-5">یک آیتم از زیردسته‌بندی انتخاب کنید...</option>
           {subCategoryItems.map((item) => (
             <option key={item} value={item}>
               {item}

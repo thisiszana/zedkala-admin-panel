@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
+import SubCategoryItemsSelection from "./SubCategoryItemsSelection";
 import { getCategories } from "@/actions/category.action";
 import CustomInp from "./CustomInp";
-import SubCategoryItemsSelection from "./SubCategoryItemsSelection";
 
 export default function CategorySelection({ form, setForm, onChange }) {
   const [categories, setCategories] = useState([]);
@@ -63,7 +64,7 @@ export default function CategorySelection({ form, setForm, onChange }) {
     <div className="flex flex-wrap gap-box w-full h-full">
       <select
         name="categoryName"
-        className="input w-full dark:text-white"
+        className="input w-full dark:text-white dark:bg-dark1"
         value={form.categoryName}
         onChange={onChange}
       >
@@ -84,7 +85,7 @@ export default function CategorySelection({ form, setForm, onChange }) {
       {subCategories.length > 0 && (
         <select
           name="subCategory"
-          className="input w-full dark:text-white"
+          className="input w-full dark:text-white dark:bg-dark1"
           onChange={handleSubCategoryChange}
         >
           <option value="">زیر‌دسته‌بندی را انتخاب کنید...</option>

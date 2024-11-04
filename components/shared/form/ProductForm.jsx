@@ -1,22 +1,24 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
+import { useState } from "react";
+
+import toast from "react-hot-toast";
+import { Switch } from "antd";
+
+import { createProduct } from "@/actions/product.action";
+import KeywordsSelection from "./KeywordsSelection";
 import CategorySelection from "./CategorySelection";
 import CustomDataPicker from "./CustomDataPicker";
 import CustomTextarea from "./CustomTextarea";
 import Specifications from "./Specifications";
 import UploadedImage from "./UploadedImage";
-import DetailedBox from "../DetailedBox";
-import CustomInp from "./CustomInp";
-import KeywordsSelection from "./KeywordsSelection";
-import { Switch } from "antd";
-import CustomBtn from "../CustomBtn";
-import toast from "react-hot-toast";
 import { MESSAGES } from "@/utils/message";
 import { uploadImage } from "@/utils/fun";
-import { createProduct } from "@/actions/product.action";
+import DetailedBox from "../DetailedBox";
+import CustomBtn from "../CustomBtn";
+import CustomInp from "./CustomInp";
 
 export default function ProductForm({ type, form, setForm, onChange }) {
   const [loading, setLoading] = useState(false);
@@ -318,7 +320,7 @@ export default function ProductForm({ type, form, setForm, onChange }) {
           </div>
         }
       />
-      <div className="flex items-center justify-start gap-10">
+      <div className="flex items-center justify-end gap-10 space-x-8">
         <div className="flex items-center gap-2">
           <Switch
             id="publish"
@@ -336,7 +338,7 @@ export default function ProductForm({ type, form, setForm, onChange }) {
         <CustomBtn
           classNames={`${
             loading ? "bg-lightGray" : "bg-dark1 text-white"
-          } flex items-center justify-center w-[150px] h-[50px] rounded-btn text-p1 font-bold`}
+          } flex items-center justify-center w-[150px] dark:bg-lightGray dark:text-dark1 h-[50px] rounded-btn text-p1 font-bold`}
           type="button"
           disabled={loading}
           isLoading={loading}
