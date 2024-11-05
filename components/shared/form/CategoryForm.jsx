@@ -5,6 +5,7 @@ import NextImage from "next/image";
 
 import { useState } from "react";
 
+import { Image } from "@nextui-org/react";
 import toast from "react-hot-toast";
 import { Switch } from "antd";
 
@@ -17,9 +18,15 @@ import { uploadImage } from "@/utils/fun";
 import DetailedBox from "../DetailedBox";
 import CustomBtn from "../CustomBtn";
 import CustomInp from "./CustomInp";
-import { Image } from "@nextui-org/react";
 
-export default function CategoryForm({ type, form, setForm, onChange, id }) {
+export default function CategoryForm({
+  type,
+  form,
+  setForm,
+  onChange,
+  id,
+  editImage,
+}) {
   const [newBrand, setNewBrand] = useState({ name: "", logo: null });
   const [previewURL, setPreviewURL] = useState(null);
   const [loadingUrl, setLoadingUrl] = useState(false);
@@ -43,7 +50,7 @@ export default function CategoryForm({ type, form, setForm, onChange, id }) {
         value={form.slug}
         onChange={onChange}
       />
-      <UploadedImage form={form} setForm={setForm} />
+      <UploadedImage form={form} setForm={setForm} editImage={editImage} />
       <CustomSelection form={form} setForm={setForm} />
       <CustomInp
         type="number"

@@ -21,6 +21,9 @@ export default function AddCategoryPage({ category }) {
     if (category) setForm(category);
   }, []);
 
+  console.log(category)
+  console.log(form)
+
   const onChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
@@ -35,6 +38,7 @@ export default function AddCategoryPage({ category }) {
         setForm={setForm}
         onChange={onChange}
         id={category?._id}
+        editImage={category?.image}
       />
     </>
   );
