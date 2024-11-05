@@ -78,6 +78,7 @@ export const productsDataSourse = (products) =>
             height={100}
             alt="product"
             priority="true"
+            className="hidden md:block"
           />
         </div>
         <div>

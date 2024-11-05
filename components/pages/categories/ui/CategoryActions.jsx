@@ -21,8 +21,12 @@ import {
   Publish,
   Trash,
 } from "@/components/icons/Icons";
+import toast from "react-hot-toast";
+import CustomConfirmDeleteModal from "@/components/shared/CustomConfirmDeleteModal";
 
 export default function CategoryActions({ categoryId, published }) {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
   const onOpenChange = (newOpen) => {
@@ -41,11 +45,18 @@ export default function CategoryActions({ categoryId, published }) {
     () => onOpenChange()
   );
 
-  const { loading: deleteLoading, res: deleteRes } = useServerAction(
-    deleteCategory,
-    { id: categoryId },
-    () => onOpenChange()
-  );
+  const handleDelete = async () => {
+    setDeleteLoading(true);
+    try {
+      await deleteCategory({ id: categoryId });
+      setIsModalVisible(false);
+      onOpenChange(false);
+    } catch (error) {
+      toast.error("خطا در حذف دسته‌بندی");
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
 
   const content = (
     <div className="popContainer min-w-[150px]">
@@ -53,7 +64,9 @@ export default function CategoryActions({ categoryId, published }) {
         disabled={published || deleteLoading}
         onClick={publishRes}
         classNames={`popButton flex justify-center w-full ${
-          published ? "text-darkGreen bg-lightGreen dark:text-darkGreen" : "hoverable"
+          published
+            ? "text-darkGreen bg-lightGreen dark:text-darkGreen"
+            : "hoverable"
         }`}
         title={
           publishLoading ? (
@@ -70,7 +83,9 @@ export default function CategoryActions({ categoryId, published }) {
         disabled={!published || deleteLoading}
         onClick={draftRes}
         classNames={`popButton flex justify-center w-full ${
-          !published ? "text-darkOrange bg-lightOrange dark:text-darkOrange" : "hoverable"
+          !published
+            ? "text-darkOrange bg-lightOrange dark:text-darkOrange"
+            : "hoverable"
         }`}
         title={
           draftLoading ? (
@@ -97,7 +112,7 @@ export default function CategoryActions({ categoryId, published }) {
       </Link>
       <hr />
       <CustomBtn
-        onClick={() => deleteRes()}
+        onClick={() => setIsModalVisible(true)}
         disabled={deleteLoading || draftLoading || publishLoading}
         classNames="flex justify-center w-full"
         title={
@@ -130,6 +145,13 @@ export default function CategoryActions({ categoryId, published }) {
       >
         <CustomBtn icon={<MenuDots />} classNames="iconButton" />
       </Popover>
+      <CustomConfirmDeleteModal
+        visible={isModalVisible}
+        onConfirm={handleDelete}
+        onCancel={() => setIsModalVisible(false)}
+        loading={deleteLoading}
+        confirmMessage="آیا مطمئن هستید که می‌خواهید این دسته‌بندی را حذف کنید؟"
+      />
     </div>
   );
 }

@@ -19,11 +19,12 @@ import {
   Publish,
   Trash,
 } from "@/components/icons/Icons";
+import toast from "react-hot-toast";
 
 export default function ProductsActions({ productId, published }) {
-  const [open, setOpen] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const onOpenChange = (newOpen) => setOpen(newOpen);
 
@@ -46,15 +47,15 @@ export default function ProductsActions({ productId, published }) {
   );
 
   const handleDelete = async () => {
-    setLoading(true);
+    setDeleteLoading(true);
     try {
       await deleteProduct({ id: productId });
       setIsModalVisible(false);
       onOpenChange(false);
     } catch (error) {
-      console.error("Error deleting product:", error);
+      toast.error("خطا در حذف محصول");
     } finally {
-      setLoading(false);
+      setDeleteLoading(false);
     }
   };
 
@@ -109,10 +110,10 @@ export default function ProductsActions({ productId, published }) {
       <hr />
       <CustomBtn
         onClick={() => setIsModalVisible(true)}
-        disabled={loading || draftLoading || publishLoading}
+        disabled={deleteLoading || draftLoading || publishLoading}
         classNames="flex justify-center w-full"
         title={
-          loading ? (
+          deleteLoading ? (
             <Loader width={15} height={15} color={"red"} className="py-1" />
           ) : (
             <div className="flex w-full items-center hoverable py-1 px-2 gap-4 rounded-btn hover:bg-lightRose text-darkRose">
@@ -144,7 +145,7 @@ export default function ProductsActions({ productId, published }) {
         onConfirm={handleDelete}
         onCancel={() => setIsModalVisible(false)}
         confirmMessage="آیا مطمئن هستید که می‌خواهید این محصول را حذف کنید؟"
-        loading={loading}
+        loading={deleteLoading}
       />
     </div>
   );
