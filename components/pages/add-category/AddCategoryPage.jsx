@@ -31,7 +31,7 @@ export default function AddCategoryPage({ category }) {
 
   return (
     <>
-      <PageHeading title="افزودن دسته بندی" />
+      <PageHeading title={`${category ? "ویرایش دسته‌بندی" : "افزودن دسته‌بندی"}`}/>
       <CategoryForm
         type={`${category ? "EDIT" : "CREATE"}`}
         form={form}

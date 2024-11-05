@@ -216,13 +216,30 @@ export const editCategory = async (data) => {
   try {
     await connectDB();
 
-    const { categoryName, subCategories, image, published, id } = data;
+    const {
+      name,
+      slug,
+      isFeatured,
+      brands,
+      order,
+      subcategories,
+      image,
+      published,
+      id,
+    } = data;
 
-    if (!name || !subCategories || !id)
+    if (!name)
       return {
-        message: MESSAGES.fields,
-        status: MESSAGES.update,
-        code: STATUS_CODES.updated,
+        message: MESSAGES.nameRequired,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.badRequest,
+      };
+
+    if (!slug)
+      return {
+        message: MESSAGES.slugRequired,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.badRequest,
       };
 
     const session = getServerSession();
@@ -236,12 +253,23 @@ export const editCategory = async (data) => {
 
     const category = await ZedkalaCategory.findById(id);
 
-    if (session.userId !== category.createdBy.toString())
+    if (!category)
+      return {
+        message: MESSAGES.categoryNotFound,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.not_found,
+      };
+
+    if (
+      session.roll === "ADMIN" &&
+      session.userId !== category.createdBy.toString()
+    ) {
       return {
         message: MESSAGES.forbidden,
         status: MESSAGES.failed,
         code: STATUS_CODES.forbidden,
       };
+    }
 
     let newImage;
 
@@ -257,8 +285,12 @@ export const editCategory = async (data) => {
       newImage = category.image;
     }
 
-    category.categoryName = categoryName;
-    category.subCategories = subCategories;
+    category.name = name;
+    category.slug = slug;
+    category.isFeatured = isFeatured;
+    category.brands = brands;
+    category.order = order;
+    category.subcategories = subcategories;
     category.image = newImage;
     category.published = published;
 

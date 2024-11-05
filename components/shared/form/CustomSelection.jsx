@@ -1,12 +1,9 @@
 "use client";
 
 import NextImage from "next/image";
-
 import { useState } from "react";
-
 import toast from "react-hot-toast";
-
-import { CircleClose, Trash } from "@/components/icons/Icons";
+import { Trash, CircleClose, Edit } from "@/components/icons/Icons";
 import { shorterText, uploadImage } from "@/utils/fun";
 import { MESSAGES } from "@/utils/message";
 import CustomBtn from "../CustomBtn";
@@ -21,14 +18,16 @@ export default function CustomSelection({ form, setForm }) {
   const [items, setItems] = useState([
     { name: "", image: null, preview: null },
   ]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editIndex, setEditIndex] = useState(null);
 
-  const addSubCategory = async (e) => {
+  const addOrEditSubCategory = async (e) => {
     e.preventDefault();
-
     if (!subName) {
       toast.error(MESSAGES.fields);
       return;
     }
+
     setLoadingUrl(true);
     let subImageUrl = null;
     if (subImage) {
@@ -53,17 +52,41 @@ export default function CustomSelection({ form, setForm }) {
       image: subImageUrl,
     };
 
-    setForm({
-      ...form,
-      subcategories: [...form.subcategories, newSubcategory],
-    });
+    if (isEditing && editIndex !== null) {
+      const updatedSubcategories = [...form.subcategories];
+      updatedSubcategories[editIndex] = newSubcategory;
+      setForm({ ...form, subcategories: updatedSubcategories });
+      setIsEditing(false);
+      setEditIndex(null);
+    } else {
+      setForm({
+        ...form,
+        subcategories: [...form.subcategories, newSubcategory],
+      });
+    }
 
     setLoadingUrl(false);
     setSubName("");
     setItems([{ name: "", image: null, preview: null }]);
     setSubImage(null);
     setSubImagePreview(null);
-    toast.success(MESSAGES.addSubcategories);
+    toast.success(
+      isEditing ? MESSAGES.editSubcategories : MESSAGES.addSubcategories
+    );
+  };
+
+  const handleEditSubCategory = (index) => {
+    const subCategory = form.subcategories[index];
+    setSubName(subCategory.name);
+    setSubImagePreview(subCategory.image);
+    setItems(
+      subCategory.items.map((item) => ({
+        ...item,
+        preview: item.image,
+      }))
+    );
+    setIsEditing(true);
+    setEditIndex(index);
   };
 
   const handleImageChange = (e) => {
@@ -111,13 +134,14 @@ export default function CustomSelection({ form, setForm }) {
 
   return (
     <div className="flex flex-col gap-1">
-      <div className="flex flex-col gap-box w-full h-full ">
+      <div className="flex flex-col gap-box w-full h-full">
         <CustomInp
           type="text"
           value={subName}
           onChange={(e) => setSubName(e.target.value)}
           label="نام زیرمجموعه"
         />
+
         <div className="flex flex-wrap gap-2">
           {items.map((item, index) => (
             <div key={index} className="flex items-center gap-2">
@@ -159,12 +183,14 @@ export default function CustomSelection({ form, setForm }) {
             </div>
           ))}
         </div>
+
         <CustomBtn
           type="button"
           title="افزودن آیتم جدید"
           onClick={addItemField}
           classNames="flex items-center justify-center w-[150px] h-[50px] rounded-btn text-p1 font-bold bg-dark1 text-white dark:bg-white dark:text-dark1"
         />
+
         <label
           htmlFor="sub-file-upload"
           className="cursor-pointer flex items-center justify-center w-24 h-24 border-2 border-dashed border-gray-400 rounded-md hover:border-blue-400 transition-all"
@@ -192,8 +218,8 @@ export default function CustomSelection({ form, setForm }) {
 
         <CustomBtn
           type="button"
-          title="افزودن زیرمجموعه"
-          onClick={addSubCategory}
+          title={isEditing ? "ذخیره تغییرات" : "افزودن زیرمجموعه"}
+          onClick={addOrEditSubCategory}
           classNames={`${
             loadingUrl
               ? "bg-lightGray"
@@ -207,13 +233,28 @@ export default function CustomSelection({ form, setForm }) {
       {form.subcategories.length !== 0 && (
         <div className="flex gap-2 items-center flex-wrap mt-3">
           {form.subcategories.map((sub, index) => (
-            <div key={index} className="flex items-center gap-2">
+            <div key={index} className="flex flex-wrap items-center gap-2 justify-between">
+              <CustomBtn
+                type="button"
+                onClick={() => handleEditSubCategory(index)}
+                classNames="rounded-btn flex items-center gap-btn bg-blue-500 hover:bg-blue-600 Transition py-[2.5px] px-1.5 group"
+                title={
+                  <>
+                    <Edit />
+                    <span className="text-white">{sub.name}</span>
+                  </>
+                }
+              />
               <CustomBtn
                 type="button"
                 onClick={() => removeSubCategory(index)}
                 classNames="rounded-btn flex items-center gap-btn bg-dark1 hover:bg-dark2 Transition py-[2.5px] px-1.5 group"
                 title={
                   <>
+                    <CircleClose
+                      size={18}
+                      className="text-darkGray group-hover:text-lightGray Transition"
+                    />
                     <span className="text-white">
                       {sub.name} (
                       {shorterText(
@@ -222,10 +263,6 @@ export default function CustomSelection({ form, setForm }) {
                       )}
                       )
                     </span>
-                    <CircleClose
-                      size={18}
-                      className="text-darkGray group-hover:text-lightGray Transition"
-                    />
                   </>
                 }
               />
@@ -245,13 +282,6 @@ export default function CustomSelection({ form, setForm }) {
               )}
             </div>
           ))}
-          <CustomBtn
-            type="button"
-            onClick={() => setForm({ ...form, subcategories: [] })}
-            classNames="rounded-btn flex items-center gap-btn text-[#ff5630] hover:bg-lightOrange Transition p-2"
-            title={<p className="text-p1 font-bold">حذف همه زیرمجموعه‌ها</p>}
-            icon={<Trash />}
-          />
         </div>
       )}
     </div>

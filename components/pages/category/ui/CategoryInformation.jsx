@@ -10,6 +10,7 @@ import CustomBadge from "@/components/shared/CustomBadge";
 import { Clock } from "@/components/icons/Icons";
 import { images } from "@/constants";
 import SubCategoryAccordion from "./SubCategoryAccordion";
+import { e2p } from "@/utils/fun";
 
 export default function CategoryInformation({ info }) {
   return (
@@ -32,10 +33,10 @@ export default function CategoryInformation({ info }) {
           />
           <div>
             <p className="font-bold text-darkGray text-sm dark:text-white">
-              {moment(info?.createdAt).format("jYYYY/jM/jD")}
+              {e2p(moment(info?.createdAt).format("jYYYY/jM/jD"))}
             </p>
             <p className="text-xs text-darkGray dark:text-white">
-              {moment(info?.createdAt).format("LT")}
+              {e2p(moment(info?.createdAt).format("LT"))}
             </p>
           </div>
         </div>
