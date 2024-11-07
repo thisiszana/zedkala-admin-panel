@@ -241,7 +241,7 @@ export default function ProductForm({ type, form, setForm, onChange }) {
       return toast.error(MESSAGES.fields);
     setLoading(() => true);
 
-    const uploadedImages = await uploadImages(form.image);
+    const uploadedImages = await uploadImages(form.images);
 
     const payload = {
       ...form,

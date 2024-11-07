@@ -2,11 +2,12 @@
 
 import { revalidatePath } from "next/cache";
 
-import ZedkalaAdmin from "@/models/zedkalaAdmin";
-import connectDB from "@/utils/connectDB";
+import { ZedkalaCategory } from "@/models/zedkalaCategory";
 import { MESSAGES, STATUS_CODES } from "@/utils/message";
 import { getServerSession } from "@/utils/session";
-import { ZedkalaCategory } from "@/models/zedkalaCategory";
+import ZedkalaAdmin from "@/models/zedkalaAdmin";
+import { sanitizeData } from "@/utils/fun";
+import connectDB from "@/utils/connectDB";
 
 export const createCategory = async (data) => {
   try {
@@ -115,14 +116,7 @@ export const getCategories = async () => {
       })
       .lean();
 
-    const sanitizedCategories = categories.map((category) => ({
-      ...category,
-      _id: category._id.toString(),
-      createdBy: {
-        ...category.createdBy,
-        _id: category.createdBy?._id?.toString(),
-      },
-    }));
+    const sanitizedCategories = sanitizeData(categories);
 
     return {
       category: sanitizedCategories,

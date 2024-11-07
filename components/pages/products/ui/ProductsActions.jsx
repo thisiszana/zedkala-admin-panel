@@ -62,7 +62,7 @@ export default function ProductsActions({ productId, published }) {
   const content = (
     <div className="popContainer min-w-[150px]">
       <CustomBtn
-        disabled={published || draftLoading || loading}
+        disabled={published || draftLoading || deleteLoading}
         onClick={publish}
         classNames={`popButton flex justify-center w-full ${
           published ? "text-darkGreen bg-lightGreen" : "hoverable"
@@ -79,7 +79,7 @@ export default function ProductsActions({ productId, published }) {
         }
       />
       <CustomBtn
-        disabled={!published || loading || publishLoading}
+        disabled={!published || deleteLoading || publishLoading}
         onClick={draft}
         classNames={`popButton flex justify-center w-full ${
           !published ? "text-darkOrange bg-lightOrange" : "hoverable"

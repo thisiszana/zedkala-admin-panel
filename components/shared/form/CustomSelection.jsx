@@ -134,7 +134,7 @@ export default function CustomSelection({ form, setForm }) {
 
   return (
     <div className="flex flex-col gap-1">
-      <div className="flex flex-col gap-box w-full h-full">
+      <div className="flex flex-col gap-box w-full h-full ">
         <CustomInp
           type="text"
           value={subName}
@@ -142,7 +142,7 @@ export default function CustomSelection({ form, setForm }) {
           label="نام زیرمجموعه"
         />
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-box justify-between">
           {items.map((item, index) => (
             <div key={index} className="flex items-center gap-2">
               <CustomInp
@@ -229,33 +229,35 @@ export default function CustomSelection({ form, setForm }) {
           isLoading={loadingUrl}
         />
       </div>
-
       {form.subcategories.length !== 0 && (
-        <div className="flex gap-2 items-center flex-wrap mt-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 bg-gray-100 rounded-md shadow-md my-3">
           {form.subcategories.map((sub, index) => (
-            <div key={index} className="flex flex-wrap items-center gap-2 justify-between">
+            <div
+              key={index}
+              className="flex flex-col items-center gap-2 bg-white rounded-lg p-4 shadow-lg border border-gray-200"
+            >
               <CustomBtn
                 type="button"
                 onClick={() => handleEditSubCategory(index)}
-                classNames="rounded-btn flex items-center gap-btn bg-blue-500 hover:bg-blue-600 Transition py-[2.5px] px-1.5 group"
+                classNames="w-full rounded-lg flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 transition-all text-white py-2"
                 title={
                   <>
                     <Edit />
-                    <span className="text-white">{sub.name}</span>
+                    <span>{sub.name}</span>
                   </>
                 }
               />
               <CustomBtn
                 type="button"
                 onClick={() => removeSubCategory(index)}
-                classNames="rounded-btn flex items-center gap-btn bg-dark1 hover:bg-dark2 Transition py-[2.5px] px-1.5 group"
+                classNames="w-full rounded-lg flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 transition-all text-white py-2"
                 title={
                   <>
                     <CircleClose
                       size={18}
-                      className="text-darkGray group-hover:text-lightGray Transition"
+                      className="text-gray-300 group-hover:text-gray-200 transition-all"
                     />
-                    <span className="text-white">
+                    <span>
                       {sub.name} (
                       {shorterText(
                         sub.items.map((item) => item.name).join(", "),
@@ -277,7 +279,7 @@ export default function CustomSelection({ form, setForm }) {
                   alt={sub.name}
                   width={100}
                   height={100}
-                  className="h-24 w-24 object-cover rounded-md border border-gray-300 shadow-md"
+                  className="w-24 h-24 object-cover rounded-md border border-gray-300 shadow-md"
                 />
               )}
             </div>

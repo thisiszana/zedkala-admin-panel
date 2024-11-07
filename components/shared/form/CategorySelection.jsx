@@ -7,11 +7,11 @@ import { getCategories } from "@/actions/category.action";
 import CustomInp from "./CustomInp";
 
 export default function CategorySelection({ form, setForm, onChange }) {
+  const [slug, setSlug] = useState("");
   const [categories, setCategories] = useState([]);
   const [errorState, setErrorState] = useState(false);
   const [subCategories, setSubCategories] = useState([]);
   const [selectedSubCategoryItems, setSelectedSubCategoryItems] = useState([]);
-  const [slug, setSlug] = useState("");
 
   useEffect(() => {
     const fetchCategory = async () => {
@@ -37,6 +37,7 @@ export default function CategorySelection({ form, setForm, onChange }) {
           items: sub.items.map((item) => item.name),
         })
       );
+      console.log(formattedSubcategories)
       setSubCategories(formattedSubcategories);
       setSlug(selectedCategory.slug);
       setForm((prevForm) => ({ ...prevForm, slug: selectedCategory.slug }));
@@ -51,12 +52,14 @@ export default function CategorySelection({ form, setForm, onChange }) {
     const selectedSubCategory = subCategories.find(
       (sub) => sub.name === e.target.value
     );
+
     setSelectedSubCategoryItems(
       selectedSubCategory ? selectedSubCategory.items : []
     );
+
     setForm((prevForm) => ({
       ...prevForm,
-      subCategories: selectedSubCategory,
+      subCategories: selectedSubCategory ? [{ ...selectedSubCategory }] : [],
     }));
   };
 

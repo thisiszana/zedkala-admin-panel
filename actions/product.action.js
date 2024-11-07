@@ -58,7 +58,7 @@ export const createProduct = async (data) => {
       stock,
       discount,
       categoryName: categoryName.toLowerCase(),
-      subCategories: subCategories.toLowerCase(),
+      subCategories,
       slug,
       specifications,
       colors,

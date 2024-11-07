@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import toast from "react-hot-toast";
+
 import { CircleClose, Trash } from "@/components/icons/Icons";
-import CustomInp from "./CustomInp";
 import CustomBtn from "../CustomBtn";
 
 const SubCategoryItemsSelection = ({ form, setForm, subCategoryItems }) => {
@@ -14,7 +15,7 @@ const SubCategoryItemsSelection = ({ form, setForm, subCategoryItems }) => {
   const onSelectItem = (event) => {
     const selectedItem = event.target.value;
 
-    if (selectItems.find((item) => item === selectedItem)) {
+    if (selectItems.includes(selectedItem)) {
       toast.error("شما قبلاً این آیتم را انتخاب کرده‌اید");
       return;
     }
@@ -25,17 +26,33 @@ const SubCategoryItemsSelection = ({ form, setForm, subCategoryItems }) => {
   };
 
   useEffect(() => {
-    setForm({
-      ...form,
-      subCategories: { ...form.subCategories, items: selectItems },
-    });
-  }, [items]);
+    setForm((prevForm) => ({
+      ...prevForm,
+      subCategories: prevForm.subCategories.map((sub) => ({
+        ...sub,
+        items: selectItems,
+      })),
+    }));
+  }, [items, setSelectItems]);
 
   const removeItem = (item) => {
     const newItems = items.filter((i) => i !== item);
     setItems(newItems);
     setSelectItems(newItems);
   };
+
+  const clearAllItems = () => {
+    setItems([]);
+    setSelectItems([]);
+    setForm((prevForm) => ({
+      ...prevForm,
+      subCategories: prevForm.subCategories.map((sub) => ({
+        ...sub,
+        items: [],
+      })),
+    }));
+  };
+  
 
   return (
     <div className="flex flex-col gap-1 w-full">
@@ -45,7 +62,9 @@ const SubCategoryItemsSelection = ({ form, setForm, subCategoryItems }) => {
           onChange={onSelectItem}
           className="input w-full dark:text-white dark:bg-dark1"
         >
-          <option value="" className="mt-5">یک آیتم از زیردسته‌بندی انتخاب کنید...</option>
+          <option value="" className="mt-5">
+            یک آیتم از زیردسته‌بندی انتخاب کنید...
+          </option>
           {subCategoryItems.map((item) => (
             <option key={item} value={item}>
               {item}
@@ -74,7 +93,7 @@ const SubCategoryItemsSelection = ({ form, setForm, subCategoryItems }) => {
           ))}
           <CustomBtn
             type="button"
-            onClick={() => setItems([])}
+            onClick={clearAllItems}
             classNames="rounded-btn flex items-center gap-btn text-[#ff5630] hover:bg-lightOrange Transition p-2"
             title={<p className="text-p1 font-bold">حذف همه</p>}
             icon={<Trash />}

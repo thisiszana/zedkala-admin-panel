@@ -10,7 +10,7 @@ import CustomBtn from "../CustomBtn";
 
 const Dragger = Upload;
 
-export default function UploadedImage({ form, setForm, image, editImage }) {
+export default function UploadedImage({ form, setForm, images, editImage }) {
   const [existingImages, setExistingImages] = useState(editImage || []);
 
   const beforeUpload = (e) => {
@@ -24,13 +24,13 @@ export default function UploadedImage({ form, setForm, image, editImage }) {
 
   const onChange = (e) => {
     const files = e.fileList.map((item) => item.originFileObj);
-    setForm({ ...form, image: files });
+    setForm({ ...form, images: files });
   };
 
   const handleRemoveExistingImage = (index) => {
     const updatedImages = existingImages.filter((_, i) => i !== index);
     setExistingImages(updatedImages);
-    setForm({ ...form, image: updatedImages });
+    setForm({ ...form, images: updatedImages });
     toast.success("تصویر با موفقیت حذف شد!");
   };
 
@@ -39,10 +39,10 @@ export default function UploadedImage({ form, setForm, image, editImage }) {
       <Dragger
         className="flex flex-col justify-center items-center border-dashed dark:text-white bg-gray-50 dark:bg-dark1 border-2 rounded-xl"
         defaultFileList={
-          Array.isArray(form.image) && form.image.length > 0
-            ? form.image
-            : Array.isArray(image)
-            ? image
+          Array.isArray(form.images) && form.images.length > 0
+            ? form.images
+            : Array.isArray(images)
+            ? images
             : []
         }
         listType="picture"

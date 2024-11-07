@@ -60,3 +60,19 @@ export const sp = (number) => {
   const joinedNumber = seperatedNumber.join(",");
   return e2p(joinedNumber);
 };
+
+export const sanitizeData = (data) => {
+  if (Array.isArray(data)) {
+    return data.map(sanitizeData);
+  } else if (data && typeof data === "object") {
+    const sanitizedObject = {};
+    for (const key in data) {
+      sanitizedObject[key] =
+        key === "_id" && data[key]?.toString
+          ? data[key].toString()
+          : sanitizeData(data[key]);
+    }
+    return sanitizedObject;
+  }
+  return data;
+};

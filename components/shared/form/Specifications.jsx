@@ -226,7 +226,7 @@ export default function Specifications({ form, setForm }) {
         <div className="flex flex-wrap gap-2 w-[420px]">
           {sizes?.map((size, index) => (
             <Tooltip key={index} title="حذف سایز">
-              <div className="flex items-center gap-2 border-1 border-dark1 dark:border-white px-2 py-1 rounded">
+              <div className="flex items-center justify-center gap-2 border-1 border-dark1 dark:border-white px-2 py-1 rounded">
                 <span>{size}</span>
                 <CustomBtn
                   type="button"

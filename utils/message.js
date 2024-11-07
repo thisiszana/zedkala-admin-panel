@@ -35,6 +35,7 @@ export const MESSAGES = {
   forbidden: "دسترسی ممنوع!",
   addKeywords: "کلید واژه اضافه شد",
   addSubcategories: "زیردسته‌بندی اضافه شد",
+  editSubcategories: "زیردسته‌بندی ویرایش شد",
   sameKey: "شما قبلاً این کلمه کلیدی را انتخاب کرده اید",
   userNotFound: "نام کاربری یا رمز عبور صحیح نیست!",
   register: "ثبت نام با موفقیت انجام شد",

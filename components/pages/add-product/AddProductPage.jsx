@@ -35,7 +35,7 @@ export default function AddProductPage() {
       },
     ],
   });
-console.log(form)
+  console.log(form);
   // useEffect(() => {
   //   const savedForm = JSON.parse(localStorage.getItem("form"));
   //   if (savedForm) {

@@ -13,12 +13,13 @@ const productSchema = new Schema({
       expiresAt: { type: Date },
     },
   ],
-  categoryName: {
-    type: Schema.Types.ObjectId,
-    ref: "ZedkalaCategory",
-    required: true,
-  },
-  subCategories: [{ type: Schema.Types.ObjectId, ref: "ZedkalaCategory" }],
+  categoryName: { type: String, required: true },
+  subCategories: [
+    {
+      name: { type: String, required: true },
+      items: { type: [String], default: [] },
+    },
+  ],
   slug: { type: String },
   keywords: { type: [String], default: [] },
   brand: { type: String, required: true },
