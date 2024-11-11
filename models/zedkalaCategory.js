@@ -10,7 +10,7 @@ const categorySchema = new Schema({
     unique: true,
     required: true,
   },
-  image: [String],
+  images: [String],
   parent: {
     type: Schema.Types.ObjectId,
     ref: "ZedkalaCategory",

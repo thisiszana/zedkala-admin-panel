@@ -21,7 +21,7 @@ export const categoriesDataSourse = (categories) =>
         <div className="w-[100px] h-[100px] flex items-center justify-center">
           <Image
             as={NextImage}
-            src={c.image[0]}
+            src={c.images[0]}
             width={100}
             height={100}
             alt="دسته‌بندی"

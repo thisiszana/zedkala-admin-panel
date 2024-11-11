@@ -38,7 +38,7 @@ export const createCategory = async (data) => {
       brands,
       order,
       subcategories,
-      image,
+      images,
       published,
     } = data;
 
@@ -79,7 +79,7 @@ export const createCategory = async (data) => {
       brands,
       order,
       subcategories,
-      image,
+      images,
       published,
       createdBy: session.userId,
     });
@@ -217,7 +217,7 @@ export const editCategory = async (data) => {
       brands,
       order,
       subcategories,
-      image,
+      images,
       published,
       id,
     } = data;
@@ -267,16 +267,16 @@ export const editCategory = async (data) => {
 
     let newImage;
 
-    if (!category.image && !image) {
+    if (!category.images && !images) {
       return {
         message: MESSAGES.putImage,
         status: MESSAGES.failed,
         code: STATUS_CODES.badRequest,
       };
-    } else if (image) {
-      newImage = image;
+    } else if (images) {
+      newImage = images;
     } else {
-      newImage = category.image;
+      newImage = category.images;
     }
 
     category.name = name;
@@ -285,7 +285,7 @@ export const editCategory = async (data) => {
     category.brands = brands;
     category.order = order;
     category.subcategories = subcategories;
-    category.image = newImage;
+    category.images = newImage;
     category.published = published;
 
     await category.save();

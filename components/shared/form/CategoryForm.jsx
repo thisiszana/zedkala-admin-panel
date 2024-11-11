@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import { Switch } from "antd";
 
 import { createCategory, editCategory } from "@/actions/category.action";
-import { Edit, Trash } from "@/components/icons/Icons";
+import { Edit, Trash, UploadIcon } from "@/components/icons/Icons";
 import CustomSelection from "./CustomSelection";
 import UploadedImage from "./UploadedImage";
 import { MESSAGES } from "@/utils/message";
@@ -28,37 +28,47 @@ export default function CategoryForm({
   editImage,
 }) {
   const [newBrand, setNewBrand] = useState({ name: "", logo: null });
-  const [previewURL, setPreviewURL] = useState(null);
   const [loadingUrl, setLoadingUrl] = useState(false);
+  const [previewURL, setPreviewURL] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
   const basicDetails = (
     <div className="flex flex-col gap-box w-full h-full">
-      <CustomInp
-        type="text"
-        name="name"
-        label="عنوان دسته‌بندی *"
-        value={form.name}
-        onChange={onChange}
-      />
-      <CustomInp
-        type="text"
-        name="slug"
-        label="اسلاگ دسته‌بندی"
-        value={form.slug}
-        onChange={onChange}
-      />
+      <div className="flex flex-wrap gap-box w-full h-full">
+        <CustomInp
+          type="text"
+          name="name"
+          label="عنوان دسته‌بندی *"
+          value={form.name}
+          onChange={onChange}
+          wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+        />
+        <CustomInp
+          type="text"
+          name="slug"
+          label="اسلاگ دسته‌بندی"
+          value={form.slug}
+          onChange={onChange}
+          wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+        />
+        <CustomInp
+          type="number"
+          name="order"
+          label="ترتیب نمایش"
+          value={form.order}
+          onChange={onChange}
+          wrapperClassName="flex flex-2 xl:min-w-[400px] min-w-[200px]"
+        />
+      </div>
       <UploadedImage form={form} setForm={setForm} editImage={editImage} />
+    </div>
+  );
+
+  const subCategories = (
+    <div className="flex flex-col gap-box w-full h-full">
       <CustomSelection form={form} setForm={setForm} />
-      <CustomInp
-        type="number"
-        name="order"
-        label="ترتیب نمایش"
-        value={form.order}
-        onChange={onChange}
-      />
       <div className="flex items-center gap-2">
         <Switch
           id="isFeatured"
@@ -82,6 +92,11 @@ export default function CategoryForm({
 
   const handleEditBrand = (index) => {
     const brandToEdit = form.brands[index];
+
+    const { name, logo } = newBrand;
+
+    if (name === brandToEdit.name && logo === brandToEdit.logo) return;
+
     setNewBrand({ name: brandToEdit.name, logo: brandToEdit.logo });
     setPreviewURL(brandToEdit.logo);
 
@@ -99,10 +114,7 @@ export default function CategoryForm({
   };
 
   const handleAddBrand = async () => {
-    if (!newBrand.name || !newBrand.logo) {
-      toast.error("لطفا نام و عکس برند را وارد کنید.");
-      return;
-    }
+    if (!newBrand.name || !newBrand.logo) toast.error(MESSAGES.brandField);
 
     try {
       setLoadingUrl(true);
@@ -117,14 +129,50 @@ export default function CategoryForm({
 
       setNewBrand({ name: "", logo: null });
       setPreviewURL(null);
-      toast.success("برند با موفقیت اضافه شد.");
+      toast.success(MESSAGES.addBrand);
     } catch (error) {
-      toast.error("خطا در آپلود لوگو. لطفا دوباره تلاش کنید.");
+      toast.error(MESSAGES.addBrandImageErr);
     }
   };
 
   const brandDetails = (
     <div className="flex flex-col gap-box w-full h-full">
+      <div className="flex  flex-col gap-4 mt-4">
+        <CustomInp
+          type="text"
+          name="brandName"
+          label="نام برند"
+          value={newBrand.name}
+          onChange={(e) => setNewBrand({ ...newBrand, name: e.target.value })}
+        />
+        <div className="flex items-center gap-4">
+          <label
+            htmlFor="file-upload"
+            className="cursor-pointer flex items-center justify-center w-24 h-24 border-2 border-dashed border-gray-400 rounded-md hover:border-blue-400 transition-all"
+          >
+            <div className="bg-gray-200 hover:bg-gray-300 dark:hover:bg-darkHover dark:bg-dark1 cursor-pointer transition rounded-full w-[50px] h-[50px] flex items-center justify-center">
+              <UploadIcon size={15} />
+            </div>
+          </label>
+          <input
+            type="file"
+            id="file-upload"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="hidden"
+          />
+          {previewURL && (
+            <Image
+              as={NextImage}
+              src={previewURL}
+              width={100}
+              height={100}
+              alt="پیش‌نمایش برند"
+              className="h-24 w-24 object-cover rounded-md border border-gray-300 shadow-md"
+            />
+          )}
+        </div>
+      </div>
       {form.brands.length > 0 ? (
         <div className="flex flex-wrap gap-4">
           {form.brands.map((brand, index) => (
@@ -148,18 +196,17 @@ export default function CategoryForm({
                 />
               )}
               <div className="flex gap-2">
-                <button
+                <CustomBtn
                   onClick={() => handleEditBrand(index)}
-                  className="px-2 py-1 text-blue-500 hover:text-blue-700 border rounded"
-                >
-                  <Edit />
-                </button>
-                <button
+                  classNames="px-2 py-1 text-blue-500 hover:text-blue-700 border rounded"
+                  icon={<Edit />}
+                />
+
+                <CustomBtn
                   onClick={() => handleDeleteBrand(index)}
-                  className="px-2 py-1 text-red-500 hover:text-red-700 border rounded"
-                >
-                  <Trash />
-                </button>
+                  classNames="px-2 py-1 text-red-500 hover:text-red-700 border rounded"
+                  icon={<Trash />}
+                />
               </div>
             </div>
           ))}
@@ -167,38 +214,6 @@ export default function CategoryForm({
       ) : (
         <p>برندی اضافه نشده است.</p>
       )}
-      <div className="flex items-center gap-4 mt-4">
-        <CustomInp
-          type="text"
-          name="brandName"
-          label="نام برند"
-          value={newBrand.name}
-          onChange={(e) => setNewBrand({ ...newBrand, name: e.target.value })}
-        />
-        <label
-          htmlFor="file-upload"
-          className="cursor-pointer flex items-center justify-center w-24 h-24 border-2 border-dashed border-gray-400 rounded-md hover:border-blue-400 transition-all"
-        >
-          <span className="text-gray-500 text-[12px]">+</span>
-        </label>
-        <input
-          type="file"
-          id="file-upload"
-          accept="image/*"
-          onChange={handleImageChange}
-          className="hidden"
-        />
-        {previewURL && (
-          <Image
-            as={NextImage}
-            src={previewURL}
-            width={100}
-            height={100}
-            alt="پیش‌نمایش برند"
-            className="h-24 w-24 object-cover rounded-md border border-gray-300 shadow-md"
-          />
-        )}
-      </div>
 
       <CustomBtn
         onClick={handleAddBrand}
@@ -215,14 +230,24 @@ export default function CategoryForm({
     </div>
   );
 
+  const uploadImages = async (images) => {
+    const uploadedImages = await Promise.all(
+      images?.map(async (image) => {
+        const uploadRes = await uploadImage(image);
+        return uploadRes.imageUrl;
+      })
+    );
+    return uploadedImages;
+  };
+
   const handleSubmit = async () => {
     if (!form.name) return toast.error(MESSAGES.fields);
     setLoading(true);
 
-    const uploadResult = form.image ? await uploadImage(form.image[0]) : null;
+    const uploadedImages = await uploadImages(form.images);
     const payload = {
       ...form,
-      image: uploadResult ? uploadResult.imageUrl : form.image,
+      images: uploadedImages,
     };
 
     let res;
@@ -246,8 +271,13 @@ export default function CategoryForm({
     <div className="space-y-8">
       <DetailedBox
         title="جزئیات دسته‌بندی"
-        subtitle="عنوان، اسلاگ، آیکون و پدر"
+        subtitle="عنوان، اسلاگ، عکس و ترتیب نمایش"
         content={basicDetails}
+      />
+      <DetailedBox
+        title="زیر دسته‌بندی"
+        subtitle="زیرمجموعه و آیتم ها"
+        content={subCategories}
       />
       <DetailedBox
         title="برندها"

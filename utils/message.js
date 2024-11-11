@@ -17,10 +17,13 @@ export const MESSAGES = {
   updateRole: "User Role Updated!",
   deleteAdmin: "User Deleted!",
   adminHasContent: "Admin has content!",
-  
-  nameRequired:"فیلد نام را پر کنید",
-  slugRequired:"فیلد اسلاگ را پر کنید",
-  slugAlreadyExists:"اسلاگ از قبل وجو دارد",
+
+  brandField: "لطفا نام و عکس برند را وارد کنید.",
+  addBrand: "برند با موفقیت اضافه شد.",
+  addBrandImageErr: "خطا در آپلود لوگو. لطفا دوباره تلاش کنید.",
+  nameRequired: "فیلد نام را پر کنید",
+  slugRequired: "فیلد اسلاگ را پر کنید",
+  slugAlreadyExists: "اسلاگ از قبل وجو دارد",
   categoryCreated: "دسته‌بندی ایجاد شد",
   productCreated: "محصول ایجاد شد",
   productDeleted: "محصول حذف شد",

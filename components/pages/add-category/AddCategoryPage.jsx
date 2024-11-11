@@ -9,7 +9,7 @@ export default function AddCategoryPage({ category }) {
   const [form, setForm] = useState({
     name: "",
     slug: "",
-    image: "",
+    images: [],
     isFeatured: false,
     brands: [],
     order: 0,
@@ -20,9 +20,6 @@ export default function AddCategoryPage({ category }) {
   useEffect(() => {
     if (category) setForm(category);
   }, []);
-
-  console.log(category)
-  console.log(form)
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -38,7 +35,7 @@ export default function AddCategoryPage({ category }) {
         setForm={setForm}
         onChange={onChange}
         id={category?._id}
-        editImage={category?.image}
+        editImage={category?.images}
       />
     </>
   );

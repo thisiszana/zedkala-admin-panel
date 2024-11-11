@@ -1,14 +1,17 @@
 "use client";
 
 import NextImage from "next/image";
+
 import { useState } from "react";
+
+import { Image } from "@nextui-org/react";
 import toast from "react-hot-toast";
-import { Trash, CircleClose, Edit } from "@/components/icons/Icons";
+
+import { Trash, CircleClose, Edit, UploadIcon } from "@/components/icons/Icons";
 import { shorterText, uploadImage } from "@/utils/fun";
 import { MESSAGES } from "@/utils/message";
 import CustomBtn from "../CustomBtn";
 import CustomInp from "./CustomInp";
-import { Image } from "@nextui-org/react";
 
 export default function CustomSelection({ form, setForm }) {
   const [subImagePreview, setSubImagePreview] = useState(null);
@@ -23,10 +26,7 @@ export default function CustomSelection({ form, setForm }) {
 
   const addOrEditSubCategory = async (e) => {
     e.preventDefault();
-    if (!subName) {
-      toast.error(MESSAGES.fields);
-      return;
-    }
+    if (!subName) toast.error(MESSAGES.fields);
 
     setLoadingUrl(true);
     let subImageUrl = null;
@@ -141,7 +141,6 @@ export default function CustomSelection({ form, setForm }) {
           onChange={(e) => setSubName(e.target.value)}
           label="نام زیرمجموعه"
         />
-
         <div className="flex flex-wrap gap-box justify-between">
           {items.map((item, index) => (
             <div key={index} className="flex items-center gap-2">
@@ -195,7 +194,9 @@ export default function CustomSelection({ form, setForm }) {
           htmlFor="sub-file-upload"
           className="cursor-pointer flex items-center justify-center w-24 h-24 border-2 border-dashed border-gray-400 rounded-md hover:border-blue-400 transition-all"
         >
-          <span className="text-gray-500 text-[12px]">+</span>
+          <div className="bg-gray-200 hover:bg-gray-300 dark:hover:bg-darkHover dark:bg-dark1 cursor-pointer transition rounded-full w-[50px] h-[50px] flex items-center justify-center">
+            <UploadIcon size={15} />
+          </div>
         </label>
         <input
           type="file"
@@ -204,7 +205,6 @@ export default function CustomSelection({ form, setForm }) {
           onChange={handleImageChange}
           className="hidden"
         />
-
         {subImagePreview && (
           <Image
             as={NextImage}
