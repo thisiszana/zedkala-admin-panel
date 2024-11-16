@@ -96,7 +96,7 @@ export default function ProductsActions({ productId, published }) {
         }
       />
       <hr />
-      <Link href={`/products/${productId}`} className="popButton hoverable">
+      <Link href={`/product/${productId}`} className="popButton hoverable">
         <EyeOpen />
         جزئیات
       </Link>

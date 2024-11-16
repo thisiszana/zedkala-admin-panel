@@ -183,6 +183,34 @@ export const getProducts = async (searchParams) => {
   }
 };
 
+export const getProduct = async (id) => {
+  try {
+    await connectDB();
+
+    const product = await ZedkalProducts.findById(id)
+      .populate({
+        path: "createdBy",
+        model: ZedkalaAdmin,
+        select: "username firstName image",
+      })
+      .lean();
+
+    return {
+      product,
+      message: MESSAGES.success,
+      status: MESSAGES.success,
+      code: STATUS_CODES.success,
+    };
+  } catch (error) {
+    console.log("error in get product", error.message);
+    return {
+      message: MESSAGES.server,
+      status: MESSAGES.failed,
+      code: STATUS_CODES.server,
+    };
+  }
+};
+
 export const changeProductStatus = async (data) => {
   try {
     await connectDB();

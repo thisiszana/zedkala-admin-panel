@@ -18,7 +18,7 @@ export default function CategoryInformation({ info }) {
       <div className="w-full xl:w-[50%] h-fit flex justify-center box border">
         <Image
           as={NextImage}
-          src={info.image[0]}
+          src={info.images[0]}
           width={500}
           height={500}
           alt={info?.name}
