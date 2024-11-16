@@ -68,6 +68,10 @@ import {
 
 import { IoIosColorPalette } from "react-icons/io";
 import { FiArrowDown } from "react-icons/fi";
+import { BsLuggage } from "react-icons/bs";
+import { RxSize } from "react-icons/rx";
+
+import { e2p, reducePrice } from "@/utils/fun";
 
 export const sizesDefault = ["XS", "S", "M", "L", "XL"];
 
@@ -134,6 +138,7 @@ export const icons = {
   printer: <Printer />,
   television: <Television />,
   color: <IoIosColorPalette />,
+  size: <RxSize />,
   downArrow: <FiArrowDown />,
 };
 
@@ -209,3 +214,73 @@ export const menuLinks = [
     link: "/account",
   },
 ];
+
+export const productInformationDetails = (info) => {
+  const hasDiscount = info?.discount && info?.discount[0]?.value > 0;
+  const originalPrice = info?.price || 0;
+  const discountedPrice = hasDiscount
+    ? reducePrice(info?.discount[0]?.value, originalPrice)
+    : originalPrice;
+
+  return [
+    {
+      name: "قیمت:",
+      value: hasDiscount ? (
+        <>
+          <span style={{ textDecoration: "line-through", color: "gray" }}>
+            {e2p(originalPrice.toLocaleString())} تومان
+          </span>{" "}
+          <span style={{ color: "red", fontWeight: "bold" }}>
+            {e2p(discountedPrice.toLocaleString())} تومان
+          </span>{" "}
+          (تخفیف‌خورده)
+        </>
+      ) : (
+        `${e2p(originalPrice.toLocaleString())} تومان`
+      ),
+      icon: (
+        <Dollar
+          className="text-darkGray"
+          wrapperClassName="cardShadow rounded-lg p-3"
+        />
+      ),
+    },
+    {
+      name: "موجودی:",
+      value: e2p(info?.stock.toLocaleString()),
+      icon: (
+        <Stock
+          className="text-darkGray"
+          wrapperClassName="cardShadow rounded-lg p-3"
+        />
+      ),
+    },
+    {
+      name: "برند:",
+      value: info?.brand,
+      icon: (
+        <Brand
+          className="text-darkGray"
+          wrapperClassName="cardShadow rounded-lg p-3"
+        />
+      ),
+    },
+
+    ...(hasDiscount
+      ? [
+          {
+            name: "تخفیف:",
+            value: `${e2p(info.discount[0]?.value)}% (${
+              info.discount[0]?.title
+            })`,
+            icon: (
+              <Discount
+                className="text-darkGray"
+                wrapperClassName="cardShadow rounded-lg p-3"
+              />
+            ),
+          },
+        ]
+      : []),
+  ];
+};

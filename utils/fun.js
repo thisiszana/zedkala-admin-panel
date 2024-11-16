@@ -64,15 +64,23 @@ export const sp = (number) => {
 export const sanitizeData = (data) => {
   if (Array.isArray(data)) {
     return data.map(sanitizeData);
-  } else if (data && typeof data === "object") {
+  } else if (data && typeof data === "object" && data.constructor === Object) {
     const sanitizedObject = {};
     for (const key in data) {
-      sanitizedObject[key] =
-        key === "_id" && data[key]?.toString
-          ? data[key].toString()
-          : sanitizeData(data[key]);
+      if (key === "_id" && data[key] && data[key].toString) {
+        sanitizedObject[key] = data[key].toString();
+      } else {
+        sanitizedObject[key] = sanitizeData(data[key]);
+      }
     }
     return sanitizedObject;
   }
   return data;
+};
+
+
+export const reducePrice = (discount, price) => {
+  const discountValue = (price * discount) / 100;
+  const finalValue = price - discountValue;
+  return finalValue;
 };

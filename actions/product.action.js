@@ -3,6 +3,7 @@
 import ZedkalaAdmin from "@/models/zedkalaAdmin";
 import { ZedkalProducts } from "@/models/zedkalaProducts";
 import connectDB from "@/utils/connectDB";
+import { sanitizeData } from "@/utils/fun";
 import { MESSAGES, STATUS_CODES } from "@/utils/message";
 import { getServerSession } from "@/utils/session";
 import { revalidatePath } from "next/cache";
@@ -195,8 +196,10 @@ export const getProduct = async (id) => {
       })
       .lean();
 
+    const sanitizedProduct = sanitizeData(product);
+
     return {
-      product,
+      product: sanitizedProduct,
       message: MESSAGES.success,
       status: MESSAGES.success,
       code: STATUS_CODES.success,
