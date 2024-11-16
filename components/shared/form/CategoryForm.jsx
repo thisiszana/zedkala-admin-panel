@@ -59,7 +59,7 @@ export default function CategoryForm({
           label="ترتیب نمایش"
           value={form.order}
           onChange={onChange}
-          wrapperClassName="flex flex-2 xl:min-w-[400px] min-w-[200px]"
+          wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
         />
       </div>
       <UploadedImage form={form} setForm={setForm} editImage={editImage} />

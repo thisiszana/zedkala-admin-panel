@@ -182,7 +182,6 @@ export default function CustomSelection({ form, setForm }) {
             </div>
           ))}
         </div>
-
         <CustomBtn
           type="button"
           title="افزودن آیتم جدید"

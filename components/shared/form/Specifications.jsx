@@ -152,7 +152,7 @@ export default function Specifications({ form, setForm }) {
   ));
 
   return (
-    <div className="flex flex-col xl:flex-row justify-between items-center gap-8 lg:gap-20">
+    <div className="w-full flex flex-col 2xl:flex-row justify-between items-center gap-8 lg:gap-20">
       <div className="flex flex-col gap-4 flex-5">
         {specificationFields}
         <CustomBtn
