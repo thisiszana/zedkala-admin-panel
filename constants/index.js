@@ -69,6 +69,7 @@ import {
 import { IoIosColorPalette } from "react-icons/io";
 import { FiArrowDown } from "react-icons/fi";
 import { BsLuggage } from "react-icons/bs";
+import { CiImageOn } from "react-icons/ci";
 import { RxSize } from "react-icons/rx";
 
 import { e2p, reducePrice } from "@/utils/fun";
@@ -140,6 +141,7 @@ export const icons = {
   color: <IoIosColorPalette />,
   size: <RxSize />,
   downArrow: <FiArrowDown />,
+  imageNotFound: <CiImageOn />,
 };
 
 export const images = {

@@ -10,6 +10,7 @@ import { icons, images, productInformationDetails } from "@/constants";
 import Link from "next/link";
 import Avatar from "./Avatar";
 import DiscountCountdown from "./DiscountCountdown";
+import ImageSlider from "./ImageSlider";
 
 moment.locale("fa");
 moment.loadPersian({ usePersianDigits: true });
@@ -17,9 +18,9 @@ moment.loadPersian({ usePersianDigits: true });
 export default function ProductInformation({ info }) {
   console.log(info);
   return (
-    <div className="flex flex-col xl:flex-row gap-box">
-      <div>image</div>
-      <div className="w-full xl:w-[50%] space-y-5 box border">
+    <div className="flex flex-col xl:flex-row-reverse gap-box">
+      <ImageSlider images={info?.images} />
+      <div className="w-full xl:w-[60%] space-y-5 box border">
         <div className="flex gap-2 items-center">
           <Clock
             className="text-darkGray"
