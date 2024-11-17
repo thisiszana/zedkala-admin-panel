@@ -7,24 +7,14 @@ import { Image } from "@nextui-org/react";
 import moment from "moment-jalaali";
 
 import CustomBadge from "@/components/shared/CustomBadge";
+import SubCategoryAccordion from "./SubCategoryAccordion";
 import { Clock } from "@/components/icons/Icons";
 import { images } from "@/constants";
-import SubCategoryAccordion from "./SubCategoryAccordion";
 import { e2p } from "@/utils/fun";
 
 export default function CategoryInformation({ info }) {
   return (
     <div className="flex flex-col xl:flex-row gap-box ml-3">
-      <div className="w-full xl:w-[50%] h-fit flex justify-center box border">
-        <Image
-          as={NextImage}
-          src={info.images[0]}
-          width={500}
-          height={500}
-          alt={info?.name}
-          className="rounded-box"
-        />
-      </div>
       <div className="w-full xl:w-[50%] space-y-5 box border p-4">
         <div className="flex gap-2 items-center">
           <Clock
@@ -69,7 +59,17 @@ export default function CategoryInformation({ info }) {
           </Link>
         </div>
 
-        <p className="font-bold text-h3">{info?.name}</p>
+        <div>
+          <Image
+            as={NextImage}
+            src={info.images[0]}
+            width={100}
+            height={100}
+            alt={info?.name}
+            className="rounded-box"
+          />
+          <p className="font-bold text-h3">{info?.name}</p>
+        </div>
 
         <div className="space-y-2">
           <p className="text-p1 font-bold">زیر دسته‌ها :</p>
@@ -81,7 +81,10 @@ export default function CategoryInformation({ info }) {
           <div className="flex flex-wrap gap-2">
             {info.brands.length > 0 ? (
               info.brands.map((brand, brandIndex) => (
-                <div key={brandIndex} className="bg-gray-100 p-2 rounded-lg dark:bg-dark2">
+                <div
+                  key={brandIndex}
+                  className="bg-gray-100 p-2 rounded-lg dark:bg-dark2"
+                >
                   <p className="font-medium">{brand.name}</p>
                   {brand.logo && (
                     <Image
