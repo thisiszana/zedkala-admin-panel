@@ -20,7 +20,13 @@ import DetailedBox from "../DetailedBox";
 import CustomBtn from "../CustomBtn";
 import CustomInp from "./CustomInp";
 
-export default function ProductForm({ type, form, setForm, onChange }) {
+export default function ProductForm({
+  type,
+  form,
+  setForm,
+  onChange,
+  editImage,
+}) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -40,7 +46,7 @@ export default function ProductForm({ type, form, setForm, onChange }) {
         value={form.description}
         onChange={onChange}
       />
-      <UploadedImage form={form} setForm={setForm} />
+      <UploadedImage form={form} setForm={setForm} editImage={editImage} />
     </div>
   );
 
@@ -343,7 +349,7 @@ export default function ProductForm({ type, form, setForm, onChange }) {
           disabled={loading}
           isLoading={loading}
           onClick={handleSubmit}
-          title="ایجاد محصول"
+          title={type === "CREATE" ? "ایجاد محصول" : "ویرایش محصول"}
         />
       </div>
     </div>

@@ -12,7 +12,7 @@ export default function CategorySelection({ form, setForm, onChange }) {
   const [errorState, setErrorState] = useState(false);
   const [subCategories, setSubCategories] = useState([]);
   const [selectedSubCategoryItems, setSelectedSubCategoryItems] = useState([]);
-
+  console.log(form);
   useEffect(() => {
     const fetchCategory = async () => {
       try {
@@ -30,6 +30,7 @@ export default function CategorySelection({ form, setForm, onChange }) {
     const selectedCategory = categories.find(
       (c) => c.name === form.categoryName
     );
+
     if (selectedCategory) {
       const formattedSubcategories = selectedCategory.subcategories.map(
         (sub) => ({
@@ -37,7 +38,7 @@ export default function CategorySelection({ form, setForm, onChange }) {
           items: sub.items.map((item) => item.name),
         })
       );
-      console.log(formattedSubcategories)
+
       setSubCategories(formattedSubcategories);
       setSlug(selectedCategory.slug);
       setForm((prevForm) => ({ ...prevForm, slug: selectedCategory.slug }));
@@ -59,7 +60,7 @@ export default function CategorySelection({ form, setForm, onChange }) {
 
     setForm((prevForm) => ({
       ...prevForm,
-      subCategories: selectedSubCategory ? [{ ...selectedSubCategory }] : [],
+      subCategories: selectedSubCategory ? [selectedSubCategory] : [],
     }));
   };
 
@@ -90,6 +91,7 @@ export default function CategorySelection({ form, setForm, onChange }) {
           name="subCategory"
           className="input w-full dark:text-white dark:bg-dark1"
           onChange={handleSubCategoryChange}
+          value={form.subCategories[0]?.name || ""}
         >
           <option value="">زیر‌دسته‌بندی را انتخاب کنید...</option>
           {subCategories.map((sub) => (

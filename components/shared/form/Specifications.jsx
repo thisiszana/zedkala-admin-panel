@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Modal, Input, Tooltip, Select } from "antd";
 import { SketchPicker } from "react-color";
@@ -21,6 +21,11 @@ export default function Specifications({ form, setForm }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
   const [newColor, setNewColor] = useState("");
+
+  useEffect(() => {
+    setColors(form.colors || []);
+    setSizes(form.sizes || []);
+  }, [form.colors, form.sizes]);
 
   const handleAddColor = () => {
     if (!colors.includes(currentColor)) {

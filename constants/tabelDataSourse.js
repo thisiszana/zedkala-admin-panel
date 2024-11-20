@@ -67,7 +67,7 @@ export const productsDataSourse = (products) =>
     key: product._id,
     name: (
       <Link
-        href={`/products/${product._id}`}
+        href={`/product/${product._id}`}
         className="flex items-center gap-2 w-fit"
       >
         <div className="w-[100px] h-[100px] flex items-center justify-center">

@@ -5,26 +5,26 @@ import { useEffect, useState } from "react";
 import ProductForm from "@/components/shared/form/ProductForm";
 import PageHeading from "@/components/shared/PageHeading";
 
-export default function AddProductPage() {
+export default function AddProductPage({ data }) {
   const [form, setForm] = useState({
-    title: "",
-    slug: "",
-    description: "",
+    title: data?.title || "",
+    slug: data?.slug || "",
+    description: data?.description || "",
     images: [],
-    price: 0,
-    stock: 0,
-    discount: [{ value: 0, title: "", expiresAt: new Date() }],
-    categoryName: "",
-    subCategories: [],
-    specifications: [{ label: "", value: "" }],
-    colors: [],
-    sizes: [],
-    brand: "",
-    keywords: [],
-    returnPolicy: "",
-    published: false,
-    warranty: "",
-    insurance: [
+    price: data?.price || 0,
+    stock: data?.stock || 0,
+    discount: data?.discount || [],
+    categoryName: data?.categoryName || "",
+    subCategories: data?.subCategories || [],
+    specifications: data?.specifications || [{ label: "", value: "" }],
+    colors: data?.colors || [],
+    sizes: data?.sizes || [],
+    brand: data?.brand || "",
+    keywords: data?.keywords || [],
+    returnPolicy: data?.returnPolicy || "",
+    published: data?.published || false,
+    warranty: data?.warranty || "",
+    insurance: data?.insurance || [
       {
         insuranceType: "",
         insuranceDuration: 0,
@@ -35,31 +35,29 @@ export default function AddProductPage() {
       },
     ],
   });
-  console.log(form);
-  // useEffect(() => {
-  //   const savedForm = JSON.parse(localStorage.getItem("form"));
-  //   if (savedForm) {
-  //     setForm(savedForm);
-  //   }
-  // }, []);
 
-  // useEffect(() => {
-  //   localStorage.setItem("form", JSON.stringify(form));
-  // }, [form]);
-
+  useEffect(() => {
+    if (data?.subCategories) {
+      setForm((prevForm) => ({
+        ...prevForm,
+        subCategories: data.subCategories,
+      }));
+    }
+  }, [data?.subCategories]);
   const onChange = (e) => {
     const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+    setForm((prevForm) => ({ ...prevForm, [name]: value }));
   };
 
   return (
     <>
-      <PageHeading title="اضافه کردن محصول جدید" />
+      <PageHeading title={`${data ? "ویرایش محصول" : "افزودن محصول"}`} />
       <ProductForm
-        type="add"
+        type={`${data ? "EDIT" : "CREATE"}`}
         form={form}
         setForm={setForm}
         onChange={onChange}
+        editImage={data?.images}
       />
     </>
   );

@@ -18,6 +18,8 @@ export const MESSAGES = {
   deleteAdmin: "User Deleted!",
   adminHasContent: "Admin has content!",
 
+  existItemCategory: "شما قبلاً این آیتم را انتخاب کرده‌اید",
+  addItemCategory: "آیتم اضافه شد",
   brandField: "لطفا نام و عکس برند را وارد کنید.",
   addBrand: "برند با موفقیت اضافه شد.",
   addBrandImageErr: "خطا در آپلود لوگو. لطفا دوباره تلاش کنید.",

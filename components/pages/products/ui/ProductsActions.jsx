@@ -101,7 +101,7 @@ export default function ProductsActions({ productId, published }) {
         جزئیات
       </Link>
       <Link
-        href={`/products/edit/${productId}`}
+        href={`/product/edit/${productId}`}
         className="popButton hoverable"
       >
         <Edit />

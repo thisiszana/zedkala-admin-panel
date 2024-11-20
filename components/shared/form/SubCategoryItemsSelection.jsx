@@ -5,24 +5,24 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import { CircleClose, Trash } from "@/components/icons/Icons";
+import { MESSAGES } from "@/utils/message";
 import CustomBtn from "../CustomBtn";
 
-const SubCategoryItemsSelection = ({ form, setForm, subCategoryItems }) => {
+// In this section, when receiving product data for editing, they are not placed correctly.
+
+const SubCategoryItemsSelection = ({ setForm, subCategoryItems }) => {
   const [items, setItems] = useState(subCategoryItems || []);
   const [selectItems, setSelectItems] = useState([]);
-  const [value, setValue] = useState("");
 
-  const onSelectItem = (event) => {
-    const selectedItem = event.target.value;
+  const onSelectItem = (e) => {
+    const selectedItem = e.target.value;
 
-    if (selectItems.includes(selectedItem)) {
-      toast.error("شما قبلاً این آیتم را انتخاب کرده‌اید");
-      return;
-    }
+    if (selectItems.includes(selectedItem))
+      toast.error(MESSAGES.existItemCategory);
 
     setItems([...items, selectedItem]);
     setSelectItems([...selectItems, selectedItem]);
-    toast.success("آیتم اضافه شد");
+    toast.success(MESSAGES.addItemCategory);
   };
 
   useEffect(() => {
@@ -52,13 +52,11 @@ const SubCategoryItemsSelection = ({ form, setForm, subCategoryItems }) => {
       })),
     }));
   };
-  
 
   return (
     <div className="flex flex-col gap-1 w-full">
       <div className="flex flex-col gap-2">
         <select
-          value={value}
           onChange={onSelectItem}
           className="input w-full dark:text-white dark:bg-dark1"
         >
