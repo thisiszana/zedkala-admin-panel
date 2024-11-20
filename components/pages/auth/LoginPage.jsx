@@ -12,6 +12,7 @@ import useServerAction from "@/hooks/useServerAction";
 import CustomBtn from "@/components/shared/CustomBtn";
 import { loginAdmin } from "@/actions/auth.action";
 import { MESSAGES } from "@/utils/message";
+import { Alert } from "antd";
 
 export default function LoginPage() {
   const [form, setForm] = useState({
@@ -84,6 +85,18 @@ export default function LoginPage() {
                 </Link>
               </div>
             </div>
+            <Alert
+              description={
+                <div className="space-y-2">
+                  <p>
+                    Owner usernmae : <span className="font-bold">Zana80</span> /
+                    password : <span className="font-bold">zana12345</span>
+                  </p>
+                </div>
+              }
+              type="info"
+              showIcon
+            />
           </div>
         </div>
       </div>

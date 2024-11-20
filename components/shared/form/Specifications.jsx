@@ -181,7 +181,7 @@ export default function Specifications({ form, setForm }) {
           onClick={handleAddColor}
           title="افزودن رنگ"
         />
-        <div className="flex flex-wrap gap-2 w-[420px]">
+        <div className="flex flex-wrap gap-2 w-full sm:w-[420px]">
           {colors?.map((color, index) => (
             <Tooltip key={index} title="ویرایش رنگ">
               <div className="flex items-center gap-2 border-1 border-dark1 dark:border-white px-2 py-1 rounded">
@@ -205,30 +205,33 @@ export default function Specifications({ form, setForm }) {
             </Tooltip>
           ))}
         </div>
-        <Select
-          placeholder="انتخاب سایز استاندارد"
-          onChange={(value) => setSelectedSize(value)}
-          style={{ width: 200 }}
-        >
-          {sizesDefault.map((size) => (
-            <Select.Option key={size} value={size}>
-              {size}
-            </Select.Option>
-          ))}
-        </Select>
-        <Input
-          placeholder="یا سایز دلخواه وارد کنید"
-          value={customSize}
-          onChange={(e) => setCustomSize(e.target.value)}
-          style={{ width: 200 }}
-        />
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          <Select
+            placeholder="انتخاب سایز استاندارد"
+            onChange={(value) => setSelectedSize(value)}
+            style={{ width: "100%", maxWidth: 200 }}
+          >
+            {sizesDefault.map((size) => (
+              <Select.Option key={size} value={size}>
+                {size}
+              </Select.Option>
+            ))}
+          </Select>
+          <Input
+            placeholder="یا سایز دلخواه وارد کنید"
+            value={customSize}
+            onChange={(e) => setCustomSize(e.target.value)}
+            style={{ width: "100%", maxWidth: 200 }}
+          />
+        </div>
+
         <CustomBtn
-          classNames="bg-dark1 dark:bg-lightGray dark:text-dark1 text-white px-4 py-2 rounded w-[12]"
+          classNames="bg-dark1 dark:bg-lightGray dark:text-dark1 text-white px-4 py-2 rounded w-full sm:w-auto"
           type="button"
           onClick={handleAddSize}
           title="افزودن سایز"
         />
-        <div className="flex flex-wrap gap-2 w-[420px]">
+        <div className="flex flex-wrap gap-2 w-full sm:w-auto">
           {sizes?.map((size, index) => (
             <Tooltip key={index} title="حذف سایز">
               <div className="flex items-center justify-center gap-2 border-1 border-dark1 dark:border-white px-2 py-1 rounded">
@@ -244,6 +247,7 @@ export default function Specifications({ form, setForm }) {
           ))}
         </div>
       </div>
+
       <Modal
         title="ویرایش رنگ"
         open={isModalVisible}
