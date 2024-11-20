@@ -6,7 +6,7 @@ import Sidebar from "@/components/shared/layout/Sidebar";
 export default function PagesLayout({ children }) {
   const session = getServerSession();
 
-  if (!session) redirect("/register");
+  if (!session) redirect("/login");
   return (
     <div>
       <Sidebar />

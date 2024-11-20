@@ -121,26 +121,27 @@ export default function ProductInformation({ info }) {
             ))}
           </div>
         </div>
-        <div className="flex items-center justify-between">
-          <div className="flex gap-2 items-center">
-            <span className="cardShadow rounded-lg p-3">{icons.size}</span>
-            <p className="text-p1 text-darkGray">سایزها:</p>
-          </div>
-          <div className="flex gap-2 items-center p-[8px]">
-            {info.sizes.length > 0 ? (
-              info.sizes.map((size, index) => (
-                <span
-                  key={index}
-                  className="px-2 py-1 bg-gray-200 rounded-md text-darkGray"
-                >
-                  {size}
-                </span>
-              ))
-            ) : (
-              <span className="text-gray-500">سایزی تعریف نشده است</span>
-            )}
-          </div>
-        </div>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+  <div className="flex gap-2 items-center">
+    <span className="cardShadow rounded-lg p-3">{icons.size}</span>
+    <p className="text-p1 text-darkGray">سایزها:</p>
+  </div>
+  <div className="flex flex-wrap gap-2 items-center p-[8px]">
+    {info.sizes.length > 0 ? (
+      info.sizes.map((size, index) => (
+        <span
+          key={index}
+          className="px-2 py-1 bg-gray-200 rounded-md text-darkGray"
+        >
+          {size}
+        </span>
+      ))
+    ) : (
+      <span className="text-gray-500">سایزی تعریف نشده است</span>
+    )}
+  </div>
+</div>
+
         <div className="space-y-2">
           <p className="text-p1 font-bold">مشخصات فنی :</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">

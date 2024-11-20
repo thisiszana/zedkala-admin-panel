@@ -26,6 +26,7 @@ export const categoriesDataSourse = (categories) =>
             height={100}
             alt="دسته‌بندی"
             property
+            className="hidden md:block"
           />
         </div>
         <p>{shorterText(c.name, 15)}...</p>
