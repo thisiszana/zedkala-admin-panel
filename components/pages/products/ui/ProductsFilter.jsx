@@ -66,7 +66,7 @@ export default function ProductsFilter() {
       label: "دسته‌بندی",
       items: categories.map((c) => ({
         key: c.slug,
-        label: c.categoryName,
+        label: c.name,
       })),
       onChange: (e) => {
         setSearchParams("page", "1");
