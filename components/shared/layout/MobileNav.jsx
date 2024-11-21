@@ -1,17 +1,20 @@
 "use client";
-
+import NextImage from "next/image";
 import { Close, MenuBars, MenuDots } from "@/components/icons/Icons";
 import CustomBtn from "../CustomBtn";
 import { Fragment, useState } from "react";
 import { Drawer } from "antd";
 import Link from "next/link";
 import Loader from "../Loader";
-import { icons, menuLinks } from "@/constants";
+import { icons, images, menuLinks } from "@/constants";
 import { usePathname } from "next/navigation";
+import useSession from "@/hooks/useSession";
+import { Image } from "@nextui-org/react";
 
 export default function MobileNav() {
   const [open, setOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const { data, isError, isLoading } = useSession();
 
   const pathname = usePathname();
 
@@ -23,7 +26,7 @@ export default function MobileNav() {
       header: { padding: "15px 20px" },
     },
     title: (
-      <div className="flex items-center justify-between bg-white dark:bg-slate-700">
+      <div className="flex items-center justify-between bg-white dark:bg-dark1">
         <Link href="/dashboard" className="flex items-center gap-[10px]">
           <div className="flex items-center italic font-bold">
             <span className="text-baseDark">Zedkala</span>
@@ -54,19 +57,37 @@ export default function MobileNav() {
         styles={_drawer.styles}
         title={_drawer.title}
         width={250}
-        className={`dark:bg-slate-700`} 
+        className={`dark:bg-dark1`} 
       >
         <nav>
           <Link
             href="/"
-            className="border-2 rounded-full p-2 mx-4 flex items-center justify-between gap-2 cursor-pointer hoverable"
+            className="border-2 rounded-full p-2 mx-4 flex items-center justify-between gap-2 cursor-pointer hoverable dark:bg-dark1"
             onClick={() => onClose()}
           >
             <div className="flex items-center gap-2">
               {isLoading && (
-                <div className="flex items-center justify-center w-full py-1">
+                <div className="flex items-center justify-center w-full py-1 w-full">
                   <Loader width={20} height={20} />
                 </div>
+              )}
+              {isError && <p>ارور</p>}
+              {data?.success && (
+                <>
+                  <div className="flex items-center gap-2">
+                    <Image
+                      as={NextImage}
+                      src={data?.session?.image || images.admin}
+                      width={35}
+                      height={35}
+                      alt="user"
+                      radius="full"
+                      className="w-[35px] h-[35px]"
+                    />
+                    <p className="text-p2 capitalize dark:text-lightGray">
+                      {data?.session?.firstName}
+                    </p>
+                  </div></>
               )}
             </div>
             <MenuDots size={15} wrapperClassName="iconButton" />
@@ -81,7 +102,7 @@ export default function MobileNav() {
                   className={`rounded-l-btn ml-4 Transition mb-[2px] border-r-4 ${
                     pathname === item.link
                       ? "bg-baseLight text-baseDark border-darkPurple"
-                      : "bg-white dark:bg-slate-700 text-black dark:text-white hover:bg-lightGray dark:hover:bg-slate-700 border-transparent"
+                      : "bg-white dark:bg-dark1 text-black dark:text-white hover:bg-lightGray dark:hover:bg-slate-700 border-transparent"
                   }`}
                 >
                   <Link

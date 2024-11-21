@@ -14,6 +14,7 @@ import CustomBtn from "@/components/shared/CustomBtn";
 
 export default function ProductsFilter() {
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState([]);
 
   const router = useRouter();
@@ -43,10 +44,12 @@ export default function ProductsFilter() {
 
   useEffect(() => {
     const fetchCategories = async () => {
+      setLoading(true)
       const categoriesData = await getCategories();
       if (categoriesData || categoriesData.category) {
         setCategories(categoriesData.category);
       }
+      setLoading(false)
     };
 
     fetchCategories();
@@ -140,7 +143,8 @@ export default function ProductsFilter() {
           <Select
             items={select.items}
             label={select.label}
-            className="min-w-[200px] flex flex-1"
+            className="select min-w-[200px] flex flex-1"
+            isLoading={loading}
             onChange={select.onChange}
             key={index}
           >

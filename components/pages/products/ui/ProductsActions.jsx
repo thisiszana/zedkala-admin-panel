@@ -60,12 +60,12 @@ export default function ProductsActions({ productId, published }) {
   };
 
   const content = (
-    <div className="popContainer min-w-[150px]">
+    <div className="popContainer min-w-[150px] dark:bg-dark1 border-1 rounded-[8px]">
       <CustomBtn
         disabled={published || draftLoading || deleteLoading}
         onClick={publish}
         classNames={`popButton flex justify-center w-full ${
-          published ? "text-darkGreen bg-lightGreen" : "hoverable"
+          published ? "text-darkGreen dark:text-darkGreen  bg-lightGreen" : "hoverable"
         }`}
         title={
           publishLoading ? (
@@ -82,7 +82,7 @@ export default function ProductsActions({ productId, published }) {
         disabled={!published || deleteLoading || publishLoading}
         onClick={draft}
         classNames={`popButton flex justify-center w-full ${
-          !published ? "text-darkOrange bg-lightOrange" : "hoverable"
+          !published ? "text-darkOrange dark:text-darkOrange bg-lightOrange" : "hoverable"
         }`}
         title={
           draftLoading ? (

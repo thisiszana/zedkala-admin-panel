@@ -5,9 +5,8 @@ import { productsDataSourse } from "@/constants/tabelDataSourse";
 import { Empty, Table } from "antd";
 
 export default function ProductsList({ products }) {
-
   return (
-    <div>
+    <div className="dark:bg-dark1 bg-white rounded-lg p-4">
       <Table
         scroll={{ x: true }}
         pagination={false}
@@ -15,9 +14,9 @@ export default function ProductsList({ products }) {
         dataSource={productsDataSourse(products?.products)}
         locale={{
           emptyText: (
-            <Empty 
-              description="بدون داده" 
-              image={Empty.PRESENTED_IMAGE_DEFAULT} 
+            <Empty
+              description="بدون داده"
+              image={Empty.PRESENTED_IMAGE_DEFAULT}
             />
           ),
         }}

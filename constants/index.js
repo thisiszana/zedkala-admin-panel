@@ -148,6 +148,7 @@ export const images = {
   admin: "/images/admin-1.jpg",
   admin2: "/images/admin-2.jpg",
   admin3: "/images/admin-3.jpg",
+  imageNotFound: "/images/imagenotfound.jfif",
 
   notFound: "/images/404.svg",
   error: "/images/sad.png",

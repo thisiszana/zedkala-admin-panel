@@ -23,8 +23,8 @@ export default function ProductsPagination({
     setSearchParams("page", String(newPage));
   };
   return (
-    <div className="flex items-center justify-end gap-2 p-4 dark:bg-white">
-      <p className="whitespace-nowrap text-p2 bg-dark1 text-white rounded-btn py-1 px-3">
+    <div className="flex items-center justify-end gap-2 p-4 dark:bg-dark1">
+      <p className="whitespace-nowrap text-p2 bg-dark1 dark:border-white dark:border-1 text-white rounded-btn py-1 px-3">
         {e2p(totalProducts)} محصول
       </p>
       <div className="flex items-center gap-2 w-full justify-end">

@@ -126,7 +126,7 @@ export default function Specifications({ form, setForm }) {
   };
 
   const specificationFields = specifications.map((spec, index) => (
-    <div key={index} className="flex gap-4 items-center">
+    <div key={index} className="flex flex-col sm:flex-row gap-4 items-center ">
       <CustomInp
         type="text"
         name={`spec-label-${index}`}
@@ -205,7 +205,7 @@ export default function Specifications({ form, setForm }) {
             </Tooltip>
           ))}
         </div>
-        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+        <div className="flex flex-col items-center  gap-2 w-full sm:w-auto">
           <Select
             placeholder="انتخاب سایز استاندارد"
             onChange={(value) => setSelectedSize(value)}
@@ -223,15 +223,15 @@ export default function Specifications({ form, setForm }) {
             onChange={(e) => setCustomSize(e.target.value)}
             style={{ width: "100%", maxWidth: 200 }}
           />
+          <CustomBtn
+            classNames="bg-dark1 dark:bg-lightGray dark:text-dark1 text-white px-4 py-2 rounded w-fit  sm:w-full sm:w-auto"
+            type="button"
+            onClick={handleAddSize}
+            title="افزودن سایز"
+          />
         </div>
 
-        <CustomBtn
-          classNames="bg-dark1 dark:bg-lightGray dark:text-dark1 text-white px-4 py-2 rounded w-full sm:w-auto"
-          type="button"
-          onClick={handleAddSize}
-          title="افزودن سایز"
-        />
-        <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+        <div className="flex flex-wrap gap-2 w-full sm:w-[420px]">
           {sizes?.map((size, index) => (
             <Tooltip key={index} title="حذف سایز">
               <div className="flex items-center justify-center gap-2 border-1 border-dark1 dark:border-white px-2 py-1 rounded">

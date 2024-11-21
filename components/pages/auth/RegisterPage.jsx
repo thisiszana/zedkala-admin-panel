@@ -11,6 +11,7 @@ import useServerAction from "@/hooks/useServerAction";
 import { CreateAdmin } from "@/actions/auth.action";
 import { MESSAGES } from "@/utils/message";
 import toast from "react-hot-toast";
+import DarkLightMode from "@/components/shared/layout/DarkLightMode";
 
 export default function RegisterPage() {
   const [form, setForm] = useState({
@@ -40,11 +41,14 @@ export default function RegisterPage() {
     res();
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="w-full h-[100vh] flex items-center justify-center bg-white">
+    <form
+      onSubmit={handleSubmit}
+      className="flex items-center h-[100vh] justify-center gap-[150px] bg-white dark:bg-dark2 max-xl:p-[30px]"
+    >
+      <div className="w-full h-fit flex items-center justify-center bg-white dark:bg-dark1 rounded-[8px]">
         <div className="max-w-[500px] w-full p-8">
           <div className="mb-[40px]">
-            <h1 className="font-medium text-gray-600 text-[30px] mb-[5px]">
+            <h1 className="font-medium text-gray-600 dark:text-lightGray text-[30px] mb-[5px]">
               مدیریت راحت و آسان
             </h1>
           </div>
@@ -85,17 +89,17 @@ export default function RegisterPage() {
               isLoading={loading}
               disabled={loading}
               classNames={`${
-                loading ? "bg-gray-100 text-black" : "bg-black text-white"
-              } w-full h-[50px] font-bold flex items-center justify-center rounded-btn`}
+                loading ? "bg-lightGray text-black" : "bg-dark2 text-white"
+              } w-full h-[50px] font-bold flex items-center dark:bg-lightGray dark:text-dark1 justify-center rounded-btn`}
             />
             <div className="flex items-center justify-center gap-4 text-sm font-bold">
+              <p>قبلا ثبت نام کرده اید؟</p>
               <Link
                 href="/login"
-                className="bg-gray-100 border text-center py-1 px-4 rounded-lg"
+                className="bg-lightGray border text-center py-1 px-4 rounded-lg dark:bg-dark1 dark:text-white"
               >
                 ورود
               </Link>
-              <p>قبلا ثبت نام کرده اید؟</p>
             </div>
           </div>
         </div>

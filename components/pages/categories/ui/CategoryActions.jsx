@@ -59,7 +59,7 @@ export default function CategoryActions({ categoryId, published }) {
   };
 
   const content = (
-    <div className="popContainer min-w-[150px]">
+    <div className="popContainer min-w-[150px] dark:bg-dark1 border-1 rounded-[8px]">
       <CustomBtn
         disabled={published || deleteLoading}
         onClick={publishRes}

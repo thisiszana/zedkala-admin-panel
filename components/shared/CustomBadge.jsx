@@ -3,7 +3,7 @@ import React from "react";
 export default function CustomBadge({ condition, title, colors }) {
   return (
     <p
-      className={`py-1 px-2 text-p2 rounded-btn w-fit h-fit ${
+      className={`py-1 px-2 text-p2 rounded-btn text-center w-fit h-fit ${
         colors
           ? colors
           : condition === false

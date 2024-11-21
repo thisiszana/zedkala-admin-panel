@@ -16,7 +16,7 @@ export default function CustomDataPicker({ form, setForm }) {
     });
   };
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 flex-1">
       <label className="text-gray-600 text-[14px] dark:text-white">
         تاریخ انقضای تخفیف
       </label>

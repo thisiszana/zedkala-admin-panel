@@ -9,6 +9,7 @@ import CustomBadge from "@/components/shared/CustomBadge";
 import { e2p, shorterText, sp } from "@/utils/fun";
 import { images } from ".";
 import ProductsActions from "@/components/pages/products/ui/ProductsActions";
+import { Tooltip } from "antd";
 
 export const categoriesDataSourse = (categories) =>
   categories?.map((c) => ({
@@ -18,15 +19,14 @@ export const categoriesDataSourse = (categories) =>
         href={`categories/${c._id}`}
         className="flex items-center gap-2 w-fit"
       >
-        <div className="w-[100px] h-[100px] flex items-center justify-center">
+        <div className="hidden lg:flex w-[100px] h-[100px] items-center justify-center">
           <Image
-            as={NextImage}
+            as={NextImage || images.imageNotFound}
             src={c.images[0]}
             width={100}
             height={100}
             alt="دسته‌بندی"
             property
-            className="hidden md:block"
           />
         </div>
         <p>{shorterText(c.name, 15)}...</p>
@@ -44,7 +44,7 @@ export const categoriesDataSourse = (categories) =>
         href={`/account/admins/${c.createdBy._id}`}
         className="flex items-center xl:flex-row gap-3"
       >
-        <div className="w-10 h-10">
+        <div className="hidden lg:flex w-10 h-10 items-center justify-center">
           <Image
             as={NextImage}
             src={c.createdBy.image || images.admin}
@@ -71,20 +71,21 @@ export const productsDataSourse = (products) =>
         href={`/product/${product._id}`}
         className="flex items-center gap-2 w-fit"
       >
-        <div className="w-[100px] h-[100px] flex items-center justify-center">
+        <div className="hidden lg:flex w-[100px] h-[100px] items-center justify-center">
           <Image
             as={NextImage}
-            src={product.images[0]}
+            src={product.images[0] || images.imageNotFound}
             width={100}
             height={100}
             alt="product"
             priority="true"
-            className="hidden md:block"
           />
         </div>
         <div>
-          <p>{shorterText(product.title, 15)}...</p>
-          <p>در {product.categoryName}</p>
+          <Tooltip title="جزئیات" placement="left">
+            <p>{shorterText(product.title, 15)}...</p>
+            <p>در {product.categoryName}</p>
+          </Tooltip>
         </div>
       </Link>
     ),
@@ -95,9 +96,7 @@ export const productsDataSourse = (products) =>
           "text-darkRose px-2 rounded-xl bg-lightRose font-bold text-xs"
         }`}
       >
-        {product.stock === 0
-          ? "ناموجود"
-          : sp(product.stock.toLocaleString())}
+        {product.stock === 0 ? "ناموجود" : sp(product.stock.toLocaleString())}
       </p>
     ),
     price: `${sp(product.price)} تومان`,
@@ -117,17 +116,18 @@ export const productsDataSourse = (products) =>
         href={`/account/admins/${product.createdBy._id}`}
         className="flex items-center xl:flex-row gap-3"
       >
-        <div className="w-10 h-10">
+        <div className="hidden lg:flex w-10 h-10 items-center justify-center">
           <Image
             as={NextImage}
             src={product.createdBy.image || images.admin}
             width={200}
             height={200}
-            style={{ width: "500px", height: "auto" }}
+            style={{ width: "100%", height: "auto" }}
             alt="admin"
             className="rounded-full"
           />
         </div>
+
         <p className="text-p2 font-medium capitalize">
           {product.createdBy.firstName}
         </p>

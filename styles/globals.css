@@ -6,20 +6,49 @@ html.dark {
   background-color: #33384d;
 }
 
+/* Antd Custom Style */
+.ant-table {
+  background-color: #fff; 
+  color: #232b33;
+  border-radius: 10px;
+}
+
+.dark .ant-table {
+  background-color: #33384d; 
+  color: #fff; 
+}
+
+
+.dark .ant-table-thead > tr > th {
+  background-color: #232b33; 
+  color: #fff;
+}
+
+
+.dark .ant-table-tbody > tr > td {
+  background-color: #33384d; 
+  color: #fff;
+}
+
+.dark .ant-table-row:hover > .ant-table-cell {
+  background-color: #33384d; 
+  color: #ffffff; /* رنگ متن سلول هنگام hover */
+}
+
 /* Scroll */
 * {
-  scrollbar-width: thin; 
-  scrollbar-color: #c2c9c3 #f5f5f5; 
+  scrollbar-width: thin;
+  scrollbar-color: #c2c9c3 #f5f5f5;
 }
 
 *.dark {
-  scrollbar-width: thin; 
-  scrollbar-color: #33384d #bfbcbc; 
+  scrollbar-width: thin;
+  scrollbar-color: #33384d #bfbcbc;
 }
 
 ::-webkit-scrollbar {
-  width: 5px; 
-  height: 8px; 
+  width: 5px;
+  height: 8px;
 }
 
 /* Input Styles */
@@ -138,14 +167,14 @@ html.dark {
 }
 
 .iconButton {
-  @apply hover:bg-lightGray dark:hover:bg-darkHover dark:hover:text-white Transition p-3 rounded-full;
+  @apply hover:bg-lightGray dark:hover:bg-darkHover dark:hover:text-white dark:text-white Transition p-3 rounded-full;
 }
 .hoverable {
   @apply hover:bg-lightGray dark:bg-dark2 dark:hover:bg-darkHover dark:hover:text-white Transition;
 }
 
 .pages_spaces {
-  @apply pt-[100px] pr-[280px] lg:pr-[270px] max-md:px-4 md:pr-4 max-lg:pb-[50px] lg:mb-[200px] min-h-screen transition-all duration-150;
+  @apply pt-[100px] pr-[280px] lg:pr-[270px] ml-2 max-md:px-4 md:pr-4 max-lg:pb-[50px] lg:mb-[200px] min-h-screen transition-all duration-150;
 }
 
 .cardShadow3 {

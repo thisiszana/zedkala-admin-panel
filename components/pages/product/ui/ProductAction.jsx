@@ -25,7 +25,7 @@ export default function ProductAction({ id }) {
           </Link>
         </Tooltip>
         <Tooltip placement="bottom" title="ویرایش">
-          <Link href={`/products/edit/${id}`}>
+          <Link href={`/product/edit/${id}`}>
             <CustomBtn
               icon={<Edit className="text-darkGray" />}
               classNames="iconButton"

@@ -23,14 +23,14 @@ export default function ProductInformation({ info }) {
       <div className="w-full xl:w-[60%] space-y-5 box border">
         <div className="flex gap-2 items-center">
           <Clock
-            className="text-darkGray"
+            className="text-darkGray dark:text-white"
             wrapperClassName="cardShadow rounded-btn p-3"
           />
           <div>
-            <p className="font-bold text-darkGray text-sm">
+            <p className="font-bold text-darkGray text-sm dark:text-white">
               {moment(info?.createdAt).calendar()}
             </p>
-            <p className="text-xs text-darkGray">
+            <p className="text-xs text-darkGray dark:text-white">
               {moment(info?.createdAt).format("LT")}
             </p>
           </div>
