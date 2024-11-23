@@ -15,7 +15,7 @@ export default function DiscountCountdown({ discount }) {
       const diff = targetTime - now;
 
       if (diff <= 0) {
-        setTimeLeft(null); 
+        setTimeLeft(null);
         return;
       }
 
@@ -27,10 +27,10 @@ export default function DiscountCountdown({ discount }) {
       setTimeLeft({ days, hours, minutes, seconds });
     };
 
-    calculateTimeLeft(); 
-    const timer = setInterval(calculateTimeLeft, 1000); 
+    calculateTimeLeft();
+    const timer = setInterval(calculateTimeLeft, 1000);
 
-    return () => clearInterval(timer); 
+    return () => clearInterval(timer);
   }, [discount?.expiresAt]);
 
   if (!discount) return null;
@@ -41,19 +41,22 @@ export default function DiscountCountdown({ discount }) {
         {discount.title || "تخفیف ویژه!"}
       </h3>
       <p className="text-sm text-gray-700">
-        مقدار تخفیف: <span className="font-semibold">{e2p(discount.value)}%</span>
+        مقدار تخفیف:{" "}
+        <span className="font-semibold">{e2p(discount.value)}%</span>
       </p>
       <p className="text-sm text-gray-700">
         تاریخ انقضا:{" "}
         <span className="font-semibold">
-          {new Date(discount.expiresAt).toLocaleDateString("fa-IR", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
+          {discount.expiresAt
+            ? new Date(discount.expiresAt).toLocaleDateString("fa-IR", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
+            : "بدون تاریخ انقضا"}
         </span>
       </p>
-      {timeLeft ? (
+      {discount.expiresAt && timeLeft ? (
         <div className="time-left text-red-700 mt-2">
           <p className="text-sm">زمان باقی‌مانده:</p>
           <div className="flex justify-center gap-2 mt-1 text-sm font-medium">
@@ -71,9 +74,9 @@ export default function DiscountCountdown({ discount }) {
             </span>
           </div>
         </div>
-      ) : (
+      ) : discount.expiresAt ? (
         <p className="text-red-700 mt-2">تخفیف به اتمام رسید!</p>
-      )}
+      ) : null}
     </div>
   );
 }

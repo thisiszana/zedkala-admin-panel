@@ -20,7 +20,7 @@ export default async function CategoriesPage() {
           جدید
         </Link>
       </div>
-      <div className="cardShadow3 rounded-2xl border overflow-hidden mt-8 ml-2">
+      <div className="cardShadow3 rounded-2xl border overflow-hidden mt-8">
         <Suspense key={data} fallback={<Loaderbar />}>
           <CategoriesList
             cateogories={JSON.parse(JSON.stringify(data.category))}

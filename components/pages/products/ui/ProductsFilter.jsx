@@ -44,12 +44,12 @@ export default function ProductsFilter() {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      setLoading(true)
+      setLoading(true);
       const categoriesData = await getCategories();
       if (categoriesData || categoriesData.category) {
         setCategories(categoriesData.category);
       }
-      setLoading(false)
+      setLoading(false);
     };
 
     fetchCategories();
@@ -143,10 +143,10 @@ export default function ProductsFilter() {
           <Select
             items={select.items}
             label={select.label}
-            className="select min-w-[200px] flex flex-1"
             isLoading={loading}
             onChange={select.onChange}
             key={index}
+            className={"min-w-[200px] flex flex-1"}
           >
             {(s) => <SelectItem>{s.label}</SelectItem>}
           </Select>

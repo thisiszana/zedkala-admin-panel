@@ -67,7 +67,7 @@ export default function MobileNav() {
           >
             <div className="flex items-center gap-2">
               {isLoading && (
-                <div className="flex items-center justify-center w-full py-1 w-full">
+                <div className="flex items-center justify-center w-full py-1">
                   <Loader width={20} height={20} />
                 </div>
               )}

@@ -7,9 +7,9 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { Switch } from "antd";
 
+import CategoryTreeSelection from "./CategoryTreeSelection";
 import { createProduct } from "@/actions/product.action";
 import KeywordsSelection from "./KeywordsSelection";
-import CategorySelection from "./CategorySelection";
 import CustomDataPicker from "./CustomDataPicker";
 import CustomTextarea from "./CustomTextarea";
 import Specifications from "./Specifications";
@@ -19,7 +19,6 @@ import { uploadImage } from "@/utils/fun";
 import DetailedBox from "../DetailedBox";
 import CustomBtn from "../CustomBtn";
 import CustomInp from "./CustomInp";
-import CategoryTreeSelection from "./CategoryTreeSelection";
 
 export default function ProductForm({
   type,
@@ -71,7 +70,6 @@ export default function ProductForm({
         onChange={onChange}
         wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
       />
-      {/* <CategorySelection form={form} setForm={setForm} onChange={onChange} /> */}
       <div className="flex flex-wrap gap-box w-full h-full">
         <CustomInp
           type="number"
@@ -278,7 +276,7 @@ export default function ProductForm({
       <DetailedBox
         title="دسته‌بندی"
         subtitle="دسته‌بندی"
-        content={<CategoryTreeSelection form={form} setForm={setForm}  />}
+        content={<CategoryTreeSelection form={form} setForm={setForm} />}
       />
       <DetailedBox
         title="ویژگی ها"

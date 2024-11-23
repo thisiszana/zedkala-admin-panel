@@ -1,5 +1,10 @@
 "use client";
+
 import NextImage from "next/image";
+
+import { useState } from "react";
+
+import { Drawer, Button } from "antd";
 
 import { Clock } from "@/components/icons/Icons";
 import CustomBadge from "@/components/shared/CustomBadge";
@@ -11,11 +16,22 @@ import Link from "next/link";
 import Avatar from "./Avatar";
 import DiscountCountdown from "./DiscountCountdown";
 import ImageSlider from "./ImageSlider";
+import CustomBtn from "@/components/shared/CustomBtn";
 
 moment.locale("fa");
 moment.loadPersian({ usePersianDigits: true });
 
 export default function ProductInformation({ info }) {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const handleDrawerOpen = () => {
+    setIsDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setIsDrawerOpen(false);
+  };
+
   console.log(info);
   return (
     <div className="flex flex-col xl:flex-row-reverse gap-box">
@@ -122,30 +138,30 @@ export default function ProductInformation({ info }) {
           </div>
         </div>
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-  <div className="flex gap-2 items-center">
-    <span className="cardShadow rounded-lg p-3">{icons.size}</span>
-    <p className="text-p1 text-darkGray">سایزها:</p>
-  </div>
-  <div className="flex flex-wrap gap-2 items-center p-[8px]">
-    {info.sizes.length > 0 ? (
-      info.sizes.map((size, index) => (
-        <span
-          key={index}
-          className="px-2 py-1 bg-gray-200 rounded-md text-darkGray"
-        >
-          {size}
-        </span>
-      ))
-    ) : (
-      <span className="text-gray-500">سایزی تعریف نشده است</span>
-    )}
-  </div>
-</div>
+          <div className="flex gap-2 items-center">
+            <span className="cardShadow rounded-lg p-3">{icons.size}</span>
+            <p className="text-p1 text-darkGray">سایزها:</p>
+          </div>
+          <div className="flex flex-wrap gap-2 items-center p-[8px]">
+            {info.sizes.length > 0 ? (
+              info.sizes.map((size, index) => (
+                <span
+                  key={index}
+                  className="px-2 py-1 bg-gray-200 rounded-md text-darkGray"
+                >
+                  {size}
+                </span>
+              ))
+            ) : (
+              <span className="text-gray-500">سایزی تعریف نشده است</span>
+            )}
+          </div>
+        </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 border-t pt-2">
           <p className="text-p1 font-bold">مشخصات فنی :</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
-            {info.specifications.map((spec) => (
+            {info.specifications.slice(0, 2).map((spec) => (
               <div key={spec._id}>
                 <div className="bg-gray-200 dark:bg-dark2 py-2 px-3 rounded-lg">
                   <p className="text-p1 text-xs font-bold capitalize">
@@ -157,8 +173,42 @@ export default function ProductInformation({ info }) {
                 </div>
               </div>
             ))}
+            {info.specifications.length > 2 && (
+              <div className="mt-4">
+                <CustomBtn
+                  title="نمایش بیشتر"
+                  onClick={handleDrawerOpen}
+                  classNames="py-2 px-3 font-bold flex items-center bg-dark1 text-white dark:bg-lightGray dark:text-dark1 justify-center rounded-btn"
+                />
+              </div>
+            )}
           </div>
         </div>
+        <Drawer
+          title={
+            <span className="font-bold dark:text-white">مشخصات فنی کامل</span>
+          }
+          placement="bottom"
+          onClose={handleDrawerClose}
+          open={isDrawerOpen}
+          className={`dark:bg-dark1`}
+        >
+          <div className="space-y-2">
+            {info.specifications.map((spec) => (
+              <div key={spec._id} className="mb-3">
+                <div className="bg-gray-200 dark:bg-dark2 py-2 px-3 rounded-lg">
+                  <p className="text-p1 text-xs font-bold capitalize dark:text-white">
+                    {spec.label}
+                  </p>
+                  <p className="text-p1 text-xs my-2 capitalize dark:text-lightGray">
+                    {spec.value}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Drawer>
+
         <div className="flex flex-wrap gap-2 mt-4">
           <p className="font-bold">کلمات کلیدی :</p>
           {info.keywords.map((keyword, index) => (

@@ -16,13 +16,13 @@ export default function CustomDataPicker({ form, setForm }) {
     });
   };
   return (
-    <div className="flex flex-col gap-2 flex-1">
+    <div className="flex flex-col gap-2 flex-1 dark:bg-dark1">
       <label className="text-gray-600 text-[14px] dark:text-white">
         تاریخ انقضای تخفیف
       </label>
-      <div className="border border-gray-300 rounded-md p-[8px] h-[40px] flex items-center justify-center focus-within:border-[#304ffe] bg-white">
+      <div className="border border-gray-300 rounded-md p-[8px] h-[40px] flex items-center justify-center focus-within:border-[#304ffe] bg-white dark:bg-dark1 dark:text-white">
         <DatePicker
-          inputClass="focus:outline-none w-full text-gray-700 bg-transparent"
+          inputClass="focus:outline-none w-full text-gray-700 bg-white"
           calendar={persian}
           locale={persian_fa}
           format="MM/DD/YYYY HH:mm:ss"
@@ -32,6 +32,7 @@ export default function CustomDataPicker({ form, setForm }) {
           value={form.discount[0]?.expiresAt}
           onChange={onChange}
           calendarPosition="bottom-right"
+          // className="bg-white"
         />
       </div>
     </div>

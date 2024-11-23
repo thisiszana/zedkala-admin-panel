@@ -145,7 +145,10 @@ export default function CategoryTreeSelection({ form, setForm }) {
           style={{ width: "50%", marginBottom: 10 }}
         >
           {categories.map((cat) => (
-            <Option key={cat.slug} value={cat.name}>
+            <Option
+              key={cat.slug}
+              value={cat.name}
+            >
               {cat.name}
             </Option>
           ))}
@@ -199,7 +202,12 @@ export default function CategoryTreeSelection({ form, setForm }) {
       {isLoading ? (
         <Loaderbar />
       ) : (
-        <DirectoryTree multiple onSelect={handleSelect} treeData={treeData} />
+        <DirectoryTree
+          multiple
+          onSelect={handleSelect}
+          treeData={treeData}
+          className="dark:bg-dark1 dark:text-lightGray"
+        />
       )}
     </div>
   );
