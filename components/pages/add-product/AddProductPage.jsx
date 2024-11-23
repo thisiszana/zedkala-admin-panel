@@ -44,11 +44,12 @@ export default function AddProductPage({ data }) {
       }));
     }
   }, [data?.subCategories]);
+
   const onChange = (e) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
   };
-
+  console.log("form in addproductpage com", form);
   return (
     <>
       <PageHeading title={`${data ? "ویرایش محصول" : "افزودن محصول"}`} />
@@ -58,6 +59,7 @@ export default function AddProductPage({ data }) {
         setForm={setForm}
         onChange={onChange}
         editImage={data?.images}
+        id={data?._id}
       />
     </>
   );

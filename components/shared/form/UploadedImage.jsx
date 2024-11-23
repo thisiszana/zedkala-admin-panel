@@ -7,6 +7,8 @@ import { useState } from "react";
 import { Image } from "@nextui-org/react";
 import NextImage from "next/image";
 import CustomBtn from "../CustomBtn";
+import { MESSAGES } from "@/utils/message";
+import { images } from "@/constants";
 
 const Dragger = Upload;
 
@@ -17,7 +19,7 @@ export default function UploadedImage({ form, setForm, images, editImage }) {
     const { size } = e;
 
     if (size > 1 * 1000 * 1000) {
-      toast.error("حجم فایل بیش از حد مجاز است!");
+      toast.error(MESSAGES.highSizeImage);
       return Upload.LIST_IGNORE;
     }
   };
@@ -31,7 +33,7 @@ export default function UploadedImage({ form, setForm, images, editImage }) {
     const updatedImages = existingImages.filter((_, i) => i !== index);
     setExistingImages(updatedImages);
     setForm({ ...form, images: updatedImages });
-    toast.success("تصویر با موفقیت حذف شد!");
+    toast.success(MESSAGES.deleteImage);
   };
 
   return (
@@ -63,17 +65,20 @@ export default function UploadedImage({ form, setForm, images, editImage }) {
       </Dragger>
       {existingImages.length > 0 && (
         <div className="mb-4">
-          <p>تصاویر موجود:</p>
+          <p className="my-3">تصاویر موجود:</p>
           <div className="flex gap-2 flex-wrap">
             {existingImages.map((img, index) => (
-              <div key={index} className="flex flex-col items-center justify-center">
+              <div
+                key={index}
+                className="flex flex-col items-center justify-center gap-3"
+              >
                 <Image
                   as={NextImage}
-                  src={img}
+                  src={img || images.imageNotFound}
                   width={100}
                   height={100}
                   alt={`existing-${index}`}
-                  className="w-24 h-24 object-cover rounded-lg"
+                  className="w-24 h-24 object-cover rounded-lg mb-2"
                 />
                 <CustomBtn
                   type="button"

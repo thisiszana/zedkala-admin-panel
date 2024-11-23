@@ -10,7 +10,7 @@ export default async function CategoriesPage() {
   const data = await getCategories();
   return (
     <>
-      <div className="flex justify-between gap-1 mx-2">
+      <div className="flex justify-between gap-1">
         <PageHeading title="دسته‌بندی" />
         <Link
           href="/add-category"

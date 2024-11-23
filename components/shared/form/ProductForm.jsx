@@ -7,8 +7,8 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { Switch } from "antd";
 
+import { createProduct, editProduct } from "@/actions/product.action";
 import CategoryTreeSelection from "./CategoryTreeSelection";
-import { createProduct } from "@/actions/product.action";
 import KeywordsSelection from "./KeywordsSelection";
 import CustomDataPicker from "./CustomDataPicker";
 import CustomTextarea from "./CustomTextarea";
@@ -26,6 +26,7 @@ export default function ProductForm({
   setForm,
   onChange,
   editImage,
+  id,
 }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -254,7 +255,11 @@ export default function ProductForm({
     };
 
     let res;
-    res = await createProduct(JSON.parse(JSON.stringify(payload)));
+    if (type === "CREATE") {
+      res = await createProduct(JSON.parse(JSON.stringify(payload)));
+    } else {
+      res = await editProduct({ ...payload, id });
+    }
 
     setLoading(() => false);
 

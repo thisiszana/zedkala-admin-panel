@@ -336,3 +336,138 @@ export const deleteProduct = async (data) => {
     };
   }
 };
+
+export const editProduct = async (data) => {
+  try {
+    await connectDB();
+
+    const {
+      title,
+      slug,
+      description,
+      images,
+      price,
+      stock,
+      discount,
+      categoryName,
+      subCategories,
+      specifications,
+      colors,
+      sizes,
+      brand,
+      keywords,
+      returnPolicy,
+      warranty,
+      published,
+      id,
+    } = data;
+
+    if (
+      !title ||
+      !description ||
+      !price ||
+      !stock ||
+      !categoryName ||
+      !brand ||
+      !id
+    )
+      return {
+        message: MESSAGES.fields,
+        status: MESSAGES.update,
+        code: STATUS_CODES.updated,
+      };
+
+    const session = getServerSession();
+
+    if (!session)
+      return {
+        message: MESSAGES.unAuthorized,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.unAuthorized,
+      };
+
+    if (session.roll === "USER")
+      return {
+        message: MESSAGES.forbidden,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.forbidden,
+      };
+
+    const product = await ZedkalProducts.findById(id);
+
+    if (!product)
+      return {
+        message: MESSAGES.productNotFound,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.not_found,
+      };
+
+    if (
+      session.roll === "ADMIN" &&
+      session.userId !== product.createdBy.toString()
+    ) {
+      return {
+        message: MESSAGES.forbidden,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.forbidden,
+      };
+    }
+
+    let newImage;
+
+    if (product.images.length <= 0 && images.length <= 0) {
+      return {
+        message: MESSAGES.imageNotFound,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.badRequest,
+      };
+    } else if (images.length > 0) {
+      newImage = [...images, ...product.images];
+    } else if (images.length <= 0 && product.images) {
+      newImage = product.images;
+    }
+
+    let newKeywords;
+
+    if (keywords.length > 0) {
+      newKeywords = [...new Set([...product.keywords, ...keywords])];
+    } else {
+      newKeywords = product.keywords;
+    }
+
+    product.title = title;
+    product.slug = slug;
+    product.description = description;
+    product.images = newImage;
+    product.price = price;
+    product.stock = stock;
+    product.discount = discount;
+    product.categoryName = categoryName;
+    product.subCategories = subCategories;
+    product.specifications = specifications;
+    product.colors = colors;
+    product.sizes = sizes;
+    product.brand = brand;
+    product.keywords = newKeywords;
+    product.returnPolicy = returnPolicy;
+    product.warranty = warranty;
+    product.published = published;
+
+    await product.save();
+
+    revalidatePath("/products");
+
+    return {
+      message: MESSAGES.productEdited,
+      status: MESSAGES.success,
+      code: STATUS_CODES.updated,
+    };
+  } catch (error) {
+    console.log("error in edit product ... ", error.message);
+    return {
+      message: MESSAGES.server,
+      status: MESSAGES.failed,
+      code: STATUS_CODES.server,
+    };
+  }
+};

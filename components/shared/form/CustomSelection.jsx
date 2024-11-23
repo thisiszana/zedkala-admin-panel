@@ -229,11 +229,11 @@ export default function CustomSelection({ form, setForm }) {
         />
       </div>
       {form.subcategories.length !== 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 bg-gray-100 rounded-md shadow-md my-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 bg-gray-100 rounded-md shadow-md my-3 dark:bg-dark2 dark:border-lightGray">
           {form.subcategories.map((sub, index) => (
             <div
               key={index}
-              className="flex flex-col items-center gap-2 bg-white rounded-lg p-4 shadow-lg border border-gray-200"
+              className="flex flex-col items-center gap-2 bg-white dark:bg-dark1 rounded-lg p-4 shadow-lg border border-gray-200"
             >
               <CustomBtn
                 type="button"

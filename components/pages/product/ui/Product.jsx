@@ -5,7 +5,7 @@ import ProductInformation from "./ProductInformation";
 export default function Product({ product }) {
   return (
     <div className="flex flex-col gap-box">
-      <ProductAction id={product?.id} />
+      <ProductAction id={product?._id} />
       <ProductInformation info={product} />
       <ActiveTab />
     </div>
