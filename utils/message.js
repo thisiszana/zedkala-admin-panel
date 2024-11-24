@@ -46,6 +46,7 @@ export const MESSAGES = {
   editSubcategories: "زیردسته‌بندی ویرایش شد",
   sameKey: "شما قبلاً این کلمه کلیدی را انتخاب کرده اید",
   userNotFound: "نام کاربری یا رمز عبور صحیح نیست!",
+  aUserNotFound: "کاربر پیدا نشد!",
   register: "ثبت نام با موفقیت انجام شد",
   login: "با موفقیت وارد شدید!",
   user_exist: "نام کاربری از قبل وجود دارد!",
