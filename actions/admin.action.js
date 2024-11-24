@@ -12,6 +12,27 @@ import { getServerSession } from "@/utils/session";
 import ZedkalaAdmin from "@/models/zedkalaAdmin";
 import connectDB from "@/utils/connectDB";
 
+export const getAdmins = async () => {
+  try {
+    await connectDB();
+
+    const admins = await ZedkalaAdmin.find().select("-password").lean();
+
+    return {
+      admins,
+      message: MESSAGES.success,
+      status: MESSAGES.success,
+      code: STATUS_CODES.success,
+    };
+  } catch (error) {
+    return {
+      message: MESSAGES.server,
+      status: MESSAGES.failed,
+      code: STATUS_CODES.server,
+    };
+  }
+};
+
 export const getCurrentAdmin = async () => {
   try {
     await connectDB();
