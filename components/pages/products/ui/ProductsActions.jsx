@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { useState } from "react";
 
+import toast from "react-hot-toast";
 import { Popover } from "antd";
 
 import CustomConfirmDeleteModal from "@/components/shared/CustomConfirmDeleteModal";
@@ -19,7 +20,6 @@ import {
   Publish,
   Trash,
 } from "@/components/icons/Icons";
-import toast from "react-hot-toast";
 
 export default function ProductsActions({ productId, published }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -65,7 +65,9 @@ export default function ProductsActions({ productId, published }) {
         disabled={published || draftLoading || deleteLoading}
         onClick={publish}
         classNames={`popButton flex justify-center w-full ${
-          published ? "text-darkGreen dark:text-darkGreen  bg-lightGreen" : "hoverable"
+          published
+            ? "text-darkGreen dark:text-darkGreen  bg-lightGreen"
+            : "hoverable"
         }`}
         title={
           publishLoading ? (
@@ -82,7 +84,9 @@ export default function ProductsActions({ productId, published }) {
         disabled={!published || deleteLoading || publishLoading}
         onClick={draft}
         classNames={`popButton flex justify-center w-full ${
-          !published ? "text-darkOrange dark:text-darkOrange bg-lightOrange" : "hoverable"
+          !published
+            ? "text-darkOrange dark:text-darkOrange bg-lightOrange"
+            : "hoverable"
         }`}
         title={
           draftLoading ? (
@@ -100,10 +104,7 @@ export default function ProductsActions({ productId, published }) {
         <EyeOpen />
         جزئیات
       </Link>
-      <Link
-        href={`/product/edit/${productId}`}
-        className="popButton hoverable"
-      >
+      <Link href={`/product/edit/${productId}`} className="popButton hoverable">
         <Edit />
         ویرایش
       </Link>

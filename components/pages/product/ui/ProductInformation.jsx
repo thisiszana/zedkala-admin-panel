@@ -123,20 +123,23 @@ export default function ProductInformation({ info }) {
           </div>
         ))}
         <div className="flex items-center justify-between">
-          <div className="flex gap-2 items-center">
-            <span className="cardShadow rounded-lg p-3">{icons.color}</span>
-            <p className="text-p1 text-darkGray">رنگ ها :</p>
-          </div>
-          <div className="flex gap-2 items-center p-[8px] rounded-full border-1 border-black">
-            {info.colors.map((color, index) => (
-              <div
-                key={index}
-                style={{ backgroundColor: color }}
-                className="w-6 h-6 rounded-full border"
-              />
-            ))}
-          </div>
-        </div>
+  <div className="flex gap-2 items-center">
+    <span className="cardShadow rounded-lg p-3">{icons.color}</span>
+    <p className="text-p1 text-darkGray">رنگ ها :</p>
+  </div>
+  <div
+    className="flex gap-2 flex-wrap items-center max-w-[300px] max-h-[120px] overflow-auto border rounded-full p-2"
+  >
+    {info.colors.map((color, index) => (
+      <div
+        key={index}
+        style={{ backgroundColor: color }}
+        className="w-6 h-6 rounded-full border border-black dark:border-white"
+      />
+    ))}
+  </div>
+</div>
+
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex gap-2 items-center">
             <span className="cardShadow rounded-lg p-3">{icons.size}</span>
