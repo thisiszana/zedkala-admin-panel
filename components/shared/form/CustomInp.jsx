@@ -52,7 +52,7 @@ export default function CustomInp({
       )}
       {type === "password" && (
         <div
-          className="cursor-pointer absolute left-3 top-1/2 transform -translate-y-1/2"
+          className="cursor-pointer absolute left-3 top-1/2 transform -translate-y-1/2 dark:text-white"
           onClick={() =>
             setInpType(inpType === "password" ? "text" : "password")
           }

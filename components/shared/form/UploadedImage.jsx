@@ -39,7 +39,7 @@ export default function UploadedImage({ form, setForm, images, editImage }) {
   return (
     <div>
       <Dragger
-        className="flex flex-col justify-center items-center border-dashed dark:text-white bg-gray-50 dark:bg-dark1 border-2 rounded-xl"
+        className="flex flex-col justify-center items-center dark:text-white bg-gray-50 dark:bg-dark1 border-1 rounded-xl"
         defaultFileList={
           Array.isArray(form.images) && form.images.length > 0
             ? form.images

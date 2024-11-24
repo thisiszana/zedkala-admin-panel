@@ -3,13 +3,13 @@ import Link from "next/link";
 
 import { Image } from "@nextui-org/react";
 import moment from "moment-jalaali";
+import { Tooltip } from "antd";
 
 import CategoryActions from "@/components/pages/categories/ui/CategoryActions";
+import ProductsActions from "@/components/pages/products/ui/ProductsActions";
 import CustomBadge from "@/components/shared/CustomBadge";
 import { e2p, shorterText, sp } from "@/utils/fun";
 import { images } from ".";
-import ProductsActions from "@/components/pages/products/ui/ProductsActions";
-import { Tooltip } from "antd";
 
 export const categoriesDataSourse = (categories) =>
   categories?.map((c) => ({

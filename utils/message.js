@@ -17,6 +17,7 @@ export const MESSAGES = {
   deleteAdmin: "User Deleted!",
   adminHasContent: "Admin has content!",
   
+  confirmPassword: "رمز عبور جدید نادرست است!",
   existItemCategory: "شما قبلاً این آیتم را انتخاب کرده‌اید",
   addItemCategory: "آیتم اضافه شد",
   brandField: "لطفا نام و تصویر برند را وارد کنید.",
@@ -47,6 +48,7 @@ export const MESSAGES = {
   sameKey: "شما قبلاً این کلمه کلیدی را انتخاب کرده اید",
   userNotFound: "نام کاربری یا رمز عبور صحیح نیست!",
   aUserNotFound: "کاربر پیدا نشد!",
+  userShouldNotEmpty: "نام کاربری نباید خالی باشد!",
   register: "ثبت نام با موفقیت انجام شد",
   login: "با موفقیت وارد شدید!",
   user_exist: "نام کاربری از قبل وجود دارد!",

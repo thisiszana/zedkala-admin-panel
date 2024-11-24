@@ -1,7 +1,14 @@
-import React from 'react'
+import { getCurrentAdmin } from "@/actions/admin.action";
+import AvatarSection from "./AvatarSection";
+import ProfileForm from "./ProfileForm";
 
-export default function GeneralTab() {
+export default async function GeneralTab() {
+  const currentAdmin = await getCurrentAdmin();
+
   return (
-    <div>GeneralTab</div>
-  )
+    <div className="flex flex-col xl:flex-row gap-5">
+      <AvatarSection admin={currentAdmin} />
+      <ProfileForm {...JSON.parse(JSON.stringify(currentAdmin))} />
+    </div>
+  );
 }
