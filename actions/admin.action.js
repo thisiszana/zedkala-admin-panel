@@ -25,6 +25,7 @@ export const getAdmins = async () => {
       code: STATUS_CODES.success,
     };
   } catch (error) {
+    console.log("error in get admins", error.message);
     return {
       message: MESSAGES.server,
       status: MESSAGES.failed,
@@ -91,7 +92,7 @@ export const updateProfile = async (data) => {
       images,
     } = data;
     console.log(data);
-    
+
     const session = getServerSession();
 
     const admin = await ZedkalaAdmin.findById(session.userId);
@@ -184,6 +185,172 @@ export const updateProfile = async (data) => {
     };
   } catch (error) {
     console.log("error in update profile", error.message);
+    return {
+      message: MESSAGES.server,
+      status: MESSAGES.failed,
+      code: STATUS_CODES.server,
+    };
+  }
+};
+
+export const changeRole = async (data) => {
+  try {
+    await connectDB();
+
+    const session = getServerSession();
+
+    if (!session)
+      return {
+        message: MESSAGES.unAuthorized,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.unAuthorized,
+      };
+
+    if (session.roll === "USER")
+      return {
+        message: MESSAGES.forbidden,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.forbidden,
+      };
+
+    const { role, userId } = data;
+
+    const admin = await ZedkalaAdmin.findById(userId);
+
+    if (!admin)
+      return {
+        message: MESSAGES.unAuthorized,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.unAuthorized,
+      };
+
+    if (
+      session.roll === "ADMIN" &&
+      session.userId !== admin.createdBy.toString()
+    ) {
+      return {
+        message: MESSAGES.forbidden,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.forbidden,
+      };
+    }
+
+    admin.roll = role;
+    admin.save();
+
+    revalidatePath("/account");
+
+    return {
+      message: MESSAGES.updateRole,
+      status: MESSAGES.success,
+      code: STATUS_CODES.success,
+    };
+  } catch (error) {
+    return {
+      message: MESSAGES.server,
+      status: MESSAGES.failed,
+      code: STATUS_CODES.server,
+    };
+  }
+};
+
+export const checkAdminContent = async (id) => {
+  try {
+    await connectDB();
+    const { userId } = id;
+
+    const session = getServerSession();
+
+    if (!session || session.roll !== "OWNER") {
+      return {
+        message: MESSAGES.unAuthorized,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.unAuthorized,
+      };
+    }
+
+    const admin = await ZedkalaAdmin.findById(userId).select(
+      "blogsCreated productsCreated categoryCreated"
+    );
+
+    if (
+      admin.blogsCreated.length > 0 ||
+      admin.productsCreated.length > 0 ||
+      admin.categoryCreated.length > 0
+    ) {
+      return {
+        message: MESSAGES.adminHasContent,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.exist,
+        hasContent: true,
+        contentInfo: {
+          blogsCreated: admin.blogsCreated,
+          productsCreated: admin.productsCreated,
+          categoryCreated: admin.categoryCreated,
+        },
+      };
+    }
+
+    return {
+      hasContent: false,
+      message: MESSAGES.noContent,
+      status: MESSAGES.success,
+      code: STATUS_CODES.success,
+    };
+  } catch (error) {
+    return {
+      message: MESSAGES.server,
+      status: MESSAGES.failed,
+      code: STATUS_CODES.server,
+    };
+  }
+};
+
+export const deleteAdmin = async (id, forceDelete = false) => {
+  try {
+    await connectDB();
+
+    const { userId, forceDelete } = id;
+
+    const session = getServerSession();
+
+    if (!session || session.roll !== "OWNER") {
+      return {
+        message: MESSAGES.unAuthorized,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.unAuthorized,
+      };
+    }
+
+    const adminContentCheck = await checkAdminContent(id);
+
+    if (adminContentCheck.hasContent && !forceDelete) {
+      return {
+        message: MESSAGES.dataAdminNotFound,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.badRequest,
+        hasContent: true,
+        contentInfo: adminContentCheck.contentInfo,
+      };
+    }
+
+    // Blog ...
+
+    await ProductAdminSorme.deleteMany({ createdBy: userId });
+
+    //  Task ...
+
+    await AdminSorme.findByIdAndDelete(userId);
+
+    revalidatePath("/account");
+
+    return {
+      message: MESSAGES.deleteAdmin,
+      status: MESSAGES.success,
+      code: STATUS_CODES.success,
+    };
+  } catch (error) {
+    console.log("Error in deleteAdmin:", error);
     return {
       message: MESSAGES.server,
       status: MESSAGES.failed,

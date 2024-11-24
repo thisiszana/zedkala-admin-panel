@@ -83,3 +83,36 @@ export const productsColumn = [
     key: "actions",
   },
 ];
+
+export const adminsColumns = [
+  {
+    title: "آواتار",
+    dataIndex: "avatar",
+    key: "avatar",
+  },
+  {
+    title: "نام",
+    dataIndex: "name",
+    key: "name",
+  },
+  {
+    title: "شماره",
+    dataIndex: "phone",
+    key: "phone",
+  },
+  {
+    title: "نقش",
+    dataIndex: "roll",
+    key: "roll",
+  },
+  {
+    title: "تاریخ",
+    dataIndex: "date",
+    key: "date",
+  },
+  {
+    title: "اکشن",
+    dataIndex: "action",
+    key: "action",
+  },
+];

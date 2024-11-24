@@ -7,6 +7,7 @@ import { Tooltip } from "antd";
 
 import CategoryActions from "@/components/pages/categories/ui/CategoryActions";
 import ProductsActions from "@/components/pages/products/ui/ProductsActions";
+import AdminActions from "@/components/pages/account/ui/admin/AdminActions";
 import CustomBadge from "@/components/shared/CustomBadge";
 import { e2p, shorterText, sp } from "@/utils/fun";
 import { images } from ".";
@@ -135,5 +136,60 @@ export const productsDataSourse = (products) =>
     ),
     actions: (
       <ProductsActions productId={product._id} published={product.published} />
+    ),
+  }));
+
+export const adminsDataSourse = (admins, currentUserID, currentUserRoll) =>
+  admins.map((admin) => ({
+    key: admin._id,
+    avatar: (
+      <div className="w-12 h-12">
+        <Image
+          as={NextImage}
+          src={admin.imageس || images.admin}
+          width={100}
+          height={100}
+          style={{ width: "500px", height: "48px" }}
+          alt="admin"
+          radius="full"
+        />
+      </div>
+    ),
+    name: (
+      <div>
+        <p className="text-p1 font-medium">
+          {admin.username}{" "}
+          {currentUserID === admin._id && (
+            <span className="bg-lightBlue text-darkBlue rounded-btn py-.5 px-2 text-p2 font-medium border border-darkBlue">
+              YOU
+            </span>
+          )}
+        </p>
+        {admin.firstName && (
+          <p className="text-p2 text-darkGray">{admin.firstName}</p>
+        )}
+      </div>
+    ),
+    phone: admin.phoneNumber || "_",
+    roll: (
+      <CustomBadge
+        condition={admin.roll === "OWNER" || admin.roll === "ADMIN"}
+        title={admin.roll}
+      />
+    ),
+    date: (
+      <div>
+      <p>{moment(admin.createdAt).locale("fa").format("jYYYY/jMM/jDD")}</p>
+      <p className="text-p2 text-darkGray">
+        {moment(admin.createdAt).locale("fa").format("HH:mm")}
+      </p>
+    </div>
+    ),
+    action: (
+      <AdminActions
+        roll={admin.roll}
+        userId={admin._id}
+        showMore={currentUserRoll === "OWNER" && admin.roll !== "OWNER"}
+      />
     ),
   }));
