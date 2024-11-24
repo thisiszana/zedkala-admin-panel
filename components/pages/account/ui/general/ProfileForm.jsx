@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import UploadedImage from "@/components/shared/form/UploadedImage";
 import CustomInp from "@/components/shared/form/CustomInp";
 import RadioList from "@/components/shared/form/RadioList";
+import { updateProfile } from "@/actions/admin.action";
 import { LockClosed } from "@/components/icons/Icons";
 import CustomBtn from "@/components/shared/CustomBtn";
 import { MESSAGES } from "@/utils/message";
@@ -36,7 +37,7 @@ export default function ProfileForm(props) {
     phoneNumber: "",
     address: "",
     country: "",
-    image: "",
+    images: "",
     currentPassword: "",
     newPassword: "",
     confirmNewPassword: "",
@@ -96,11 +97,11 @@ export default function ProfileForm(props) {
 
     let newForm = { ...form };
 
-    if (form.image && form.image?.length !== 0) {
-      const uploadResult = await uploadImage(form.image[0]);
+    if (form.images && form.images?.length !== 0) {
+      const uploadResult = await uploadImage(form.images[0]);
       newForm = {
         ...form,
-        image: uploadResult.imageUrl,
+        images: uploadResult.imageUrl,
       };
     }
 

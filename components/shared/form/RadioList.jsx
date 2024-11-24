@@ -15,7 +15,7 @@ export default function RadioList({ form, setForm }) {
             <input
               type="radio"
               name="gender"
-              value="female"
+              value="خانم"
               id="female"
               checked={gender === "female"}
               onChange={changeHandler}
@@ -26,20 +26,20 @@ export default function RadioList({ form, setForm }) {
             <input
               type="radio"
               name="gender"
-              value="man"
+              value="آقا"
               id="man"
-              checked={gender === "man"}
+              checked={gender === "آقا"}
               onChange={changeHandler}
             />
           </div>
           <div className="flex items-center justify-evenly bg-white dark:bg-lightGray  dark:border-white shadow text-black ml-[30px] w-[80px] px-[5px] py-[3px] rounded-[5px] pointer-events-auto cardShadow">
-            <label htmlFor="etc">متفرقه</label>
+            <label htmlFor="etc">سایر</label>
             <input
               type="radio"
               name="gender"
-              value="etc"
+              value="سایر"
               id="etc"
-              checked={gender === "etc"}
+              checked={gender === "سایر"}
               onChange={changeHandler}
             />
           </div>

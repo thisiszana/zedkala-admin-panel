@@ -12,7 +12,7 @@ export default function AvatarSection({ admin }) {
     <div className="box flex flex-col items-center gap-5 w-full xl:w-[40%] h-fit">
       <div>
         <Image
-          src={admin.currentAdmin?.image || images.admin}
+          src={admin.currentAdmin?.images || images.admin}
           width={300}
           height={300}
           alt={admin.currentAdmin?.username}
