@@ -1,7 +1,5 @@
+import AdminDeatailsPage from "@/components/pages/account/ui/adminDeatails/AdminDeatailsPage";
 
-
-export default function AdminDeatails() {
-  return (
-    <div>AdminDeatails</div>
-  )
+export default function AdminDeatails({ params }) {
+  return <AdminDeatailsPage id={params.id} />;
 }

@@ -12,15 +12,15 @@ import CustomInp from "./CustomInp";
 
 export default function Specifications({ form, setForm }) {
   const [specifications, setSpecifications] = useState(form.specifications);
-  const [sizes, setSizes] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [currentColor, setCurrentColor] = useState("#fff");
   const [selectedSize, setSelectedSize] = useState("");
   const [customSize, setCustomSize] = useState("");
-  const [colors, setColors] = useState([]);
-  const [currentColor, setCurrentColor] = useState("#fff");
-
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
   const [newColor, setNewColor] = useState("");
+  const [colors, setColors] = useState([]);
+  const [sizes, setSizes] = useState([]);
+
 
   useEffect(() => {
     setColors(form.colors || []);
@@ -211,8 +211,8 @@ export default function Specifications({ form, setForm }) {
             onChange={(value) => setSelectedSize(value)}
             style={{ width: "100%", maxWidth: 200 }}
           >
-            {sizesDefault.map((size) => (
-              <Select.Option key={size} value={size}>
+            {sizesDefault.map((size,index) => (
+              <Select.Option key={index} value={size}>
                 {size}
               </Select.Option>
             ))}

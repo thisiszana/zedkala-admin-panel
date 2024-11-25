@@ -185,7 +185,7 @@ export default function CategoryTreeSelection({ form, setForm }) {
             mode="multiple"
             onChange={(value) => handleItemChange(sub.name, value)}
             value={sub.items}
-            maxTagCount={4}
+            maxTagCount={2}
             style={{ width: "100%", marginBottom: 10 }}
           >
             {categories

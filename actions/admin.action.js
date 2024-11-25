@@ -14,6 +14,37 @@ import { getServerSession } from "@/utils/session";
 import ZedkalaAdmin from "@/models/zedkalaAdmin";
 import connectDB from "@/utils/connectDB";
 
+export const getAdmin = async (id) => {
+  try {
+    await connectDB();
+
+    const admin = await ZedkalaAdmin.findById(id)
+      .populate({
+        path: "productsCreated",
+        model: ZedkalaProducts,
+      })
+      .populate({
+        path: "categoryCreated",
+        model: ZedkalaCategory,
+      })
+      .select("-password")
+      .lean();
+
+    return {
+      admin,
+      message: MESSAGES.success,
+      status: MESSAGES.success,
+      code: STATUS_CODES.success,
+    };
+  } catch (error) {
+    console.log("error in get admin", error.message);
+    return {
+      message: MESSAGES.server,
+      status: MESSAGES.failed,
+      code: STATUS_CODES.server,
+    };
+  }
+};
 
 export const getAdmins = async () => {
   try {
@@ -301,7 +332,7 @@ export const checkAdminContent = async (id) => {
       code: STATUS_CODES.success,
     };
   } catch (error) {
-    console.log("error in checkAdminContent", error.message)
+    console.log("error in checkAdminContent", error.message);
     return {
       message: MESSAGES.server,
       status: MESSAGES.failed,
