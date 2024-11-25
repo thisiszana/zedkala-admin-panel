@@ -142,7 +142,8 @@ export default function ProductsActions({ productId, published }) {
         <CustomBtn icon={<MenuDots />} classNames="iconButton" />
       </Popover>
       <CustomConfirmDeleteModal
-        visible={isModalVisible}
+        title="تایید حذف"
+        open={isModalVisible}
         onConfirm={handleDelete}
         onCancel={() => setIsModalVisible(false)}
         confirmMessage="آیا مطمئن هستید که می‌خواهید این محصول را حذف کنید؟"

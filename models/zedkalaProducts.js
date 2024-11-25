@@ -56,7 +56,7 @@ const productSchema = new Schema({
       quantity: { type: Number },
     },
   ],
-  relatedProducts: [{ type: Schema.Types.ObjectId, ref: "ZedkalProducts" }],
+  relatedProducts: [{ type: Schema.Types.ObjectId, ref: "ZedkalaProducts" }],
   deliveryOptions: {
     fastDelivery: { type: Boolean, default: false },
     freeDelivery: { type: Boolean, default: false },
@@ -75,5 +75,5 @@ const productSchema = new Schema({
 
 productSchema.index({ title: "text", description: "text", brand: "text" });
 
-export const ZedkalProducts =
-  models?.ZedkalProducts || model("ZedkalProducts", productSchema);
+export const ZedkalaProducts =
+  models?.ZedkalaProducts || model("ZedkalaProducts", productSchema);

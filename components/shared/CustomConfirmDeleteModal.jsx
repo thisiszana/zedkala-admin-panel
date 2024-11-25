@@ -2,7 +2,8 @@
 import { Modal, Button } from "antd";
 
 const CustomConfirmDeleteModal = ({
-  visible,
+  title,
+  open,
   onConfirm,
   onCancel,
   confirmMessage = "آیا مطمئن هستید که می‌خواهید این مورد را حذف کنید؟",
@@ -12,8 +13,8 @@ const CustomConfirmDeleteModal = ({
 }) => {
   return (
     <Modal
-      title="تایید حذف"
-      visible={visible}
+      title={title}
+      open={open}
       onCancel={onCancel}
       footer={[
         <Button key="cancel" onClick={onCancel}>

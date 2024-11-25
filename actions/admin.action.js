@@ -7,10 +7,13 @@ import { sign } from "jsonwebtoken";
 
 import { hashedPassword, sanitizeData, verifyPassword } from "@/utils/fun";
 import { SECRET_KEY, SESSION_EXPIRATION } from "@/utils/var";
+import { ZedkalaCategory } from "@/models/zedkalaCategory";
+import { ZedkalaProducts } from "@/models/zedkalaProducts";
 import { MESSAGES, STATUS_CODES } from "@/utils/message";
 import { getServerSession } from "@/utils/session";
 import ZedkalaAdmin from "@/models/zedkalaAdmin";
 import connectDB from "@/utils/connectDB";
+
 
 export const getAdmins = async () => {
   try {
@@ -298,6 +301,7 @@ export const checkAdminContent = async (id) => {
       code: STATUS_CODES.success,
     };
   } catch (error) {
+    console.log("error in checkAdminContent", error.message)
     return {
       message: MESSAGES.server,
       status: MESSAGES.failed,
@@ -336,11 +340,13 @@ export const deleteAdmin = async (id, forceDelete = false) => {
 
     // Blog ...
 
-    await ProductAdminSorme.deleteMany({ createdBy: userId });
+    await ZedkalaProducts.deleteMany({ createdBy: userId });
+
+    await ZedkalaCategory.deleteMany({ createdBy: userId });
 
     //  Task ...
 
-    await AdminSorme.findByIdAndDelete(userId);
+    await ZedkalaAdmin.findByIdAndDelete(userId);
 
     revalidatePath("/account");
 

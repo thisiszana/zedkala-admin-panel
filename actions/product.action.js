@@ -1,12 +1,13 @@
 "use server";
 
-import ZedkalaAdmin from "@/models/zedkalaAdmin";
-import { ZedkalProducts } from "@/models/zedkalaProducts";
-import connectDB from "@/utils/connectDB";
-import { sanitizeData } from "@/utils/fun";
+import { revalidatePath } from "next/cache";
+
+import { ZedkalaProducts } from "@/models/zedkalaProducts";
 import { MESSAGES, STATUS_CODES } from "@/utils/message";
 import { getServerSession } from "@/utils/session";
-import { revalidatePath } from "next/cache";
+import ZedkalaAdmin from "@/models/zedkalaAdmin";
+import { sanitizeData } from "@/utils/fun";
+import connectDB from "@/utils/connectDB";
 
 export const createProduct = async (data) => {
   try {
@@ -51,7 +52,7 @@ export const createProduct = async (data) => {
       slug,
     } = data;
 
-    const newProduct = await ZedkalProducts.create({
+    const newProduct = await ZedkalaProducts.create({
       title,
       description,
       images,
@@ -136,14 +137,14 @@ export const getProducts = async (searchParams) => {
 
     const pageNumber = page || 1;
     const perPage = 5;
-    const totalProductsWithoutFilter = await ZedkalProducts.countDocuments();
-    const totalProducts = await ZedkalProducts.countDocuments({
+    const totalProductsWithoutFilter = await ZedkalaProducts.countDocuments();
+    const totalProducts = await ZedkalaProducts.countDocuments({
       ...query,
       ...filters,
     });
     const totalPages = Math.ceil(totalProducts / perPage);
 
-    const products = await ZedkalProducts.find({ ...filters, ...query })
+    const products = await ZedkalaProducts.find({ ...filters, ...query })
       .sort({
         ...(sort == 1
           ? { createdAt: -1 }
@@ -188,7 +189,7 @@ export const getProduct = async (id) => {
   try {
     await connectDB();
 
-    const product = await ZedkalProducts.findById(id)
+    const product = await ZedkalaProducts.findById(id)
       .populate({
         path: "createdBy",
         model: ZedkalaAdmin,
@@ -234,7 +235,7 @@ export const changeProductStatus = async (data) => {
         code: STATUS_CODES.forbidden,
       };
 
-    const product = await ZedkalProducts.findById(data.id);
+    const product = await ZedkalaProducts.findById(data.id);
 
     if (!product)
       return {
@@ -299,7 +300,7 @@ export const deleteProduct = async (data) => {
         code: STATUS_CODES.forbidden,
       };
 
-    const product = await ZedkalProducts.findById(data.id);
+    const product = await ZedkalaProducts.findById(data.id);
 
     if (!product)
       return {
@@ -319,7 +320,7 @@ export const deleteProduct = async (data) => {
       };
     }
 
-    await ZedkalProducts.findByIdAndDelete(data.id);
+    await ZedkalaProducts.findByIdAndDelete(data.id);
 
     revalidatePath("/products");
 
@@ -393,7 +394,7 @@ export const editProduct = async (data) => {
         code: STATUS_CODES.forbidden,
       };
 
-    const product = await ZedkalProducts.findById(id);
+    const product = await ZedkalaProducts.findById(id);
 
     if (!product)
       return {
