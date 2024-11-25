@@ -348,6 +348,11 @@ export const deleteCategory = async (data) => {
 
     await ZedkalaCategory.findByIdAndDelete(data.id);
 
+    await ZedkalaAdmin.findOneAndUpdate(
+      { _id: category.createdBy },
+      { $pull: { categoryCreated: category._id } }
+    );
+
     revalidatePath("/categories");
 
     return {

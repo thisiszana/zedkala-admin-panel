@@ -146,7 +146,8 @@ export default function CategoryActions({ categoryId, published }) {
         <CustomBtn icon={<MenuDots />} classNames="iconButton" />
       </Popover>
       <CustomConfirmDeleteModal
-        visible={isModalVisible}
+        title="حذف دسته‌بندی"
+        open={isModalVisible}
         onConfirm={handleDelete}
         onCancel={() => setIsModalVisible(false)}
         loading={deleteLoading}

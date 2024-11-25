@@ -8,6 +8,7 @@ import { getServerSession } from "@/utils/session";
 import ZedkalaAdmin from "@/models/zedkalaAdmin";
 import { sanitizeData } from "@/utils/fun";
 import connectDB from "@/utils/connectDB";
+import { ZedkalaCategory } from "@/models/zedkalaCategory";
 
 export const createProduct = async (data) => {
   try {
@@ -321,6 +322,11 @@ export const deleteProduct = async (data) => {
     }
 
     await ZedkalaProducts.findByIdAndDelete(data.id);
+
+    await ZedkalaAdmin.findOneAndUpdate(
+      { _id: product.createdBy },
+      { $pull: { productsCreated: product._id } }
+    );
 
     revalidatePath("/products");
 
