@@ -8,7 +8,7 @@ import { useState } from "react";
 import CustomInp from "@/components/shared/form/CustomInp";
 import CustomBtn from "@/components/shared/CustomBtn";
 import useServerAction from "@/hooks/useServerAction";
-import { CreateAdmin } from "@/actions/auth.action";
+import { createAdmin } from "@/actions/auth.action";
 import { MESSAGES } from "@/utils/message";
 import toast from "react-hot-toast";
 import DarkLightMode from "@/components/shared/layout/DarkLightMode";
@@ -28,7 +28,7 @@ export default function RegisterPage() {
     setForm({ ...form, [name]: value });
   };
 
-  const { loading, res } = useServerAction(CreateAdmin, form, () =>
+  const { loading, res } = useServerAction(createAdmin, form, () =>
     router.push("/login")
   );
 

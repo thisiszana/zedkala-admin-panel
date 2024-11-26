@@ -51,6 +51,7 @@ export const MESSAGES = {
   aUserNotFound: "کاربر پیدا نشد!",
   userShouldNotEmpty: "نام کاربری نباید خالی باشد!",
   register: "ثبت نام با موفقیت انجام شد",
+  adminCreated: "ادمین جدید ایجاد شد!",
   login: "با موفقیت وارد شدید!",
   user_exist: "نام کاربری از قبل وجود دارد!",
   fillInp: "لطفا داده های معتبر را وارد کنید!",

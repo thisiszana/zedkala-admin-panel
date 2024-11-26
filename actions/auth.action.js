@@ -3,15 +3,16 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 
+import { sign } from "jsonwebtoken";
+
 import { hashedPassword, verifyPassword } from "@/utils/fun";
 import { SECRET_KEY, SESSION_EXPIRATION } from "@/utils/var";
 import { MESSAGES, STATUS_CODES } from "@/utils/message";
+import { getServerSession } from "@/utils/session";
 import ZedkalaAdmin from "@/models/zedkalaAdmin";
 import connectDB from "@/utils/connectDB";
 
-import { sign } from "jsonwebtoken";
-
-export const CreateAdmin = async (data) => {
+export const createAdmin = async (data) => {
   try {
     await connectDB();
 
@@ -49,6 +50,84 @@ export const CreateAdmin = async (data) => {
       code: STATUS_CODES.created,
     };
   } catch (error) {
+    return {
+      message: MESSAGES.server,
+      status: MESSAGES.failed,
+      code: STATUS_CODES.server,
+    };
+  }
+};
+export const createAdminByOwner = async (data) => {
+  try {
+    await connectDB();
+
+    const {
+      firstName,
+      lastName,
+      username,
+      password,
+      email,
+      phoneNumber,
+      address,
+      country,
+      roll,
+    } = data;
+
+    const session = getServerSession();
+
+    if (!session)
+      return {
+        message: MESSAGES.unAuthorized,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.unAuthorized,
+      };
+
+    if (session.roll === "USER" || session.roll === "ADMIN")
+      return {
+        message: MESSAGES.forbidden,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.forbidden,
+      };
+
+    if (!firstName || !username || !password)
+      return {
+        message: MESSAGES.fillInp,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.not_found,
+      };
+
+    const existingAdmin = await ZedkalaAdmin.findOne({ username });
+
+    if (existingAdmin)
+      return {
+        message: MESSAGES.user_exist,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.exist,
+      };
+
+    const hashPassword = await hashedPassword(password);
+
+    await ZedkalaAdmin.create({
+      firstName,
+      lastName,
+      username,
+      password: hashPassword,
+      email,
+      phoneNumber,
+      address,
+      country,
+      roll,
+    });
+
+    revalidatePath("/account");
+
+    return {
+      message: MESSAGES.adminCreated,
+      status: MESSAGES.success,
+      code: STATUS_CODES.created,
+    };
+  } catch (error) {
+    console.log("error in creat admin by owner", error.message)
     return {
       message: MESSAGES.server,
       status: MESSAGES.failed,
