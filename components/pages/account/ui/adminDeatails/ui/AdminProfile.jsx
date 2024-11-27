@@ -7,9 +7,9 @@ import moment from "moment-jalaali";
 import { Date, Flag, Location, Mail, Mobile } from "@/components/icons/Icons";
 import DetailedBox from "@/components/shared/DetailedBox";
 import CustomBadge from "@/components/shared/CustomBadge";
+import { images as imagesDefault } from "@/constants";
 import { getAdmin } from "@/actions/admin.action";
 import { e2p, sp } from "@/utils/fun";
-import { images } from "@/constants";
 
 export default async function AdminProfile({ id }) {
   const { admin } = await getAdmin(id);
@@ -35,7 +35,7 @@ export default async function AdminProfile({ id }) {
     <div className="w-full box border flex flex-col items-center gap-1">
       <div className="flex justify-center w-full mb-4">
         <Image
-          src={images || images.admin}
+          src={images || imagesDefault.admin}
           width={200}
           height={200}
           style={{ width: "200px", height: "auto", borderRadius: "50%" }}
@@ -93,7 +93,7 @@ export default async function AdminProfile({ id }) {
             <Image
               width={100}
               height={100}
-              src={product.images[0] || images.imageNotFound}
+              src={product.images[0] || imagesDefault.imageNotFound}
               alt="محصول"
             />
             <p className="text-p1 font-medium">{sp(product.price)}</p>
@@ -119,7 +119,7 @@ export default async function AdminProfile({ id }) {
             <Image
               width={100}
               height={100}
-              src={blog.image | images.imageNotFound}
+              src={blog.image || imagesDefault.imageNotFound}
               alt="وبلاگ"
             />
             <p className="text-p2">{moment(blog.createdAt).format("L")}</p>

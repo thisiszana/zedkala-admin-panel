@@ -11,7 +11,6 @@ import useServerAction from "@/hooks/useServerAction";
 import { createAdmin } from "@/actions/auth.action";
 import { MESSAGES } from "@/utils/message";
 import toast from "react-hot-toast";
-import DarkLightMode from "@/components/shared/layout/DarkLightMode";
 
 export default function RegisterPage() {
   const [form, setForm] = useState({
@@ -45,7 +44,7 @@ export default function RegisterPage() {
       onSubmit={handleSubmit}
       className="flex items-center h-[100vh] justify-center gap-[150px] bg-white dark:bg-dark2 max-xl:p-[30px]"
     >
-      <div className="w-full h-fit flex items-center justify-center bg-white dark:bg-dark1 rounded-[8px]">
+      <div className="w-fit h-fit flex items-center justify-center bg-white dark:bg-dark1 rounded-[8px]">
         <div className="max-w-[500px] w-full p-8">
           <div className="mb-[40px]">
             <h1 className="font-medium text-gray-600 dark:text-lightGray text-[30px] mb-[5px]">

@@ -6,13 +6,13 @@ import Link from "next/link";
 import { useState } from "react";
 
 import toast from "react-hot-toast";
+import { Alert } from "antd";
 
 import CustomInp from "@/components/shared/form/CustomInp";
 import useServerAction from "@/hooks/useServerAction";
 import CustomBtn from "@/components/shared/CustomBtn";
 import { loginAdmin } from "@/actions/auth.action";
 import { MESSAGES } from "@/utils/message";
-import { Alert } from "antd";
 
 export default function LoginPage() {
   const [form, setForm] = useState({
@@ -44,7 +44,7 @@ export default function LoginPage() {
         onSubmit={handleSubmit}
         className="flex items-center h-[100vh] justify-center gap-[150px] bg-white dark:bg-dark2 max-xl:p-[30px]"
       >
-        <div className="w-full h-fit flex items-center justify-center bg-white dark:bg-dark1 rounded-[8px]">
+        <div className="w-fit h-fit flex items-center justify-center bg-white dark:bg-dark1 rounded-[8px]">
 
           <div className="max-w-[500px] w-full p-8">
             <div className="mb-[40px]">

@@ -57,6 +57,7 @@ export const createAdmin = async (data) => {
     };
   }
 };
+
 export const createAdminByOwner = async (data) => {
   try {
     await connectDB();

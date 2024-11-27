@@ -148,7 +148,7 @@ export default function AdminActions({ roll, userId, showMore }) {
             </>
           )
         }
-        classNames="popButton text-darkRose hover:bg-lightRose Transition"
+        classNames="popButton text-darkRose hover:bg-lightRose Transition dark:bg-red-400"
         disabled={makeAdminLoading || makeUserLoading || deleteAdminLoading}
         onClick={handleDeleteAdmin}
       />

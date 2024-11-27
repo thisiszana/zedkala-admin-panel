@@ -146,7 +146,7 @@ export const adminsDataSourse = (admins, currentUserID, currentUserRoll) =>
       <div className="w-12 h-12">
         <Image
           as={NextImage}
-          src={admin.imageس || images.admin}
+          src={admin.images || images.admin}
           width={100}
           height={100}
           style={{ width: "500px", height: "48px" }}
@@ -158,12 +158,12 @@ export const adminsDataSourse = (admins, currentUserID, currentUserRoll) =>
     name: (
       <div>
         <p className="text-p1 font-medium">
-          {admin.username}{" "}
           {currentUserID === admin._id && (
-            <span className="bg-lightBlue text-darkBlue rounded-btn py-.5 px-2 text-p2 font-medium border border-darkBlue">
+            <span className="bg-lightBlue text-darkBlue rounded-btn py-.5 px-2 text-p2 font-medium border border-darkBlue mr-2">
               YOU
             </span>
           )}
+          {admin.username}
         </p>
         {admin.firstName && (
           <p className="text-p2 text-darkGray">{admin.firstName}</p>

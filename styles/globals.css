@@ -8,31 +8,29 @@ html.dark {
 
 /* Antd Custom Style */
 .ant-table {
-  background-color: #fff; 
+  background-color: #fff;
   color: #232b33;
   border-radius: 10px;
 }
 
 .dark .ant-table {
-  background-color: #33384d; 
-  color: #fff; 
-}
-
-
-.dark .ant-table-thead > tr > th {
-  background-color: #232b33; 
+  background-color: #33384d;
   color: #fff;
 }
 
+.dark .ant-table-thead > tr > th {
+  background-color: #232b33;
+  color: #fff;
+}
 
 .dark .ant-table-tbody > tr > td {
-  background-color: #33384d; 
+  background-color: #33384d;
   color: #fff;
 }
 
 .dark .ant-table-row:hover > .ant-table-cell {
-  background-color: #33384d; 
-  color: #ffffff; /* رنگ متن سلول هنگام hover */
+  background-color: #33384d;
+  color: #ffffff;
 }
 
 /* Scroll */
@@ -199,4 +197,8 @@ html.dark {
 
 .backLink {
   @apply rounded-btn flex items-center gap-2 hoverable p-2 w-fit;
+}
+
+.tableContainer {
+  @apply cardShadow3 rounded-2xl border overflow-hidden;
 }
