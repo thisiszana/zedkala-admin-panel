@@ -24,6 +24,13 @@ const productSchema = new Schema({
       items: { type: [String], default: [] },
     },
   ],
+  isGrocery: {
+    type: Object,
+    default: {
+      value: false,
+      slug: "grocery-product",
+    },
+  },
   slug: { type: String },
   keywords: { type: [String], default: [] },
   brand: { type: String, required: true },

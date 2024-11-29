@@ -52,6 +52,7 @@ export const createProduct = async (data) => {
       deliveryOptions,
       insurance,
       slug,
+      isGrocery,
     } = data;
 
     const newProduct = await ZedkalaProducts.create({
@@ -74,6 +75,7 @@ export const createProduct = async (data) => {
       published,
       insurance,
       deliveryOptions,
+      isGrocery,
       createdBy: session.userId,
     });
 
@@ -370,6 +372,7 @@ export const editProduct = async (data) => {
       published,
       insurance,
       deliveryOptions,
+      isGrocery,
       id,
     } = data;
 
@@ -457,6 +460,7 @@ export const editProduct = async (data) => {
     product.published = published;
     product.insurance = insurance;
     product.deliveryOptions = deliveryOptions;
+    product.isGrocery = isGrocery;
 
     await product.save();
 

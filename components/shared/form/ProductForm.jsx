@@ -112,6 +112,25 @@ export default function ProductForm({
         onChange={onChange}
         wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
       />
+      <div className="flex items-center gap-2">
+        <Switch
+          id="isGrocery"
+          defaultChecked={form.isGrocery?.value || false}
+          name="isGrocery"
+          onChange={(checked) => {
+            setForm({
+              ...form,
+              isGrocery: {
+                ...form.isGrocery,
+                value: checked,
+              },
+            });
+          }}
+        />
+        <label htmlFor="isGrocery" className="text-p1">
+          کالای سوپرمارکتی است؟
+        </label>
+      </div>
     </div>
   );
 
@@ -218,42 +237,52 @@ export default function ProductForm({
   );
 
   const deliveryDetails = (
-    <div className="flex items-center gap-box w-full h-[40px]">
-      <CustomInp
-        type="checkbox"
-        name="fastDelivery"
-        label="تحویل سریع"
-        checked={form.deliveryOptions?.fastDelivery || false}
-        onChange={(e) =>
-          setForm((prev) => ({
-            ...prev,
-            deliveryOptions: {
-              ...prev.deliveryOptions,
-              fastDelivery: e.target.checked,
-            },
-          }))
-        }
-        wrapperClassName="flex items-center w-full"
-      />
-
-      <CustomInp
-        type="checkbox"
-        name="freeDelivery"
-        label="تحویل رایگان"
-        checked={form.deliveryOptions?.freeDelivery || false}
-        onChange={(e) =>
-          setForm((prev) => ({
-            ...prev,
-            deliveryOptions: {
-              ...prev.deliveryOptions,
-              freeDelivery: e.target.checked,
-            },
-          }))
-        }
-        wrapperClassName="flex items-center w-full"
-      />
+    <div className="flex flex-col sm:flex-row sm:gap-8 gap-4 w-full h-auto">
+      <div className="flex items-center w-full sm:w-auto">
+        <input
+          type="checkbox"
+          id="fastDelivery"
+          name="fastDelivery"
+          checked={form.deliveryOptions?.fastDelivery || false}
+          onChange={(e) =>
+            setForm((prev) => ({
+              ...prev,
+              deliveryOptions: {
+                ...prev.deliveryOptions,
+                fastDelivery: e.target.checked,
+              },
+            }))
+          }
+          className="h-5 w-5 mr-2"
+        />
+        <label htmlFor="fastDelivery" className="text-p1 mr-3">
+          تحویل سریع
+        </label>
+      </div>
+  
+      <div className="flex items-center w-full sm:w-auto">
+        <input
+          type="checkbox"
+          id="freeDelivery"
+          name="freeDelivery"
+          checked={form.deliveryOptions?.freeDelivery || false}
+          onChange={(e) =>
+            setForm((prev) => ({
+              ...prev,
+              deliveryOptions: {
+                ...prev.deliveryOptions,
+                freeDelivery: e.target.checked,
+              },
+            }))
+          }
+          className="h-5 w-5 mr-2"
+        />
+        <label htmlFor="freeDelivery" className="text-p1 mr-3">
+          تحویل رایگان
+        </label>
+      </div>
     </div>
-  );
+  );  
 
   const uploadImages = async (images) => {
     const uploadedImages = await Promise.all(

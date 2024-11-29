@@ -28,6 +28,7 @@ export default function AddProductPage({ data }) {
       fastDelivery: false,
       freeDelivery: false,
     },
+    isGrocery: data?.isGrocery || { value: false, slug: "grocery-product" },
     insurance: data?.insurance || {
       insuranceType: "",
       insuranceDuration: 0,
