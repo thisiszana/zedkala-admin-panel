@@ -194,7 +194,7 @@ export const getProduct = async (id) => {
       .populate({
         path: "createdBy",
         model: ZedkalaAdmin,
-        select: "username firstName image",
+        select: "username firstName images",
       })
       .lean();
 
@@ -366,22 +366,15 @@ export const editProduct = async (data) => {
       returnPolicy,
       warranty,
       published,
+      insurance,
       id,
     } = data;
 
-    if (
-      !title ||
-      !description ||
-      !price ||
-      !stock ||
-      !categoryName ||
-      !brand ||
-      !id
-    )
+    if (!title || !price || !stock || !categoryName || !brand || !id)
       return {
         message: MESSAGES.fields,
-        status: MESSAGES.update,
-        code: STATUS_CODES.updated,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.badRequest,
       };
 
     const session = getServerSession();
@@ -459,6 +452,7 @@ export const editProduct = async (data) => {
     product.returnPolicy = returnPolicy;
     product.warranty = warranty;
     product.published = published;
+    product.insurance = insurance;
 
     await product.save();
 

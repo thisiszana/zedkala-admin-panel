@@ -224,6 +224,48 @@ export default function ProductForm({
     </div>
   );
 
+  const deliveryDeatails = (
+    <div className="flex items-center gap-box w-fullh-[40px]">
+      <CustomInp
+        type="checkbox"
+        name="fastDelivery"
+        label="تحویل سریع"
+        value={form.deliveryOptions[0]?.fastDelivery || false}
+        onChange={(e) =>
+          setForm((prev) => ({
+            ...prev,
+            deliveryOptions: [
+              {
+                ...prev.deliveryOptions[0],
+                fastDelivery: e.target.checked,
+              },
+            ],
+          }))
+        }
+        wrapperClassName="flex items-center w-full"
+      />
+
+      <CustomInp
+        type="checkbox"
+        name="freeDelivery"
+        label="تحویل رایگان"
+        value={form.deliveryOptions[0]?.freeDelivery || false}
+        onChange={(e) =>
+          setForm((prev) => ({
+            ...prev,
+            deliveryOptions: [
+              {
+                ...prev.deliveryOptions[0],
+                freeDelivery: e.target.checked,
+              },
+            ],
+          }))
+        }
+        wrapperClassName="flex items-center w-full"
+      />
+    </div>
+  );
+
   const uploadImages = async (images) => {
     const uploadedImages = await Promise.all(
       images?.map(async (image) => {
@@ -297,6 +339,11 @@ export default function ProductForm({
         title="بیمه"
         subtitle="جزئیات بیمه محصول"
         content={insuranceDetails}
+      />
+      <DetailedBox
+        title="تنضیمات تحویل"
+        subtitle="تنضیمات تحویل سریع و رایگان"
+        content={deliveryDeatails}
       />
       <DetailedBox
         title="گارانتی"

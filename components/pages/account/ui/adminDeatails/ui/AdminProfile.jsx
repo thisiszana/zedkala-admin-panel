@@ -29,7 +29,7 @@ export default async function AdminProfile({ id }) {
     productsCreated,
     blogsCreated,
     categoryCreated,
-  } = admin;
+  } = JSON.parse(JSON.stringify(admin));
 
   const overviewContent = (
     <div className="w-full box border flex flex-col items-center gap-1">

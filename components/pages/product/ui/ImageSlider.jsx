@@ -33,7 +33,7 @@ const ImageSlider = ({ images }) => {
       >
         {images.map((image, index) => (
           <SwiperSlide key={index} className="flex justify-center items-center">
-            <div className="w-full h-[350px] flex items-center justify-center dark:bg-dark1 border rounded-lg cardShadow3">
+            <div className="w-full h-[350px] flex items-center justify-center dark:bg-dark1 border rounded-md cardShadow3">
               <Image
                 as={NextImage}
                 src={image}

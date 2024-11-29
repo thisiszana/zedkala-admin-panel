@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation } from "swiper/modules";
+import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import moment from "moment-jalaali";
 import "swiper/swiper-bundle.css";
 
@@ -53,7 +53,7 @@ export default function ContentSlider({ items, linkPrefix, imagesDefault }) {
         <SwiperSlide key={item._id} className="p-2">
           <div className="flex flex-col items-center gap-4 border rounded-lg p-4 shadow-md mb-10">
             <Swiper
-              modules={[Pagination, Navigation]}
+              modules={[Pagination, Navigation, Autoplay]}
               pagination={{
                 clickable: true,
                 el: ".custom-pagination",
@@ -63,6 +63,7 @@ export default function ContentSlider({ items, linkPrefix, imagesDefault }) {
                 prevEl: ".swiper-button-prev",
               }}
               loop={true}
+              autoplay={{ delay: 3000, disableOnInteraction: false }}
               spaceBetween={10}
               slidesPerView={1}
               className="w-full h-[200px] rounded-lg overflow-hidden relative"
@@ -88,7 +89,7 @@ export default function ContentSlider({ items, linkPrefix, imagesDefault }) {
                     alt={`تصویر ${index + 1}`}
                     width={200}
                     height={200}
-                    className="object-contain mx-auto"
+                    className="object-contain mx-auto rounded-md"
                   />
                 </SwiperSlide>
               ))}

@@ -24,6 +24,9 @@ export default function AddProductPage({ data }) {
     returnPolicy: data?.returnPolicy || "",
     published: data?.published || false,
     warranty: data?.warranty || "",
+    deliveryOptions: data?.deliveryOptions || [
+      { fastDelivery: false, freeDelivery: false },
+    ],
     insurance: data?.insurance || [
       {
         insuranceType: "",

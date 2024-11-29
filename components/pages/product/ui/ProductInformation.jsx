@@ -70,7 +70,7 @@ export default function ProductInformation({ info }) {
           >
             <Image
               as={NextImage}
-              src={info?.createdBy.image || images.admin}
+              src={info?.createdBy.images || images.admin}
               width={100}
               height={100}
               alt="creator"
@@ -123,22 +123,20 @@ export default function ProductInformation({ info }) {
           </div>
         ))}
         <div className="flex items-center justify-between">
-  <div className="flex gap-2 items-center">
-    <span className="cardShadow rounded-lg p-3">{icons.color}</span>
-    <p className="text-p1 text-darkGray">رنگ ها :</p>
-  </div>
-  <div
-    className="flex gap-2 flex-wrap items-center max-w-[300px] max-h-[120px] overflow-auto border rounded-full p-2"
-  >
-    {info.colors.map((color, index) => (
-      <div
-        key={index}
-        style={{ backgroundColor: color }}
-        className="w-6 h-6 rounded-full border border-black dark:border-white"
-      />
-    ))}
-  </div>
-</div>
+          <div className="flex gap-2 items-center">
+            <span className="cardShadow rounded-lg p-3">{icons.color}</span>
+            <p className="text-p1 text-darkGray">رنگ ها :</p>
+          </div>
+          <div className="flex gap-2 flex-wrap items-center max-w-[300px] max-h-[120px] overflow-auto border rounded-full p-2">
+            {info.colors.map((color, index) => (
+              <div
+                key={index}
+                style={{ backgroundColor: color }}
+                className="w-6 h-6 rounded-full border border-black dark:border-white"
+              />
+            ))}
+          </div>
+        </div>
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex gap-2 items-center">
@@ -211,7 +209,8 @@ export default function ProductInformation({ info }) {
             ))}
           </div>
         </Drawer>
-
+        
+        {/* Keywords */}
         <div className="flex flex-wrap gap-2 mt-4">
           <p className="font-bold">کلمات کلیدی :</p>
           {info.keywords.map((keyword, index) => (
@@ -224,40 +223,68 @@ export default function ProductInformation({ info }) {
           ))}
         </div>
 
-        <div className="p-4 bg-white dark:bg-dark2 rounded-lg shadow-md">
-          <div className="mb-2">
-            <span className="font-bold">عنوان دسته‌بندی :</span>{" "}
-            <span className="text-darkGray">{info?.categoryName}</span>
+        {/* Category */}
+        <div className="p-6 bg-white dark:bg-dark2 rounded-lg shadow-md space-y-6">
+          {/* عنوان دسته‌بندی */}
+          <div className="border-b pb-4 mb-4">
+            <h3 className="text-xl font-bold text-darkGray dark:text-white mb-2">
+              دسته‌بندی
+            </h3>
+            <p className="text-base text-gray-600 dark:text-gray-300">
+              <span className="font-medium">عنوان:</span>{" "}
+              <span className="text-primary">
+                {info?.categoryName || "تعریف نشده"}
+              </span>
+            </p>
           </div>
-          <h3 className="text-lg font-semibold mb-4">زیرمجموعه‌ها :</h3>
-          {info.subCategories.length > 0 ? (
-            info.subCategories.map((subcategory) => (
-              <div key={subcategory._id} className="mb-4">
-                <h4 className="text-md font-medium text-darkGray mb-2">
-                  - {subcategory.name} :
-                </h4>
 
-                <ul className="list-disc pl-6 text-darkGray">
-                  {subcategory.items.length > 0 ? (
-                    subcategory.items.map((item, index) => (
-                      <li key={index} className="text-sm">
-                        {item}
+          {/* زیرمجموعه‌ها */}
+          <div>
+            <h3 className="text-lg font-semibold text-darkGray dark:text-white mb-4">
+              زیرمجموعه‌ها
+            </h3>
+            {info.subCategories.length > 0 ? (
+              info.subCategories.map((subcategory) => (
+                <div
+                  key={subcategory._id}
+                  className="p-4 bg-gray-50 dark:bg-dark1 rounded-lg border space-y-4 mb-4"
+                >
+                  {/* نام زیرمجموعه */}
+                  <div className="flex items-center gap-2">
+                    <span className="text-primary text-lg font-medium">•</span>
+                    <h4 className="text-md font-semibold text-darkGray dark:text-gray-300">
+                      {subcategory.name || "بدون نام"}
+                    </h4>
+                  </div>
+
+                  {/* لیست آیتم‌ها */}
+                  <ul className="list-inside space-y-2">
+                    {subcategory.items.length > 0 ? (
+                      subcategory.items.map((item, index) => (
+                        <li
+                          key={index}
+                          className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2"
+                        >
+                          <span className="w-2 h-2 bg-primary rounded-full inline-block"></span>
+                          {item}
+                        </li>
+                      ))
+                    ) : (
+                      <li className="text-sm text-gray-500">
+                        آیتمی تعریف نشده است
                       </li>
-                    ))
-                  ) : (
-                    <li className="text-sm text-gray-500">
-                      آیتمی تعریف نشده است
-                    </li>
-                  )}
-                </ul>
-              </div>
-            ))
-          ) : (
-            <p className="text-gray-500">زیرمجموعه‌ای تعریف نشده است</p>
-          )}
+                    )}
+                  </ul>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-500">زیرمجموعه‌ای تعریف نشده است</p>
+            )}
+          </div>
         </div>
 
         <div className="p-4 bg-white dark:bg-dark2 rounded-lg shadow-md space-y-6">
+          {/* deliveryOptions */}
           <div>
             <h3 className="text-lg font-semibold text-darkGray mb-4">
               گزینه‌های تحویل:
@@ -285,7 +312,7 @@ export default function ProductInformation({ info }) {
               </span>
             </div>
           </div>
-
+          {/* insurance */}
           <div>
             <h3 className="text-lg font-semibold text-darkGray mb-4">
               اطلاعات بیمه:
@@ -294,38 +321,78 @@ export default function ProductInformation({ info }) {
               info.insurance.map((insurance, index) => (
                 <div
                   key={index}
-                  className="p-4 border rounded-lg bg-gray-50 dark:bg-dark2 space-y-2"
+                  className="p-6 border rounded-lg bg-gray-50 dark:bg-dark2 shadow-md space-y-4 transition-all duration-300"
                 >
-                  <p className="text-sm flex items-center justify-between">
-                    <span className="font-medium text-darkGray">نوع بیمه:</span>{" "}
-                    {insurance.insuranceType || "تعریف نشده"}
-                  </p>
-                  <p className="text-sm flex items-center justify-between">
-                    <span className="font-medium text-darkGray">مدت بیمه:</span>{" "}
-                    {insurance.insuranceDuration
-                      ? `${insurance.insuranceDuration} ماه`
-                      : "تعریف نشده"}
-                  </p>
-                  <p className="text-sm flex items-center justify-between">
-                    <span className="font-medium text-darkGray">
-                      هزینه بیمه:
-                    </span>{" "}
-                    {insurance.insuranceCost
-                      ? `${insurance.insuranceCost.toLocaleString()} تومان`
-                      : "تعریف نشده"}
-                  </p>
-                  <p className="text-sm flex items-center justify-between">
-                    <span className="font-medium text-darkGray">
-                      شرایط بیمه:
-                    </span>{" "}
-                    {insurance.insuranceTerms || "تعریف نشده"}
-                  </p>
-                  <p className="text-sm flex items-center justify-between">
-                    <span className="font-medium text-darkGray">
-                      بیمه اختیاری:
-                    </span>{" "}
-                    {insurance.optionalInsurance ? "بله" : "خیر"}
-                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <p className="text-sm flex items-start gap-2">
+                      <span className="font-medium text-darkGray">
+                        نوع بیمه:
+                      </span>
+                      <span className="text-gray-700">
+                        {insurance.insuranceType || "تعریف نشده"}
+                      </span>
+                    </p>
+                    <p className="text-sm flex items-start gap-2">
+                      <span className="font-medium text-darkGray">
+                        مدت بیمه:
+                      </span>
+                      <span className="text-gray-700">
+                        {insurance.insuranceDuration
+                          ? `${insurance.insuranceDuration} ماه`
+                          : "تعریف نشده"}
+                      </span>
+                    </p>
+                    <p className="text-sm flex items-start gap-2">
+                      <span className="font-medium text-darkGray">
+                        هزینه بیمه:
+                      </span>
+                      <span className="text-gray-700">
+                        {insurance.insuranceCost
+                          ? `${insurance.insuranceCost.toLocaleString()} تومان`
+                          : "تعریف نشده"}
+                      </span>
+                    </p>
+                    <p className="text-sm flex items-start gap-2">
+                      <span className="font-medium text-darkGray">
+                        بیمه اختیاری:
+                      </span>
+                      <span className="text-gray-700">
+                        {insurance.optionalInsurance ? "بله" : "خیر"}
+                      </span>
+                    </p>
+                  </div>
+                  <div>
+                    <button
+                      type="button"
+                      className="flex items-center gap-2 text-sm text-blue-500 hover:text-blue-700 focus:outline-none"
+                      onClick={(e) => {
+                        const content = e.currentTarget.nextElementSibling;
+                        content.classList.toggle("hidden");
+                        e.currentTarget
+                          .querySelector("svg")
+                          .classList.toggle("rotate-180");
+                      }}
+                    >
+                      <span>مشاهده شرایط بیشتر</span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4 transform transition-transform duration-300"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
+                    <p className="text-sm text-gray-700 mt-2 hidden transition-all duration-300">
+                      {insurance.insuranceTerms || "تعریف نشده"}
+                    </p>
+                  </div>
                 </div>
               ))
             ) : (
