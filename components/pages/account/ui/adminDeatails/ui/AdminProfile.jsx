@@ -91,7 +91,7 @@ export default async function AdminProfile({ id }) {
       />
       <DetailedBox
         title="دسته‌بندی‌ها"
-        content={<ContentSlider items={categoryCreated} linkPrefix="/blogs" />}
+        content={<ContentSlider items={categoryCreated} linkPrefix="/categories" />}
       />
       <DetailedBox
         title="وبلاگ‌ها"

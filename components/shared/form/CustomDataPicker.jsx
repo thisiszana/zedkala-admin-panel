@@ -8,19 +8,37 @@ import persian from "react-date-object/calendars/persian";
 import DatePicker from "react-multi-date-picker";
 
 export default function CustomDataPicker({ form, setForm }) {
-  const onChange = (e) => {
-    const date = new Date(e);
+  const handleDateChange = (field, value) => {
+    const date = new Date(value);
     setForm({
       ...form,
-      discount: { ...form.discount, expiresAt: date },
+      discount: { ...form.discount, [field]: date },
     });
   };
+
   return (
-    <div className="flex flex-col gap-2 flex-1 dark:bg-dark1">
-      <label className="text-gray-600 text-[14px] dark:text-white">
-        تاریخ انقضای تخفیف
-      </label>
-      <div >
+    <div className="flex flex-wrap items-center justify-between gap-4 flex-1 dark:bg-dark1">
+      <div className="flex items-center gap-4">
+        <label className="text-gray-600 text-[14px] dark:text-white">
+          تاریخ شروع تخفیف
+        </label>
+        <DatePicker
+          inputClass="focus:outline-none w-full text-gray-700 bg-white text-dark2"
+          calendar={persian}
+          locale={persian_fa}
+          format="MM/DD/YYYY HH:mm:ss"
+          plugins={[<TimePicker position="bottom" />]}
+          render={<InputIcon />}
+          animations={[transition({ duration: 800, from: 35 })]}
+          value={form.discount?.startAt}
+          onChange={(value) => handleDateChange("startAt", value)}
+          calendarPosition="bottom-right"
+        />
+      </div>
+      <div className="flex items-center gap-4">
+        <label className="text-gray-600 text-[14px] dark:text-white">
+          تاریخ انقضای تخفیف
+        </label>
         <DatePicker
           inputClass="focus:outline-none w-full text-gray-700 bg-white text-dark2"
           calendar={persian}
@@ -30,7 +48,7 @@ export default function CustomDataPicker({ form, setForm }) {
           render={<InputIcon />}
           animations={[transition({ duration: 800, from: 35 })]}
           value={form.discount?.expiresAt}
-          onChange={onChange}
+          onChange={(value) => handleDateChange("expiresAt", value)}
           calendarPosition="bottom-right"
         />
       </div>

@@ -17,7 +17,7 @@ export default function ProductsPage({ searchParams }) {
 
   return (
     <>
-      <div className="flex justify-between gap-1 mx-2">
+      <div className="flex justify-between gap-1 mx-3">
         <PageHeading title="محصولات" />
         <Link
           href="/add-product"
@@ -27,7 +27,7 @@ export default function ProductsPage({ searchParams }) {
           جدید
         </Link>
       </div>
-      <div className="cardShadow3 rounded-2xl border overflow-hidden mt-8">
+      <div className="cardShadow3 rounded-2xl border overflow-hidden mt-8 sm:ml-3">
         <ProductsFilter />
         <Suspense
           key={search + page + category + stock + discount + sort + published}

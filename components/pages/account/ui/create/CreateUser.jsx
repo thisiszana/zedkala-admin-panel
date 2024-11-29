@@ -145,9 +145,9 @@ export default function CreateUser() {
             <CustomBtn
               title="ایجاد"
               type="submit"
-              classNames={`w-fit rounded-btn py-2.5 px-5 text-p1 font-medium ${
+              classNames={`${
                 loading ? "bg-lightGray" : "bg-dark1 text-white"
-              }`}
+              } flex items-center justify-center w-[150px] dark:bg-lightGray dark:text-dark1 h-[50px] rounded-btn text-p1 font-bold`}
               isLoading={loading}
             />
           </div>

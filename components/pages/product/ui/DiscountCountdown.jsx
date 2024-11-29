@@ -1,82 +1,116 @@
 "use client";
 
-import { e2p } from "@/utils/fun";
 import { useEffect, useState } from "react";
+import { Progress } from "antd";
+import { e2p, reducePrice, sp } from "@/utils/fun";
+import { icons } from "@/constants";
 
-export default function DiscountCountdown({ discount }) {
-  const [timeLeft, setTimeLeft] = useState({});
+export default function DiscountCountdown({ discount, originalPrice }) {
+  const [timeLeft, setTimeLeft] = useState(null);
+  const [progressBarWidth, setProgressBarWidth] = useState(0);
+  const [isExpired, setIsExpired] = useState(false); 
+
+  if (
+    !discount ||
+    typeof discount !== "object" ||
+    discount.value <= 0 ||
+    !discount.title?.trim() ||
+    !discount.expiresAt ||
+    !discount.startAt
+  ) {
+    return null;
+  }
 
   useEffect(() => {
-    if (!discount?.expiresAt) return;
+    const startTime = new Date(discount.startAt).getTime();
+    const targetTime = new Date(discount.expiresAt).getTime();
+    const totalTime = targetTime - startTime;
 
-    const calculateTimeLeft = () => {
-      const now = new Date();
-      const targetTime = new Date(discount.expiresAt);
-      const diff = targetTime - now;
+    const calculateTimeLeftAndProgress = () => {
+      const now = Date.now();
 
-      if (diff <= 0) {
-        setTimeLeft(null);
+      if (now < startTime) {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        setProgressBarWidth(0);
+        setIsExpired(false); 
         return;
       }
 
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
+      if (now >= targetTime) {
+        setTimeLeft(null);
+        setProgressBarWidth(100);
+        setIsExpired(true); 
+        return;
+      }
+
+      const remainingTime = targetTime - now;
+      const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((remainingTime / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((remainingTime / (1000 * 60)) % 60);
+      const seconds = Math.floor((remainingTime / 1000) % 60);
 
       setTimeLeft({ days, hours, minutes, seconds });
+      const elapsedTime = now - startTime;
+      const progress = Math.floor((elapsedTime / totalTime) * 100);
+      setProgressBarWidth(progress);
     };
 
-    calculateTimeLeft();
-    const timer = setInterval(calculateTimeLeft, 1000);
+    calculateTimeLeftAndProgress();
+    const timer = setInterval(calculateTimeLeftAndProgress, 1000);
 
     return () => clearInterval(timer);
-  }, [discount?.expiresAt]);
+  }, [discount.startAt, discount.expiresAt]);
 
-  if (!discount) return null;
-
-  return (
-    <div className="discount-container p-4 bg-red-100 border border-red-400 rounded-lg text-center">
-      <h3 className="text-lg font-bold text-red-600 mb-2">
-        {discount.title || "تخفیف ویژه!"}
-      </h3>
-      <p className="text-sm text-gray-700">
-        مقدار تخفیف:{" "}
-        <span className="font-semibold">{e2p(discount.value)}%</span>
-      </p>
-      <p className="text-sm text-gray-700">
-        تاریخ انقضا:{" "}
-        <span className="font-semibold">
-          {discount.expiresAt
-            ? new Date(discount.expiresAt).toLocaleDateString("fa-IR", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })
-            : "بدون تاریخ انقضا"}
-        </span>
-      </p>
-      {discount.expiresAt && timeLeft ? (
-        <div className="time-left text-red-700 mt-2">
-          <p className="text-sm">زمان باقی‌مانده:</p>
-          <div className="flex justify-center gap-2 mt-1 text-sm font-medium">
-            <span className="px-2 py-1 bg-red-200 rounded">
-              {e2p(timeLeft.days)} روز
-            </span>
-            <span className="px-2 py-1 bg-red-200 rounded">
-              {e2p(timeLeft.hours)} ساعت
-            </span>
-            <span className="px-2 py-1 bg-red-200 rounded">
-              {e2p(timeLeft.minutes)} دقیقه
-            </span>
-            <span className="px-2 py-1 bg-red-200 rounded">
-              {e2p(timeLeft.seconds)} ثانیه
+  if (isExpired) {
+    return (
+      <div className="w-full bg-[#fdecf0] p-2 rounded-lg border border-red-300 shadow-lg">
+        <div className="flex justify-between items-center mb-2">
+          <h3 className="text-red-700 font-extrabold text-lg">{discount.title}</h3>
+          <div>
+            <span className="text-green-600 font-bold text-lg">
+            {sp(originalPrice)} تومان
             </span>
           </div>
         </div>
-      ) : discount.expiresAt ? (
-        <p className="text-red-700 mt-2">تخفیف به اتمام رسید!</p>
-      ) : null}
+        <div className="text-gray-700 text-sm mb-2">
+          <p>تخفیف به پایان رسیده!</p>
+          <p>تاریخ پایان تخفیف: {new Date(discount.expiresAt).toLocaleString()}</p>
+          <p>تخفیف اعمال شده: {discount.value}%</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full bg-[#fdecf0] p-2 rounded-lg border border-red-300 shadow-lg">
+      <div className="flex justify-between items-center mb-2">
+        <h3 className="text-red-700 font-extrabold text-lg">
+          {discount.title}
+        </h3>
+        <div>
+          <span className="text-gray-500 line-through text-sm mx-2">
+            {sp(originalPrice)} تومان
+          </span>
+          <span className="text-green-600 font-bold text-lg">
+            {sp(reducePrice(discount.value, originalPrice))} تومان
+          </span>
+        </div>
+      </div>
+      {timeLeft && (
+        <div className="text-gray-700 text-sm flex items-center mb-1">
+          <span className="inline-block ml-4">{icons.timer}</span>
+          <p className="font-light">
+            {e2p(timeLeft.days)} : {e2p(timeLeft.hours)} : {e2p(timeLeft.minutes)} :{" "}
+            {e2p(timeLeft.seconds)}
+          </p>
+        </div>
+      )}
+      <Progress
+        percent={progressBarWidth}
+        size="small"
+        strokeColor={timeLeft ? "#e6123d" : "#52c41a"}
+        status={timeLeft ? "active" : "exception"}
+      />
     </div>
   );
 }

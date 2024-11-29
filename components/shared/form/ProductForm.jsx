@@ -71,35 +71,37 @@ export default function ProductForm({
         onChange={onChange}
         wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
       />
-      <div className="flex flex-wrap gap-box w-full h-full">
-        <CustomInp
-          type="number"
-          name="discountValue"
-          label="مقدار‌تخفیف"
-          min={0}
-          value={form.discount?.value}
-          onChange={(e) =>
-            setForm({
-              ...form,
-              discount: { ...form.discount, value: e.target.value },
-            })
-          }
-          wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
-        />
+      <div className="flex flex-col gap-box w-full h-full">
+        <div className="flex flex-wrap gap-box w-full h-full">
+          <CustomInp
+            type="number"
+            name="discountValue"
+            label="مقدار‌تخفیف"
+            min={0}
+            value={form.discount?.value}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                discount: { ...form.discount, value: e.target.value },
+              })
+            }
+            wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+          />
 
-        <CustomInp
-          type="text"
-          name="discountTitle"
-          label="عنوان‌تخفیف"
-          value={form.discount?.title || ""}
-          onChange={(e) =>
-            setForm({
-              ...form,
-              discount: { ...form.discount, title: e.target.value },
-            })
-          }
-          wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
-        />
+          <CustomInp
+            type="text"
+            name="discountTitle"
+            label="عنوان‌تخفیف"
+            value={form.discount?.title || ""}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                discount: { ...form.discount, title: e.target.value },
+              })
+            }
+            wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+          />
+        </div>
         <CustomDataPicker form={form} setForm={setForm} />
       </div>
       <CustomInp

@@ -32,6 +32,13 @@ export default function ProductInformation({ info }) {
     setIsDrawerOpen(false);
   };
 
+  if (info.discount) {
+    console.log("true")
+  }
+  if (!info.discount) {
+    console.log("false")
+  }
+
   console.log(info);
   return (
     <div className="flex flex-col xl:flex-row-reverse gap-box">
@@ -51,6 +58,7 @@ export default function ProductInformation({ info }) {
             </p>
           </div>
         </div>
+
         <p
           className={`text-p1 font-bold ${
             info?.stock !== 0 ? "text-darkGreen" : "text-darkRose"
@@ -58,10 +66,12 @@ export default function ProductInformation({ info }) {
         >
           {info?.stock !== 0 ? "موجود" : "خارج از موجودی"}
         </p>
+
         <CustomBadge
           condition={info?.published}
           title={info?.published ? "منتشر شده" : "پیش نویس"}
         />
+
         <div className="space-y-2">
           <p className="text-p2">ساخته شده توسط :</p>
           <Link
@@ -84,14 +94,17 @@ export default function ProductInformation({ info }) {
             </div>
           </Link>
         </div>
+
         <p className="font-bold text-h3">{info?.title}</p>
         <p className="font-bold text-h3">{info?.slug}</p>
+
         <div className="flex items-center gap-3">
           <p className="text-p1 text-darkGray">
             ({info?.orders?.length} سفارشات)
           </p>
           <Avatar orders={info?.orders} />
         </div>
+
         <div className="border-t pt-2">
           <p className="text-p1 font-bold">توضیحات :</p>
           <p className="text-darkGray text-p1">
@@ -99,12 +112,14 @@ export default function ProductInformation({ info }) {
             {info?.description ? info?.description : "تعریف نشده ..."}
           </p>
         </div>
+
         <div className="border-t pt-2">
           <p className="text-p1 font-bold">سیاست بازگشت کالا :</p>
           <p className="text-darkGray text-sm">
             {info?.returnPolicy ? info?.returnPolicy : "تعریف نشده ..."}
           </p>
         </div>
+
         <div className="border-t pt-2">
           <p className="text-p1 font-bold">گارانتی کالا :</p>
           <p className="text-darkGray text-sm">
@@ -112,7 +127,9 @@ export default function ProductInformation({ info }) {
           </p>
         </div>
         <hr />
-        <DiscountCountdown discount={info.discount} />
+
+        <DiscountCountdown discount={info.discount} originalPrice={info?.price} />
+
         {productInformationDetails(info).map((item) => (
           <div key={item.value} className="flex items-center justify-between">
             <div className="flex gap-2 items-center">
@@ -122,6 +139,7 @@ export default function ProductInformation({ info }) {
             <p className="text-p1">{item.value}</p>
           </div>
         ))}
+
         <div className="flex items-center justify-between">
           <div className="flex gap-2 items-center">
             <span className="cardShadow rounded-lg p-3">{icons.color}</span>
@@ -185,6 +203,7 @@ export default function ProductInformation({ info }) {
             )}
           </div>
         </div>
+
         <Drawer
           title={
             <span className="font-bold dark:text-white">مشخصات فنی کامل</span>

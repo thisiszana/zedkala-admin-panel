@@ -9,7 +9,13 @@ const productSchema = new Schema({
   discount: {
     value: { type: Number, default: 0 },
     title: { type: String },
-    expiresAt: { type: Date },
+    expiresAt: { type: Date, required: true },
+    createdAt: {
+      type: Date,
+      default: () => Date.now(),
+      immutable: true,
+    },
+    startAt: { type: Date, default: () => Date.now() },
   },
   categoryName: { type: String, required: true },
   subCategories: [
