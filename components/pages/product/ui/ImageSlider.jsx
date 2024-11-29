@@ -23,7 +23,7 @@ const ImageSlider = ({ images }) => {
         pagination={{
           clickable: true,
           renderBullet: (index, className) =>
-            `<span class="${className} w-3 h-3 bg-gray-300 dark:bg-white rounded-full inline-block mx-1"></span>`,
+            `<span class="${className}"></span>`,
         }}
         autoplay={{ delay: 5000, disableOnInteraction: false }}
         loop={true}

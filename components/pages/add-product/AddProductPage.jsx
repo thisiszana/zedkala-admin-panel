@@ -49,7 +49,7 @@ export default function AddProductPage({ data }) {
     const { name, value } = e.target;
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
   };
-  console.log("form in addproductpage com", form);
+  // console.log("form in addproductpage com", form);
   return (
     <>
       <PageHeading title={`${data ? "ویرایش محصول" : "افزودن محصول"}`} />

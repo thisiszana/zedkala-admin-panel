@@ -6,8 +6,9 @@ import { AddUser, Settings, Users } from "@/components/icons/Icons";
 import PageHeading from "@/components/shared/PageHeading";
 import Loaderbar from "@/components/shared/Loaderbar";
 import GeneralTab from "./ui/general/GeneralTab";
-import CreateUser from "./ui/create/CreateUser";
+
 import AdminTab from "./ui/admin/AdminTab";
+import CreateUser from "./ui/create/CreateUser";
 
 export default function AccountPage() {
   const items = [

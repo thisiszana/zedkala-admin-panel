@@ -1,11 +1,11 @@
+"use client";
+
 import { Table } from "antd";
 
 import { adminsDataSourse } from "@/constants/tabelDataSourse";
 import { adminsColumns } from "@/constants/tabelColumns";
-import { getServerSession } from "@/utils/session";
 
-export default function AdminList({ admins }) {
-  const session = getServerSession();
+export default function AdminList({ admins, session }) {
   return (
     <div className="tableContainer">
       <Table

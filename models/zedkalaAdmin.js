@@ -15,6 +15,7 @@ const zedkalaAdminSchema = new Schema(
     productsCreated: [{ type: Schema.Types.ObjectId, ref: "ZedkalaProducts" }],
     categoryCreated: [{ type: Schema.Types.ObjectId, ref: "ZedkalaCategory" }],
     blogsCreated: [{ type: Schema.Types.ObjectId, ref: "ZedkalaBlog" }],
+    isOnline: { type: Boolean, default: false },
     gender: {
       type: String,
       enum: ["آقا", "خانم", "سایر", ""],

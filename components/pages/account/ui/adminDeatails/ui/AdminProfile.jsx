@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
 
 import moment from "moment-jalaali";
 
 import { Date, Flag, Location, Mail, Mobile } from "@/components/icons/Icons";
+import ContentSlider from "@/components/shared/ContentSlider";
 import DetailedBox from "@/components/shared/DetailedBox";
 import CustomBadge from "@/components/shared/CustomBadge";
 import { images as imagesDefault } from "@/constants";
@@ -79,89 +79,24 @@ export default async function AdminProfile({ id }) {
     </div>
   );
 
-  const productsContent =
-    productsCreated && productsCreated.length === 0 ? (
-      <p>هیچ محصولی ایجاد نشده!</p>
-    ) : (
-      <div className="flex flex-wrap gap-6 box border w-full">
-        {productsCreated?.map((product) => (
-          <Link
-            key={product._id}
-            href={`/product/${product._id}`}
-            className="flex flex-col gap-2 items-center flex-1 min-w-[200px] box border hoverable"
-          >
-            <Image
-              width={100}
-              height={100}
-              src={product.images[0] || imagesDefault.imageNotFound}
-              alt="محصول"
-            />
-            <p className="text-p1 font-medium">{sp(product.price)}</p>
-            <p className="text-p2">
-              {moment(product.createdAt).locale("fa").format("jYYYY/jMM/jDD")}
-            </p>
-          </Link>
-        ))}
-      </div>
-    );
-
-  const blogsContent =
-    blogsCreated && blogsCreated.length === 0 ? (
-      <p>هیچ وبلاگی ایجاد نشده!</p>
-    ) : (
-      <div className="flex flex-wrap gap-6 box border w-full">
-        {blogsCreated?.map((blog) => (
-          <Link
-            key={blog._id}
-            href={`/blogs/${blog._id}`}
-            className="flex flex-col gap-2 items-center flex-1 min-w-[200px] box border hoverable"
-          >
-            <Image
-              width={100}
-              height={100}
-              src={blog.image || imagesDefault.imageNotFound}
-              alt="وبلاگ"
-            />
-            <p className="text-p2">{moment(blog.createdAt).format("L")}</p>
-          </Link>
-        ))}
-      </div>
-    );
-
-  const categoriesContent =
-    categoryCreated && categoryCreated.length === 0 ? (
-      <p>هیچ دسته‌بندی ایجاد نشده!</p>
-    ) : (
-      <div className="flex flex-wrap gap-6 box border w-full">
-        {categoryCreated?.map((category) => (
-          <Link
-            key={category._id}
-            href={`/categories/${category._id}`}
-            className="flex flex-col gap-2 items-center flex-1 min-w-[200px] box border hoverable"
-          >
-            <Image
-              width={100}
-              height={100}
-              src={category?.images[0] || images.imageNotFound}
-              alt="دسته‌بندی"
-            />
-            <p className="text-p2">
-              {moment(category.createdAt).locale("fa").format("jYYYY/jMM/jDD")}
-            </p>
-          </Link>
-        ))}
-      </div>
-    );
   return (
     <div className="space-y-5">
       <DetailedBox title="نمای کلی" content={overviewContent} />
-      <DetailedBox title="درباره" content={aboutContent} />
-      <DetailedBox title="محصولات ساخته شده" content={productsContent} />
+      <DetailedBox title="درباره ادمین" content={aboutContent} />
       <DetailedBox
-        title="دسته‌بندی‌های ساخته شده"
-        content={categoriesContent}
+        title="محصولات"
+        content={
+          <ContentSlider items={productsCreated} linkPrefix="/product" />
+        }
       />
-      <DetailedBox title="وبلاگ‌های ساخته شده" content={blogsContent} />
+      <DetailedBox
+        title="دسته‌بندی‌ها"
+        content={<ContentSlider items={categoryCreated} linkPrefix="/blogs" />}
+      />
+      <DetailedBox
+        title="وبلاگ‌ها"
+        content={<ContentSlider items={blogsCreated} linkPrefix="/blogs" />}
+      />
     </div>
   );
 }
