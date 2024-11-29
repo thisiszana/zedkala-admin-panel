@@ -12,7 +12,7 @@ export default function CustomDataPicker({ form, setForm }) {
     const date = new Date(e);
     setForm({
       ...form,
-      discount: [{ ...form.discount[0], expiresAt: date }],
+      discount: { ...form.discount, expiresAt: date },
     });
   };
   return (
@@ -29,7 +29,7 @@ export default function CustomDataPicker({ form, setForm }) {
           plugins={[<TimePicker position="bottom" />]}
           render={<InputIcon />}
           animations={[transition({ duration: 800, from: 35 })]}
-          value={form.discount[0]?.expiresAt}
+          value={form.discount?.expiresAt}
           onChange={onChange}
           calendarPosition="bottom-right"
         />

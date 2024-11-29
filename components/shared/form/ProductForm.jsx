@@ -77,11 +77,11 @@ export default function ProductForm({
           name="discountValue"
           label="مقدار‌تخفیف"
           min={0}
-          value={form.discount[0]?.value}
+          value={form.discount?.value}
           onChange={(e) =>
             setForm({
               ...form,
-              discount: [{ ...form.discount[0], value: e.target.value }],
+              discount: { ...form.discount, value: e.target.value },
             })
           }
           wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
@@ -91,11 +91,11 @@ export default function ProductForm({
           type="text"
           name="discountTitle"
           label="عنوان‌تخفیف"
-          value={form.discount[0]?.title || ""}
+          value={form.discount?.title || ""}
           onChange={(e) =>
             setForm({
               ...form,
-              discount: [{ ...form.discount[0], title: e.target.value }],
+              discount: { ...form.discount, title: e.target.value },
             })
           }
           wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
@@ -121,13 +121,11 @@ export default function ProductForm({
           wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
           name="insuranceType"
           label="نوع بیمه"
-          value={form.insurance[0]?.insuranceType || ""}
+          value={form.insurance?.insuranceType || ""}
           onChange={(e) =>
             setForm({
               ...form,
-              insurance: [
-                { ...form.insurance[0], insuranceType: e.target.value },
-              ],
+              insurance: { ...form.insurance, insuranceType: e.target.value },
             })
           }
         />
@@ -136,13 +134,14 @@ export default function ProductForm({
           wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
           name="insuranceDuration"
           label="مدت بیمه (ماه)"
-          value={form.insurance[0]?.insuranceDuration}
+          value={form.insurance?.insuranceDuration}
           onChange={(e) =>
             setForm({
               ...form,
-              insurance: [
-                { ...form.insurance[0], insuranceDuration: e.target.value },
-              ],
+              insurance: {
+                ...form.insurance,
+                insuranceDuration: e.target.value,
+              },
             })
           }
         />
@@ -151,13 +150,11 @@ export default function ProductForm({
           wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
           name="insuranceCost"
           label="هزینه بیمه"
-          value={form.insurance[0]?.insuranceCost}
+          value={form.insurance?.insuranceCost}
           onChange={(e) =>
             setForm({
               ...form,
-              insurance: [
-                { ...form.insurance[0], insuranceCost: e.target.value },
-              ],
+              insurance: { ...form.insurance, insuranceCost: e.target.value },
             })
           }
         />
@@ -166,13 +163,11 @@ export default function ProductForm({
         name="insuranceTerms"
         wrapperClassName="w-full h-full"
         label="شرایط بیمه"
-        value={form.insurance[0]?.insuranceTerms || ""}
+        value={form.insurance?.insuranceTerms || ""}
         onChange={(e) =>
           setForm({
             ...form,
-            insurance: [
-              { ...form.insurance[0], insuranceTerms: e.target.value },
-            ],
+            insurance: { ...form.insurance, insuranceTerms: e.target.value },
           })
         }
       />
@@ -183,17 +178,15 @@ export default function ProductForm({
             <input
               type="radio"
               name="insuranceOption"
-              checked={form.insurance[0]?.mandatoryInsurance || false}
+              checked={form.insurance?.mandatoryInsurance || false}
               onChange={() =>
                 setForm({
                   ...form,
-                  insurance: [
-                    {
-                      ...form.insurance[0],
-                      mandatoryInsurance: true,
-                      optionalInsurance: false,
-                    },
-                  ],
+                  insurance: {
+                    ...form.insurance,
+                    mandatoryInsurance: true,
+                    optionalInsurance: false,
+                  },
                 })
               }
             />
@@ -203,17 +196,15 @@ export default function ProductForm({
             <input
               type="radio"
               name="insuranceOption"
-              checked={form.insurance[0]?.optionalInsurance || false}
+              checked={form.insurance?.optionalInsurance || false}
               onChange={() =>
                 setForm({
                   ...form,
-                  insurance: [
-                    {
-                      ...form.insurance[0],
-                      optionalInsurance: true,
-                      mandatoryInsurance: false,
-                    },
-                  ],
+                  insurance: {
+                    ...form.insurance,
+                    optionalInsurance: true,
+                    mandatoryInsurance: false,
+                  },
                 })
               }
             />
@@ -224,22 +215,20 @@ export default function ProductForm({
     </div>
   );
 
-  const deliveryDeatails = (
-    <div className="flex items-center gap-box w-fullh-[40px]">
+  const deliveryDetails = (
+    <div className="flex items-center gap-box w-full h-[40px]">
       <CustomInp
         type="checkbox"
         name="fastDelivery"
         label="تحویل سریع"
-        value={form.deliveryOptions[0]?.fastDelivery || false}
+        checked={form.deliveryOptions?.fastDelivery || false}
         onChange={(e) =>
           setForm((prev) => ({
             ...prev,
-            deliveryOptions: [
-              {
-                ...prev.deliveryOptions[0],
-                fastDelivery: e.target.checked,
-              },
-            ],
+            deliveryOptions: {
+              ...prev.deliveryOptions,
+              fastDelivery: e.target.checked,
+            },
           }))
         }
         wrapperClassName="flex items-center w-full"
@@ -249,16 +238,14 @@ export default function ProductForm({
         type="checkbox"
         name="freeDelivery"
         label="تحویل رایگان"
-        value={form.deliveryOptions[0]?.freeDelivery || false}
+        checked={form.deliveryOptions?.freeDelivery || false}
         onChange={(e) =>
           setForm((prev) => ({
             ...prev,
-            deliveryOptions: [
-              {
-                ...prev.deliveryOptions[0],
-                freeDelivery: e.target.checked,
-              },
-            ],
+            deliveryOptions: {
+              ...prev.deliveryOptions,
+              freeDelivery: e.target.checked,
+            },
           }))
         }
         wrapperClassName="flex items-center w-full"
@@ -343,7 +330,7 @@ export default function ProductForm({
       <DetailedBox
         title="تنضیمات تحویل"
         subtitle="تنضیمات تحویل سریع و رایگان"
-        content={deliveryDeatails}
+        content={deliveryDetails}
       />
       <DetailedBox
         title="گارانتی"

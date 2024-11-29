@@ -49,6 +49,7 @@ export const createProduct = async (data) => {
       returnPolicy,
       warranty,
       published,
+      deliveryOptions,
       insurance,
       slug,
     } = data;
@@ -72,6 +73,7 @@ export const createProduct = async (data) => {
       warranty,
       published,
       insurance,
+      deliveryOptions,
       createdBy: session.userId,
     });
 
@@ -367,6 +369,7 @@ export const editProduct = async (data) => {
       warranty,
       published,
       insurance,
+      deliveryOptions,
       id,
     } = data;
 
@@ -453,6 +456,7 @@ export const editProduct = async (data) => {
     product.warranty = warranty;
     product.published = published;
     product.insurance = insurance;
+    product.deliveryOptions = deliveryOptions;
 
     await product.save();
 

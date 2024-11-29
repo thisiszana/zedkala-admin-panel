@@ -101,7 +101,7 @@ export const productsDataSourse = (products) =>
       </p>
     ),
     price: `${sp(product.price)} تومان`,
-    discount: product.discount.map((dis) => e2p(dis.value) || "_"),
+    discount: e2p(product.discount.value) || "_",
     orders: (e2p(product.orders) && product.orders.length) || "_",
     comments: (e2p(product.comments) && product.comments.length) || "_",
     likes: (e2p(product.likes) && product.likes.length) || "_",

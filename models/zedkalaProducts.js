@@ -6,13 +6,11 @@ const productSchema = new Schema({
   images: { type: [String] },
   price: { type: Number, required: true },
   stock: { type: Number, required: true },
-  discount: [
-    {
-      value: { type: Number, default: 0 },
-      title: { type: String },
-      expiresAt: { type: Date },
-    },
-  ],
+  discount: {
+    value: { type: Number, default: 0 },
+    title: { type: String },
+    expiresAt: { type: Date },
+  },
   categoryName: { type: String, required: true },
   subCategories: [
     {
@@ -61,16 +59,14 @@ const productSchema = new Schema({
     fastDelivery: { type: Boolean, default: false },
     freeDelivery: { type: Boolean, default: false },
   },
-  insurance: [
-    {
-      insuranceType: { type: String },
-      insuranceDuration: { type: Number },
-      insuranceCost: { type: Number },
-      insuranceTerms: { type: String },
-      optionalInsurance: { type: Boolean, default: true },
-      mandatoryInsurance: { type: Boolean, default: false },
-    },
-  ],
+  insurance: {
+    insuranceType: { type: String },
+    insuranceDuration: { type: Number },
+    insuranceCost: { type: Number },
+    insuranceTerms: { type: String },
+    optionalInsurance: { type: Boolean, default: true },
+    mandatoryInsurance: { type: Boolean, default: false },
+  },
 });
 
 productSchema.index({ title: "text", description: "text", brand: "text" });

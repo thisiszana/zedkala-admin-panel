@@ -13,7 +13,7 @@ export default function AddProductPage({ data }) {
     images: [],
     price: data?.price || 0,
     stock: data?.stock || 0,
-    discount: data?.discount || [],
+    discount: data?.discount || {},
     categoryName: data?.categoryName || "",
     subCategories: data?.subCategories || [],
     specifications: data?.specifications || [{ label: "", value: "" }],
@@ -24,35 +24,26 @@ export default function AddProductPage({ data }) {
     returnPolicy: data?.returnPolicy || "",
     published: data?.published || false,
     warranty: data?.warranty || "",
-    deliveryOptions: data?.deliveryOptions || [
-      { fastDelivery: false, freeDelivery: false },
-    ],
-    insurance: data?.insurance || [
-      {
-        insuranceType: "",
-        insuranceDuration: 0,
-        insuranceCost: 0,
-        insuranceTerms: "",
-        optionalInsurance: true,
-        mandatoryInsurance: false,
-      },
-    ],
+    deliveryOptions: data?.deliveryOptions || {
+      fastDelivery: false,
+      freeDelivery: false,
+    },
+    insurance: data?.insurance || {
+      insuranceType: "",
+      insuranceDuration: 0,
+      insuranceCost: 0,
+      insuranceTerms: "",
+      optionalInsurance: true,
+      mandatoryInsurance: false,
+    },
   });
-
-  useEffect(() => {
-    if (data?.subCategories) {
-      setForm((prevForm) => ({
-        ...prevForm,
-        subCategories: data.subCategories,
-      }));
-    }
-  }, [data?.subCategories]);
 
   const onChange = (e) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
   };
-  // console.log("form in addproductpage com", form);
+  // console.log("data in addproductpage com", data);
+  console.log("form in addproductpage com", form);
   return (
     <>
       <PageHeading title={`${data ? "ویرایش محصول" : "افزودن محصول"}`} />

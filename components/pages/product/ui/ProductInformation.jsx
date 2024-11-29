@@ -112,7 +112,7 @@ export default function ProductInformation({ info }) {
           </p>
         </div>
         <hr />
-        <DiscountCountdown discount={info.discount[0]} />
+        <DiscountCountdown discount={info.discount} />
         {productInformationDetails(info).map((item) => (
           <div key={item.value} className="flex items-center justify-between">
             <div className="flex gap-2 items-center">
@@ -209,7 +209,7 @@ export default function ProductInformation({ info }) {
             ))}
           </div>
         </Drawer>
-        
+
         {/* Keywords */}
         <div className="flex flex-wrap gap-2 mt-4">
           <p className="font-bold">کلمات کلیدی :</p>
@@ -317,84 +317,75 @@ export default function ProductInformation({ info }) {
             <h3 className="text-lg font-semibold text-darkGray mb-4">
               اطلاعات بیمه:
             </h3>
-            {info.insurance.length > 0 ? (
-              info.insurance.map((insurance, index) => (
-                <div
-                  key={index}
-                  className="p-6 border rounded-lg bg-gray-50 dark:bg-dark2 shadow-md space-y-4 transition-all duration-300"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <p className="text-sm flex items-start gap-2">
-                      <span className="font-medium text-darkGray">
-                        نوع بیمه:
-                      </span>
-                      <span className="text-gray-700">
-                        {insurance.insuranceType || "تعریف نشده"}
-                      </span>
-                    </p>
-                    <p className="text-sm flex items-start gap-2">
-                      <span className="font-medium text-darkGray">
-                        مدت بیمه:
-                      </span>
-                      <span className="text-gray-700">
-                        {insurance.insuranceDuration
-                          ? `${insurance.insuranceDuration} ماه`
-                          : "تعریف نشده"}
-                      </span>
-                    </p>
-                    <p className="text-sm flex items-start gap-2">
-                      <span className="font-medium text-darkGray">
-                        هزینه بیمه:
-                      </span>
-                      <span className="text-gray-700">
-                        {insurance.insuranceCost
-                          ? `${insurance.insuranceCost.toLocaleString()} تومان`
-                          : "تعریف نشده"}
-                      </span>
-                    </p>
-                    <p className="text-sm flex items-start gap-2">
-                      <span className="font-medium text-darkGray">
-                        بیمه اختیاری:
-                      </span>
-                      <span className="text-gray-700">
-                        {insurance.optionalInsurance ? "بله" : "خیر"}
-                      </span>
-                    </p>
-                  </div>
-                  <div>
-                    <button
-                      type="button"
-                      className="flex items-center gap-2 text-sm text-blue-500 hover:text-blue-700 focus:outline-none"
-                      onClick={(e) => {
-                        const content = e.currentTarget.nextElementSibling;
-                        content.classList.toggle("hidden");
-                        e.currentTarget
-                          .querySelector("svg")
-                          .classList.toggle("rotate-180");
-                      }}
-                    >
-                      <span>مشاهده شرایط بیشتر</span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4 transform transition-transform duration-300"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </button>
-                    <p className="text-sm text-gray-700 mt-2 hidden transition-all duration-300">
-                      {insurance.insuranceTerms || "تعریف نشده"}
-                    </p>
-                  </div>
+            {info.insurance ? (
+              <div className="p-6 border rounded-lg bg-gray-50 dark:bg-dark2 shadow-md space-y-4 transition-all duration-300">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <p className="text-sm flex items-start gap-2">
+                    <span className="font-medium text-darkGray">نوع بیمه:</span>
+                    <span className="text-gray-700">
+                      {info.insurance.insuranceType || "تعریف نشده"}
+                    </span>
+                  </p>
+                  <p className="text-sm flex items-start gap-2">
+                    <span className="font-medium text-darkGray">مدت بیمه:</span>
+                    <span className="text-gray-700">
+                      {info.insurance.insuranceDuration
+                        ? `${info.insurance.insuranceDuration} ماه`
+                        : "تعریف نشده"}
+                    </span>
+                  </p>
+                  <p className="text-sm flex items-start gap-2">
+                    <span className="font-medium text-darkGray">
+                      هزینه بیمه:
+                    </span>
+                    <span className="text-gray-700">
+                      {info.insurance.insuranceCost
+                        ? `${info.insurance.insuranceCost.toLocaleString()} تومان`
+                        : "تعریف نشده"}
+                    </span>
+                  </p>
+                  <p className="text-sm flex items-start gap-2">
+                    <span className="font-medium text-darkGray">
+                      بیمه اختیاری:
+                    </span>
+                    <span className="text-gray-700">
+                      {info.insurance.optionalInsurance ? "بله" : "خیر"}
+                    </span>
+                  </p>
                 </div>
-              ))
+                <div>
+                  <button
+                    type="button"
+                    className="flex items-center gap-2 text-sm text-blue-500 hover:text-blue-700 focus:outline-none"
+                    onClick={(e) => {
+                      const content = e.currentTarget.nextElementSibling;
+                      content.classList.toggle("hidden");
+                      e.currentTarget
+                        .querySelector("svg")
+                        .classList.toggle("rotate-180");
+                    }}
+                  >
+                    <span>مشاهده شرایط بیشتر</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4 transform transition-transform duration-300"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+                  <p className="text-sm text-gray-700 mt-2 hidden transition-all duration-300">
+                    {info.insurance.insuranceTerms || "تعریف نشده"}
+                  </p>
+                </div>
+              </div>
             ) : (
               <p className="text-gray-500">بیمه‌ای تعریف نشده است</p>
             )}
