@@ -10,7 +10,7 @@ import { revalidatePath } from "next/cache";
 export const createVendor = async (data) => {
   try {
     await connectDB();
-console.log("data in action", data)
+
     const {
       firstName,
       lastName,
@@ -100,6 +100,28 @@ console.log("data in action", data)
       };
   } catch (error) {
     console.log("error in creat vendor by owner", error.message)
+    return {
+      message: MESSAGES.server,
+      status: MESSAGES.failed,
+      code: STATUS_CODES.server,
+    };
+  }
+};
+
+export const getVendors = async () => {
+  try {
+    await connectDB();
+
+    const vendors = await ZedkalaVendor.find().select("-password").lean();
+
+    return {
+      vendors,
+      message: MESSAGES.success,
+      status: MESSAGES.success,
+      code: STATUS_CODES.success,
+    };
+  } catch (error) {
+    console.log("error in get vendors", error.message);
     return {
       message: MESSAGES.server,
       status: MESSAGES.failed,
