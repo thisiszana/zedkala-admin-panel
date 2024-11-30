@@ -1,12 +1,13 @@
 "use client";
 
-import CustomInp from "@/components/shared/form/CustomInp";
-import { vendorCategoryOptions } from "@/constants";
-import CustomSelect from "@/components/shared/form/CustomSelect";
-import UploadedImage from "@/components/shared/form/UploadedImage";
-import CustomTextarea from "@/components/shared/form/CustomTextarea";
 import { useEffect, useState } from "react";
+
+import CustomTextarea from "@/components/shared/form/CustomTextarea";
+import UploadedImage from "@/components/shared/form/UploadedImage";
+import CustomSelect from "@/components/shared/form/CustomSelect";
+import CustomInp from "@/components/shared/form/CustomInp";
 import { getCategories } from "@/actions/category.action";
+import DetailedBox from "@/components/shared/DetailedBox";
 
 export default function VendorRegistrationForm({ form, setForm, onChange }) {
   const [categories, setCategories] = useState([]);
@@ -34,15 +35,8 @@ export default function VendorRegistrationForm({ form, setForm, onChange }) {
     label: category.name,
   }));
 
-  const handleProductCategoryChange = (value) => {
-    setForm((prevForm) => ({
-      ...prevForm,
-      productCategory: value,
-    }));
-  };
-
-  return (
-    <div className="w-full h-fit flex flex-wrap gap-5">
+  const storeDetails = (
+    <div className="flex flex-wrap gap-box w-full h-full">
       <CustomInp
         type="text"
         name="storeName"
@@ -78,42 +72,73 @@ export default function VendorRegistrationForm({ form, setForm, onChange }) {
         label="شماره مجوز کسب و کار *"
         wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
       />
-      <CustomTextarea
-        name="storeAddress"
-        value={form.storeInfo?.storeAddress || ""}
-        onChange={(e) =>
-          setForm((prevForm) => ({
-            ...prevForm,
-            storeInfo: {
-              ...prevForm.storeInfo,
-              storeAddress: e.target.value,
-            },
-          }))
-        }
-        label="آدرس فروشگاه *"
-        wrapperClassName="w-full"
+    </div>
+  );
+
+  const imageStoreDetails = (
+    <div className="flex justify-around flex-wrap gap-box w-full h-full">
+      <UploadedImage
+        form={form}
+        setForm={setForm}
+        imagesPath="storeInfo.images"
+        imageTitle="تصاویر فروشگاه"
       />
-      <div className="flex flex-col gap-box w-full h-full">
-        <p className={`user-label`}>تصاویر فروشگاه</p>
-        <UploadedImage
-          form={form}
-          setForm={setForm}
-          imagesPath="storeInfo.images"
-        />
-      </div>
-      <div className="my-4 w-full">
-        <CustomSelect
-          name="productCategory"
-          label="دسته‌بندی محصولات *"
-          options={categoryOptions}
-          value={form.productCategory}
-          onChange={handleProductCategoryChange}
-        />
-      </div>
-      <div className="flex flex-col gap-box w-full h-full">
-        <p className={`user-label`}>عکس پشت و روی کارت ملی را وارد کنید *</p>
-        <UploadedImage form={form} setForm={setForm} />
-      </div>
+      <UploadedImage
+        form={form}
+        setForm={setForm}
+        imageTitle="عکس پشت و روی کارت ملی"
+      />
+    </div>
+  );
+
+  const handleProductCategoryChange = (value) => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      productCategory: value,
+    }));
+  };
+
+  return (
+    <div className="space-y-8">
+      <DetailedBox title="اطلاعات فروشگاه" content={storeDetails} />
+      <DetailedBox
+        title="آدرس فروشگاه فروشنده"
+        content={
+          <CustomTextarea
+            name="storeAddress"
+            value={form.storeInfo?.storeAddress || ""}
+            onChange={(e) =>
+              setForm((prevForm) => ({
+                ...prevForm,
+                storeInfo: {
+                  ...prevForm.storeInfo,
+                  storeAddress: e.target.value,
+                },
+              }))
+            }
+            label="آدرس فروشگاه *"
+            wrapperClassName="w-full"
+          />
+        }
+      />
+      <DetailedBox
+        title="دسته‌بندی محصول فروشگاه"
+        content={
+          <CustomSelect
+            name="productCategory"
+            label="دسته‌بندی محصولات *"
+            options={categoryOptions}
+            value={form.productCategory}
+            onChange={handleProductCategoryChange}
+          />
+        }
+      />
+      <DetailedBox
+        title="تصاویر مربوط به فروشگاه"
+        content={imageStoreDetails}
+      />
+
+      <div className="flex items-center justify-end gap-10 space-x-8"></div>
     </div>
   );
 }

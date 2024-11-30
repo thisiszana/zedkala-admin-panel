@@ -20,6 +20,7 @@ export default function UploadedImage({
   setForm,
   imagesPath = "images",
   editImage,
+  imageTitle,
 }) {
   const [existingImages, setExistingImages] = useState(editImage || []);
 
@@ -85,7 +86,7 @@ export default function UploadedImage({
             <UploadIcon />
           </div>
           <div>
-            <p>عکس را انتخاب کنید</p>
+            <p>{imageTitle || "عکس را انتخاب کنید"}</p>
             <p>JPG, PNG, JPEG, WEBP حداکثر ۱ مگابایت</p>
           </div>
         </div>
