@@ -5,11 +5,12 @@ import connectDB from "@/utils/connectDB";
 import { hashedPassword } from "@/utils/fun";
 import { MESSAGES, STATUS_CODES } from "@/utils/message";
 import { getServerSession } from "@/utils/session";
+import { revalidatePath } from "next/cache";
 
 export const createVendor = async (data) => {
   try {
     await connectDB();
-
+console.log("data in action", data)
     const {
       firstName,
       lastName,
@@ -21,8 +22,7 @@ export const createVendor = async (data) => {
       country,
       roll,
       images,
-      storeName,
-      storeAddress,
+      storeInfo,
       productCategory,
       taxCode,
       businessLicense,
@@ -52,8 +52,7 @@ export const createVendor = async (data) => {
       !images ||
       !taxCode ||
       !businessLicense ||
-      !storeName ||
-      !storeAddress ||
+      !storeInfo ||
       !productCategory ||
       !terms
     )
@@ -85,8 +84,7 @@ export const createVendor = async (data) => {
         country,
         roll,
         images,
-        storeName,
-        storeAddress,
+        storeInfo,
         productCategory,
         taxCode,
         businessLicense,
@@ -96,7 +94,7 @@ export const createVendor = async (data) => {
       revalidatePath("/account");
   
       return {
-        message: MESSAGES.vendorCreated,
+        message: MESSAGES.vendorRequest,
         status: MESSAGES.success,
         code: STATUS_CODES.created,
       };

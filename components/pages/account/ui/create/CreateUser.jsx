@@ -9,12 +9,16 @@ import VendorRegistrationForm from "./ui/VendorRegistrationForm";
 import { createAdminByOwner } from "@/actions/auth.action";
 import CustomInp from "@/components/shared/form/CustomInp";
 import DetailedBox from "@/components/shared/DetailedBox";
+import { createVendor } from "@/actions/vendor.action";
 import CustomBtn from "@/components/shared/CustomBtn";
-import useServerAction from "@/hooks/useServerAction";
 import { MESSAGES } from "@/utils/message";
 import { rollOptions } from "@/constants";
+import { uploadImages } from "@/utils/fun";
+import toast from "react-hot-toast";
+import CustomSwitch from "@/components/shared/form/CustomSwitch";
 
 export default function CreateUser() {
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     username: "",
     firstName: "",
@@ -26,16 +30,13 @@ export default function CreateUser() {
     password: "",
     confirmPassword: "",
     roll: "USER",
-    sotreName: "",
-    sotreAddress: "",
+    storeInfo: { storeName: "", storeAddress: "", images: [] },
     productCategory: "",
     images: [],
     taxCode: "",
     businessLicense: null,
     terms: false,
   });
-
-  const { loading, res } = useServerAction(createAdminByOwner, form);
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -62,98 +63,135 @@ export default function CreateUser() {
       });
     }
   };
+
   console.log(form);
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
+
     if (
       !form.username ||
       !form.firstName ||
       !form.password ||
       !form.confirmPassword
-    )
+    ) {
       toast.error(MESSAGES.fillInp);
+      return;
+    }
 
-    if (form.password !== form.confirmPassword)
+    if (form.password !== form.confirmPassword) {
       toast.error(MESSAGES.confirmPassword);
+      return;
+    }
 
-    res();
+    const meliImages = await uploadImages(form.images);
+    const storeImages = await uploadImages(form.storeInfo.images);
+
+    const payload = {
+      ...form,
+      images: meliImages,
+      storeInfo: {
+        ...form.storeInfo,
+        images: storeImages,
+      },
+    };
+
+    setLoading(true);
+
+    try {
+      let response;
+      if (form.roll === "VENDOR") {
+        response = await createVendor(payload);
+      } else {
+        response = await createAdminByOwner(form);
+      }
+
+      if (response.code === 201) {
+        toast.success(response.message);
+      } else {
+        toast.error(response.message);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error(MESSAGES.error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <>
       {contextHolder}{" "}
-      <DetailedBox
-        title="کاربر جدید"
-        content={
-          <form
-            className="box w-full h-fit flex flex-col gap-5"
-            onSubmit={onSubmit}
-          >
-            <div className="w-full h-fit flex flex-wrap gap-5">
-              <CustomInp
-                type="text"
-                label="نام کاربری *"
-                name="username"
-                value={form.username}
-                onChange={onChange}
-                wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
-              />
-              <CustomInp
-                type="text"
-                label="نام *"
-                name="firstName"
-                value={form.firstName}
-                onChange={onChange}
-                wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
-              />
-              <CustomInp
-                type="text"
-                label="نام خانوادگی *"
-                name="lastName"
-                value={form.lastName}
-                onChange={onChange}
-                wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
-              />
-              <CustomInp
-                type="email"
-                label="ایمیل"
-                name="email"
-                value={form.email}
-                onChange={onChange}
-                wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
-              />
-              <CustomInp
-                type="password"
-                label="رمز عبور *"
-                name="password"
-                value={form.password}
-                onChange={onChange}
-                wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
-              />
-              <CustomInp
-                type="password"
-                label="تایید رمز عبور *"
-                name="confirmPassword"
-                value={form.confirmPassword}
-                onChange={onChange}
-                wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
-              />
-              <CustomInp
-                type="text"
-                label="شماره تماس"
-                name="phoneNumber"
-                value={form.phoneNumber}
-                onChange={onChange}
-                wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
-              />
-              <CustomInp
-                type="text"
-                label="کشور"
-                name="country"
-                value={form.country}
-                onChange={onChange}
-                wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
-              />
+      <div className="space-y-8">
+        <form
+          className="box w-full h-fit flex flex-col gap-5"
+          onSubmit={onSubmit}
+        >
+          <div className="w-full h-fit flex flex-wrap gap-5">
+            <CustomInp
+              type="text"
+              label="نام کاربری *"
+              name="username"
+              value={form.username}
+              onChange={onChange}
+              wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
+            />
+            <CustomInp
+              type="text"
+              label="نام *"
+              name="firstName"
+              value={form.firstName}
+              onChange={onChange}
+              wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
+            />
+            <CustomInp
+              type="text"
+              label="نام خانوادگی *"
+              name="lastName"
+              value={form.lastName}
+              onChange={onChange}
+              wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
+            />
+            <CustomInp
+              type="email"
+              label="ایمیل"
+              name="email"
+              value={form.email}
+              onChange={onChange}
+              wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
+            />
+            <CustomInp
+              type="password"
+              label="رمز عبور *"
+              name="password"
+              value={form.password}
+              onChange={onChange}
+              wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
+            />
+            <CustomInp
+              type="password"
+              label="تایید رمز عبور *"
+              name="confirmPassword"
+              value={form.confirmPassword}
+              onChange={onChange}
+              wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
+            />
+            <CustomInp
+              type="text"
+              label="شماره تماس"
+              name="phoneNumber"
+              value={form.phoneNumber}
+              onChange={onChange}
+              wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
+            />
+            <CustomInp
+              type="text"
+              label="کشور"
+              name="country"
+              value={form.country}
+              onChange={onChange}
+              wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
+            />
+            {form?.roll !== "VENDOR" && (
               <CustomInp
                 type="text"
                 label="آدرس"
@@ -162,34 +200,45 @@ export default function CreateUser() {
                 onChange={onChange}
                 wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
               />
-              <CustomSelect
-                name="roll"
-                label="نقش"
-                options={rollOptions}
-                value={form.roll}
-                onChange={handleRollChange}
-              />
-            </div>
-            {form.roll === "VENDOR" && (
-              <VendorRegistrationForm
-                form={form}
-                setForm={setForm}
-                onChange={onChange}
-              />
             )}
-            <div className="w-full flex justify-end">
-              <CustomBtn
-                title="ایجاد"
-                type="submit"
-                classNames={`${
-                  loading ? "bg-lightGray" : "bg-dark1 text-white"
-                } flex items-center justify-center w-[150px] dark:bg-lightGray dark:text-dark1 h-[50px] rounded-btn text-p1 font-bold`}
-                isLoading={loading}
-              />
-            </div>
-          </form>
-        }
-      />
+            <CustomSelect
+              name="roll"
+              label="نقش"
+              options={rollOptions}
+              value={form.roll}
+              onChange={handleRollChange}
+            />
+          </div>
+          {form.roll === "VENDOR" && (
+            <VendorRegistrationForm
+              form={form}
+              setForm={setForm}
+              onChange={onChange}
+            />
+          )}
+          <div className="flex items-center gap-2">
+            <CustomSwitch
+              id="terms"
+              label="با قوانین موافقت میکنید؟"
+              checked={form.terms}
+              onChange={(checked) => {
+                setForm((prevForm) => ({ ...prevForm, terms: checked }));
+              }}
+              name="terms"
+            />
+          </div>
+          <div className="w-full flex justify-end">
+            <CustomBtn
+              title="ایجاد"
+              type="submit"
+              classNames={`${
+                loading ? "bg-lightGray" : "bg-dark1 text-white"
+              } flex items-center justify-center w-[150px] dark:bg-lightGray dark:text-dark1 h-[50px] rounded-btn text-p1 font-bold`}
+              isLoading={loading}
+            />
+          </div>
+        </form>
+      </div>
     </>
   );
 }

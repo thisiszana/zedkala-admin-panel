@@ -46,9 +46,17 @@ export default function VendorRegistrationForm({ form, setForm, onChange }) {
       <CustomInp
         type="text"
         name="storeName"
-        value={form.storeName || ""}
-        onChange={onChange}
-        label="نام فروشگاه"
+        value={form.storeInfo?.storeName || ""}
+        onChange={(e) =>
+          setForm((prevForm) => ({
+            ...prevForm,
+            storeInfo: {
+              ...prevForm.storeInfo,
+              storeName: e.target.value,
+            },
+          }))
+        }
+        label="نام فروشگاه *"
         wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
         required
       />
@@ -57,7 +65,7 @@ export default function VendorRegistrationForm({ form, setForm, onChange }) {
         name="taxCode"
         value={form.taxCode || ""}
         onChange={onChange}
-        label="کد اقتصادی"
+        label="کد اقتصادی *"
         wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
         required
         pattern="[0-9]{10}"
@@ -67,27 +75,43 @@ export default function VendorRegistrationForm({ form, setForm, onChange }) {
         name="businessLicense"
         value={form.businessLicense || ""}
         onChange={onChange}
-        label="شماره مجوز کسب‌وکار"
+        label="شماره مجوز کسب و کار *"
         wrapperClassName="w-full flex flex-1 min-w-[250px] h-fit"
       />
       <CustomTextarea
         name="storeAddress"
-        value={form.storeAddress || ""}
-        onChange={onChange}
-        label="آدرس فروشگاه"
+        value={form.storeInfo?.storeAddress || ""}
+        onChange={(e) =>
+          setForm((prevForm) => ({
+            ...prevForm,
+            storeInfo: {
+              ...prevForm.storeInfo,
+              storeAddress: e.target.value,
+            },
+          }))
+        }
+        label="آدرس فروشگاه *"
         wrapperClassName="w-full"
       />
+      <div className="flex flex-col gap-box w-full h-full">
+        <p className={`user-label`}>تصاویر فروشگاه</p>
+        <UploadedImage
+          form={form}
+          setForm={setForm}
+          imagesPath="storeInfo.images"
+        />
+      </div>
       <div className="my-4 w-full">
         <CustomSelect
           name="productCategory"
-          label="دسته‌بندی محصولات"
+          label="دسته‌بندی محصولات *"
           options={categoryOptions}
           value={form.productCategory}
           onChange={handleProductCategoryChange}
         />
       </div>
       <div className="flex flex-col gap-box w-full h-full">
-        <p className={`user-label`}>عکس پشت و روی کارت ملی را وارد کنید</p>
+        <p className={`user-label`}>عکس پشت و روی کارت ملی را وارد کنید *</p>
         <UploadedImage form={form} setForm={setForm} />
       </div>
     </div>

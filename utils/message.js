@@ -11,6 +11,7 @@ export const MESSAGES = {
   invalidId: "Invalid Id",
   badRequest: "Bad Request!",
   
+  vendorRequest: "دیتای شما برای مدیرت جهت اسعلام ارسال شد، تشکر از صبر و شکیبایی شما",
   vendorAddInfoDesc: "اطمینان حاصل کنید که تمامی اطلاعات به درستی وارد شده است.",
   vendorAddInfoMess: "لطفا اطلاعات مورد نظر با دقت وارد کنید",
   noContent: "دیتایی وجود ندارد!",

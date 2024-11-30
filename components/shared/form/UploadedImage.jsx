@@ -1,19 +1,52 @@
 "use client";
 
-import { Trash, UploadIcon } from "@/components/icons/Icons";
-import { Upload } from "antd";
-import toast from "react-hot-toast";
-import { useState } from "react";
-import { Image } from "@nextui-org/react";
 import NextImage from "next/image";
-import CustomBtn from "../CustomBtn";
+
+import { useState } from "react";
+
+import { Image } from "@nextui-org/react";
+import toast from "react-hot-toast";
+import { Upload } from "antd";
+
+import { Trash, UploadIcon } from "@/components/icons/Icons";
+import { images as defaultImages } from "@/constants";
 import { MESSAGES } from "@/utils/message";
-import { images } from "@/constants";
+import CustomBtn from "../CustomBtn";
 
 const Dragger = Upload;
 
-export default function UploadedImage({ form, setForm, images, editImage }) {
+export default function UploadedImage({
+  form,
+  setForm,
+  imagesPath = "images",
+  editImage,
+}) {
   const [existingImages, setExistingImages] = useState(editImage || []);
+
+  const getImages = () => {
+    const pathSegments = imagesPath.split(".");
+    let current = form;
+    for (const segment of pathSegments) {
+      if (current[segment] === undefined) return [];
+      current = current[segment];
+    }
+    return Array.isArray(current) ? current : [];
+  };
+
+  const setImages = (newImages) => {
+    const pathSegments = imagesPath.split(".");
+    const updatedForm = { ...form };
+    let current = updatedForm;
+
+    for (let i = 0; i < pathSegments.length - 1; i++) {
+      const segment = pathSegments[i];
+      current[segment] = current[segment] || {};
+      current = current[segment];
+    }
+
+    current[pathSegments[pathSegments.length - 1]] = newImages;
+    setForm(updatedForm);
+  };
 
   const beforeUpload = (e) => {
     const { size } = e;
@@ -26,13 +59,13 @@ export default function UploadedImage({ form, setForm, images, editImage }) {
 
   const onChange = (e) => {
     const files = e.fileList.map((item) => item.originFileObj);
-    setForm({ ...form, images: files });
+    setImages(files);
   };
 
   const handleRemoveExistingImage = (index) => {
     const updatedImages = existingImages.filter((_, i) => i !== index);
     setExistingImages(updatedImages);
-    setForm({ ...form, images: updatedImages });
+    setImages(updatedImages);
     toast.success(MESSAGES.deleteImage);
   };
 
@@ -40,13 +73,7 @@ export default function UploadedImage({ form, setForm, images, editImage }) {
     <div>
       <Dragger
         className="flex flex-col justify-center items-center dark:text-white bg-gray-50 dark:bg-dark1 border-1 rounded-xl"
-        defaultFileList={
-          Array.isArray(form.images) && form.images.length > 0
-            ? form.images
-            : Array.isArray(images)
-            ? images
-            : []
-        }
+        defaultFileList={getImages()}
         listType="picture"
         name="file"
         accept="image/png, image/jpeg, image/jpg, image/webp"
@@ -74,7 +101,7 @@ export default function UploadedImage({ form, setForm, images, editImage }) {
               >
                 <Image
                   as={NextImage}
-                  src={img || images.imageNotFound}
+                  src={img || defaultImages.imageNotFound}
                   width={100}
                   height={100}
                   alt={`existing-${index}`}

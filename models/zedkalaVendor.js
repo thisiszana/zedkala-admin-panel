@@ -14,12 +14,15 @@ const zedkalaVendorSchema = new Schema(
     images: { type: [String], default: "", required: true },
     taxCode: { type: String, default: "", required: true },
     businessLicense: { type: String, default: "", required: true },
-    sotreName: { type: String, default: "", required: true },
-    sotreAddress: { type: String, default: "", required: true },
+    storeInfo: {
+      storeName: { type: String, default: "", required: true },
+      storeAddress: { type: String, default: "", required: true }, 
+      images: { type: [String], default: [] }, 
+    },
     productCategory: { type: String, default: "", required: true },
     roll: { type: String, default: "VENDOR" },
     terms: { type: Boolean, default: false, required: true },
-    published: { type: Boolean, default: false },
+    isActive: { type: Boolean, default: false },
     productsCreated: [{ type: Schema.Types.ObjectId, ref: "ZedkalaProducts" }],
   },
   { timestamps: true }

@@ -39,6 +39,16 @@ export const uploadImage = async (path) => {
   }
 };
 
+export const uploadImages = async (images) => {
+  const uploadedImages = await Promise.all(
+    images?.map(async (image) => {
+      const uploadRes = await uploadImage(image);
+      return uploadRes.imageUrl;
+    })
+  );
+  return uploadedImages;
+};
+
 export const shorterText = (text, maxCharacter) => {
   const t = String(text);
   if (t.length > maxCharacter) {
@@ -77,7 +87,6 @@ export const sanitizeData = (data) => {
   }
   return data;
 };
-
 
 export const reducePrice = (discount, price) => {
   const discountValue = (price * discount) / 100;

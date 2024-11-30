@@ -14,11 +14,11 @@ import CustomTextarea from "./CustomTextarea";
 import Specifications from "./Specifications";
 import UploadedImage from "./UploadedImage";
 import { MESSAGES } from "@/utils/message";
-import { uploadImage } from "@/utils/fun";
+import CustomSwitch from "./CustomSwitch";
+import {  uploadImages } from "@/utils/fun";
 import DetailedBox from "../DetailedBox";
 import CustomBtn from "../CustomBtn";
 import CustomInp from "./CustomInp";
-import CustomSwitch from "./CustomSwitch";
 
 export default function ProductForm({
   type,
@@ -281,16 +281,6 @@ export default function ProductForm({
       </div>
     </div>
   );
-
-  const uploadImages = async (images) => {
-    const uploadedImages = await Promise.all(
-      images?.map(async (image) => {
-        const uploadRes = await uploadImage(image);
-        return uploadRes.imageUrl;
-      })
-    );
-    return uploadedImages;
-  };
 
   const handleSubmit = async () => {
     if (
