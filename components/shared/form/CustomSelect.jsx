@@ -2,52 +2,55 @@
 
 import { useEffect, useState } from "react";
 
+import { Select } from "antd";
+const { Option } = Select;
+
 export default function CustomSelect({
   name,
   label,
   value,
   onChange,
-  wrapperClassName,
-  options,
+  wrapperClassName = "",
+  options = [],
+  placeholder = "انتخاب کنید",
+  allowClear = true,
+  mode = null,
 }) {
   const [active, setActive] = useState(false);
 
-  const onFocus = () => {
-    setActive(() => true);
-  };
-
+  const onFocus = () => setActive(true);
   const onBlur = () => {
-    if (value?.length === 0) {
-      setActive(() => false);
-    }
+    if (!value || value?.length === 0) setActive(false);
   };
 
   useEffect(() => {
-    if (value?.length !== 0) {
-      setActive(() => true);
-    }
-  }, []);
+    if (value && value?.length !== 0) setActive(true);
+  }, [value]);
+
   return (
-    <div className={`input-group ${wrapperClassName && wrapperClassName}`}>
-      <select
+    <div className={`my-4 w-full ${wrapperClassName}`}>
+      {label && (
+        <label className={`block text-gray-700 dark:text-white mb-2`}>
+          {label}
+        </label>
+      )}
+      <Select
         name={name}
-        // defaultValue=""
-        className="input w-full"
         value={value}
-        onChange={onChange}
+        onChange={(e) => onChange(e)}
+        mode={mode}
+        placeholder={placeholder}
+        allowClear={allowClear}
+        className="w-full h-[56px] dark:bg-dark1"
         onFocus={onFocus}
         onBlur={onBlur}
       >
-        <option value=""></option>
         {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
+          <Option key={option.value} value={option.value}>
+            {option.label}
+          </Option>
         ))}
-      </select>
-      {label && (
-        <label className={`user-label ${active && "active"}`}>{label}</label>
-      )}
+      </Select>
     </div>
   );
 }

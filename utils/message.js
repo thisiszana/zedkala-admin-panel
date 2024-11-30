@@ -11,6 +11,8 @@ export const MESSAGES = {
   invalidId: "Invalid Id",
   badRequest: "Bad Request!",
   
+  vendorAddInfoDesc: "اطمینان حاصل کنید که تمامی اطلاعات به درستی وارد شده است.",
+  vendorAddInfoMess: "لطفا اطلاعات مورد نظر با دقت وارد کنید",
   noContent: "دیتایی وجود ندارد!",
   adminHasContent: "ادمین محتوای موجود دارد!",
   deleteAdmin: "ادمین حذف شد!",

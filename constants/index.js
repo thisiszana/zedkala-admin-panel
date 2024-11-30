@@ -277,3 +277,15 @@ export const productInformationDetails = (info) => {
       : []),
   ];
 };
+
+export const vendorCategoryOptions = [
+  { label: "پوشاک", value: "clothing" },
+  { label: "الکترونیک", value: "electronics" },
+  { label: "مواد غذایی", value: "food" },
+];
+
+export const rollOptions = [
+  { label: "کاربر عادی", value: "USER" },
+  { label: "فروشنده", value: "VENDOR" },
+  { label: "ادمین", value: "ADMIN" },
+];
