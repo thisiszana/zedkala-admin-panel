@@ -7,7 +7,6 @@ import { useState } from "react";
 
 import { Image } from "@nextui-org/react";
 import toast from "react-hot-toast";
-import { Switch } from "antd";
 
 import { createCategory, editCategory } from "@/actions/category.action";
 import { Edit, Trash, UploadIcon } from "@/components/icons/Icons";
@@ -18,6 +17,7 @@ import { uploadImage } from "@/utils/fun";
 import DetailedBox from "../DetailedBox";
 import CustomBtn from "../CustomBtn";
 import CustomInp from "./CustomInp";
+import CustomSwitch from "./CustomSwitch";
 
 export default function CategoryForm({
   type,
@@ -70,16 +70,15 @@ export default function CategoryForm({
     <div className="flex flex-col gap-box w-full h-full">
       <CustomSelection form={form} setForm={setForm} />
       <div className="flex items-center gap-2">
-        <Switch
+        <CustomSwitch
           id="isFeatured"
+          label="دسته‌بندی در صفحه اصلی نمایش داده شود؟"
           checked={form.isFeatured}
           onChange={(checked) => {
             setForm({ ...form, isFeatured: checked });
           }}
+          name="isFeatured"
         />
-        <label htmlFor="isFeatured" className="text-p1">
-          دسته‌بندی در صفحه اصلی نمایش داده شود؟
-        </label>
       </div>
     </div>
   );
@@ -286,16 +285,15 @@ export default function CategoryForm({
       />
       <div className="flex items-center justify-end gap-10 space-x-8">
         <div className="flex items-center gap-2">
-          <Switch
+          <CustomSwitch
             id="publish"
+            label="منتشر شود؟"
             checked={form.published}
             onChange={(checked) => {
-              setForm({ ...form, published: checked });
+              setForm((prevForm) => ({ ...prevForm, published: checked }));
             }}
+            name="published"
           />
-          <label htmlFor="publish" className="text-p1">
-            منتشر شود؟
-          </label>
         </div>
 
         <CustomBtn

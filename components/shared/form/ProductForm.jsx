@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import toast from "react-hot-toast";
-import { Switch } from "antd";
 
 import { createProduct, editProduct } from "@/actions/product.action";
 import CategoryTreeSelection from "./CategoryTreeSelection";
@@ -19,6 +18,7 @@ import { uploadImage } from "@/utils/fun";
 import DetailedBox from "../DetailedBox";
 import CustomBtn from "../CustomBtn";
 import CustomInp from "./CustomInp";
+import CustomSwitch from "./CustomSwitch";
 
 export default function ProductForm({
   type,
@@ -113,10 +113,10 @@ export default function ProductForm({
         wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
       />
       <div className="flex items-center gap-2">
-        <Switch
+        <CustomSwitch
           id="isGrocery"
-          defaultChecked={form.isGrocery?.value || false}
-          name="isGrocery"
+          label="کالای سوپرمارکتی است؟"
+          checked={form.isGrocery?.value || false}
           onChange={(checked) => {
             setForm({
               ...form,
@@ -126,10 +126,8 @@ export default function ProductForm({
               },
             });
           }}
+          name="isGrocery"
         />
-        <label htmlFor="isGrocery" className="text-p1">
-          کالای سوپرمارکتی است؟
-        </label>
       </div>
     </div>
   );
@@ -259,7 +257,7 @@ export default function ProductForm({
           تحویل سریع
         </label>
       </div>
-  
+
       <div className="flex items-center w-full sm:w-auto">
         <input
           type="checkbox"
@@ -282,7 +280,7 @@ export default function ProductForm({
         </label>
       </div>
     </div>
-  );  
+  );
 
   const uploadImages = async (images) => {
     const uploadedImages = await Promise.all(
@@ -402,18 +400,15 @@ export default function ProductForm({
       />
       <div className="flex items-center justify-end gap-10 space-x-8">
         <div className="flex items-center gap-2">
-          <Switch
+          <CustomSwitch
             id="publish"
-            defaultChecked
-            value={form.published}
-            name="published"
+            label="منتشر شود؟"
+            checked={form.published}
             onChange={(checked) => {
-              setForm({ ...form, published: checked });
+              setForm((prevForm) => ({ ...prevForm, published: checked }));
             }}
+            name="published"
           />
-          <label htmlFor="publish" className="text-p1">
-            منتشر شود؟
-          </label>
         </div>
         <CustomBtn
           classNames={`${
