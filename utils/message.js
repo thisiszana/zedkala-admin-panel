@@ -1,6 +1,5 @@
 export const MESSAGES = {
   delete: "Deleted!",
-  taskCreated: "Task Created",
   taskUpdated: "Task Updated",
   taskDeleted: "Task Deleted",
   taskEdited: "Task Edited",
@@ -10,9 +9,12 @@ export const MESSAGES = {
   blogEdited: "Blog Edited",
   invalidId: "Invalid Id",
   badRequest: "Bad Request!",
-  
-  vendorRequest: "دیتای شما برای مدیرت جهت اسعلام ارسال شد، تشکر از صبر و شکیبایی شما",
-  vendorAddInfoDesc: "اطمینان حاصل کنید که تمامی اطلاعات به درستی وارد شده است.",
+
+  taskCreated: "تسک ایجاد شد!",
+  vendorRequest:
+    "دیتای شما برای مدیرت جهت اسعلام ارسال شد، تشکر از صبر و شکیبایی شما",
+  vendorAddInfoDesc:
+    "اطمینان حاصل کنید که تمامی اطلاعات به درستی وارد شده است.",
   vendorAddInfoMess: "لطفا اطلاعات مورد نظر با دقت وارد کنید",
   noContent: "دیتایی وجود ندارد!",
   adminHasContent: "ادمین محتوای موجود دارد!",
@@ -26,8 +28,8 @@ export const MESSAGES = {
   addItemCategory: "آیتم اضافه شد",
   brandField: "لطفا نام و تصویر برند را وارد کنید.",
   addBrand: "برند با موفقیت اضافه شد.",
-  deleteImage:"تصویر با موفقیت حذف شد!",
-  highSizeImage:"حجم تصویر بیش از حد مجاز است!",
+  deleteImage: "تصویر با موفقیت حذف شد!",
+  highSizeImage: "حجم تصویر بیش از حد مجاز است!",
   putImage: "تصویر مورد نظر را قرار بدید!",
   imageNotFound: "تصویر موجود نیست!",
   addBrandImageErr: "خطا در آپلود لوگو. لطفا دوباره تلاش کنید.",
