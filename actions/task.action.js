@@ -13,8 +13,7 @@ export const createTask = async (data) => {
     await connectDB();
 
     const session = getServerSession();
-
-    const { title, description, status, dueDate } = data;
+    const { title, description, status, dueDate, taskOwner } = data;
 
     if (!session)
       return {
@@ -36,6 +35,7 @@ export const createTask = async (data) => {
       status,
       createdBy: session.userId,
       dueDate,
+      taskOwner: taskOwner || null,
     });
 
     revalidatePath("/tasks");
@@ -239,16 +239,16 @@ export const editTask = async (data) => {
         code: STATUS_CODES.not_found,
       };
 
-      if (
-        session.roll === "ADMIN" &&
-        session.userId !== task.createdBy.toString()
-      ) {
-        return {
-          message: MESSAGES.forbidden,
-          status: MESSAGES.failed,
-          code: STATUS_CODES.forbidden,
-        };
-      }
+    if (
+      session.roll === "ADMIN" &&
+      session.userId !== task.createdBy.toString()
+    ) {
+      return {
+        message: MESSAGES.forbidden,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.forbidden,
+      };
+    }
 
     task.title = title;
     task.description = description;

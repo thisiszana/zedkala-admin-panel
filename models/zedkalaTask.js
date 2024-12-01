@@ -11,6 +11,13 @@ const zedkalaTaskSchema = new Schema({
     default: () => Date.now(),
     immutabale: true,
   },
+  taskOwner: {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "ZedkalaAdmin",
+    },
+    username: { type: String },
+  },
 });
 
 zedkalaTaskSchema.index({ title: "text", description: "text" });

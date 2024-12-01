@@ -20,6 +20,7 @@ import Loader from "@/components/shared/Loader";
 import { fetchTask } from "@/services/queries";
 import { MESSAGES } from "@/utils/message";
 import { images } from "@/constants";
+import { getAdmins } from "@/actions/admin.action";
 
 moment.locale("fa");
 
@@ -30,11 +31,13 @@ export default function TaskForm({
   closeModal,
   session,
 }) {
+  const [admins, setAdmins] = useState([]);
   const [form, setForm] = useState({
     title: "",
     description: "",
     status: "Todo",
     dueDate: new Date(),
+    taskOwner: null,
   });
 
   const { data, isFetching, isError, refetch } = useQuery({
@@ -46,12 +49,27 @@ export default function TaskForm({
   });
 
   useEffect(() => {
+    if (session.roll === "OWNER") {
+      const fetchAdmin = async () => {
+        try {
+          const { admins } = await getAdmins();
+          setAdmins(JSON.parse(JSON.stringify(admins)));
+        } catch (error) {
+          console.error("Error fetching admins:", error);
+        }
+      };
+      fetchAdmin();
+    }
+  }, [session.roll]);
+
+  useEffect(() => {
     if (data?.task) {
       setForm({
         title: data.task.title,
         description: data.task.description,
         status: data.task.status,
         dueDate: data.task.dueDate,
+        taskOwner: data.task.taskOwner,
       });
     }
   }, [data]);
@@ -69,6 +87,7 @@ export default function TaskForm({
       description: taskID ? data?.task?.description : "",
       status: taskID ? data?.task?.status : "Todo",
       dueDate: taskID ? data?.task?.dueDate : "",
+      taskOwner: taskID ? data?.task?.taskOwner : "",
     });
   };
 
@@ -217,6 +236,34 @@ export default function TaskForm({
             </div>
           </div>
           <hr />
+          {session.roll === "OWNER" && (
+            <CustomSelect
+              label="انتخاب ادمین"
+              name="taskOwner"
+              value={form.taskOwner ? form.taskOwner.userId : undefined}
+              onChange={(value) => {
+                const selectedAdmin = admins.find(
+                  (admin) => admin._id === value
+                );
+                setForm({
+                  ...form,
+                  taskOwner: {
+                    userId: selectedAdmin._id,
+                    username: selectedAdmin.username,
+                  },
+                });
+              }}
+              options={admins.map((admin) => ({
+                value: admin._id,
+                label: (
+                  <div className="flex items-center gap-2">
+                    <Avatar src={(admin && admin?.images) || images.admin} />
+                    <span>{admin.username}</span>
+                  </div>
+                ),
+              }))}
+            />
+          )}
           <div className="flex justify-end gap-3">
             <CustomBtn
               type="button"

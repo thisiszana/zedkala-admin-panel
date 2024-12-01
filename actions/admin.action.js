@@ -51,7 +51,7 @@ export const getAdmins = async () => {
     await connectDB();
 
     const admins = await ZedkalaAdmin.find().select("-password").lean();
-
+    
     return {
       admins,
       message: MESSAGES.success,
