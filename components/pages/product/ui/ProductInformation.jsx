@@ -1,25 +1,21 @@
 "use client";
 
 import NextImage from "next/image";
+import Link from "next/link";
 
 import { useState } from "react";
 
-import { Drawer, Button } from "antd";
-
-import { Clock } from "@/components/icons/Icons";
-import CustomBadge from "@/components/shared/CustomBadge";
-import { Image } from "@nextui-org/react";
-
 import moment from "moment-jalaali";
-import { icons, images, productInformationDetails } from "@/constants";
-import Link from "next/link";
-import Avatar from "./Avatar";
-import DiscountCountdown from "./DiscountCountdown";
-import ImageSlider from "./ImageSlider";
-import CustomBtn from "@/components/shared/CustomBtn";
+import { Drawer } from "antd";
 
-moment.locale("fa");
-moment.loadPersian({ usePersianDigits: true });
+import { icons, images, productInformationDetails } from "@/constants";
+import CustomBadge from "@/components/shared/CustomBadge";
+import CustomBtn from "@/components/shared/CustomBtn";
+import DiscountCountdown from "./DiscountCountdown";
+import { Clock } from "@/components/icons/Icons";
+import { Image } from "@nextui-org/react";
+import ImageSlider from "./ImageSlider";
+import Avatar from "./Avatar";
 
 export default function ProductInformation({ info }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -33,10 +29,10 @@ export default function ProductInformation({ info }) {
   };
 
   if (info.discount) {
-    console.log("true")
+    console.log("true");
   }
   if (!info.discount) {
-    console.log("false")
+    console.log("false");
   }
 
   console.log(info);
@@ -128,7 +124,10 @@ export default function ProductInformation({ info }) {
         </div>
         <hr />
 
-        <DiscountCountdown discount={info.discount} originalPrice={info?.price} />
+        <DiscountCountdown
+          discount={info.discount}
+          originalPrice={info?.price}
+        />
 
         {productInformationDetails(info).map((item) => (
           <div key={item.value} className="flex items-center justify-between">

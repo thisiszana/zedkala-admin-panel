@@ -2,6 +2,7 @@ import localFont from "next/font/local";
 import "../styles/globals.css";
 
 import { Toaster } from "react-hot-toast";
+import moment from "moment-jalaali";
 import DarkModeProvider from "@/providers/DarkModeProvider";
 import ReactQueryClientProvider from "@/providers/ReactQueryClientProvider";
 
@@ -20,6 +21,9 @@ export const metadata = {
   title: "ZedKala",
   description: "ZedKala Admin Dashboard",
 };
+
+moment.locale("fa");
+moment.loadPersian({ usePersianDigits: true });
 
 export default function RootLayout({ children }) {
   return (
