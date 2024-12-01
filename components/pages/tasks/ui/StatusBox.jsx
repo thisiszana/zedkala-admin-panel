@@ -1,15 +1,17 @@
+import Image from "next/image";
+
 import moment from "moment-jalaali";
 import { Badge, Empty } from "antd";
 
 import { getServerSession } from "@/utils/session";
-import { images } from "@/constants";
-import Image from "next/image";
-import TaskActions from "./TaskActions";
-import EditTask from "./EditTask";
 import { Clock } from "@/components/icons/Icons";
+import TaskActions from "./TaskActions";
+import { images } from "@/constants";
+import EditTask from "./EditTask";
 
 export default function StatusBox({ status, taskCount, tasks }) {
   const session = getServerSession();
+  
   return (
     <div className="flex flex-col gap-5">
       <Badge count={taskCount} className="custom-badge">

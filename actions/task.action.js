@@ -4,9 +4,9 @@ import { revalidatePath } from "next/cache";
 
 import { MESSAGES, STATUS_CODES } from "@/utils/message";
 import { getServerSession } from "@/utils/session";
+import ZedkalaAdmin from "@/models/zedkalaAdmin";
 import ZedkalaTask from "@/models/zedkalaTask";
 import connectDB from "@/utils/connectDB";
-import ZedkalaAdmin from "@/models/zedkalaAdmin";
 
 export const createTask = async (data) => {
   try {
