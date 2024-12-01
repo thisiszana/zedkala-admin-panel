@@ -6,6 +6,7 @@ import { MESSAGES, STATUS_CODES } from "@/utils/message";
 import { getServerSession } from "@/utils/session";
 import ZedkalaTask from "@/models/zedkalaTask";
 import connectDB from "@/utils/connectDB";
+import ZedkalaAdmin from "@/models/zedkalaAdmin";
 
 export const createTask = async (data) => {
   try {
@@ -45,7 +46,38 @@ export const createTask = async (data) => {
       code: STATUS_CODES.success,
     };
   } catch (error) {
-    console.log("err in creat task", error.message)
+    console.log("err in creat task", error.message);
+    return {
+      message: MESSAGES.server,
+      status: MESSAGES.failed,
+      code: STATUS_CODES.server,
+    };
+  }
+};
+
+export const getTasks = async () => {
+  try {
+    await connectDB();
+
+    const tasks = await ZedkalaTask.find()
+      .populate({
+        path: "createdBy",
+        model: ZedkalaAdmin,
+        select: "username firstName image roll",
+      })
+      .lean();
+
+    return {
+      tasks: {
+        todo: tasks?.filter((task) => task.status === "Todod"),
+        progress: tasks?.filter((task) => task.status === "Progress"),
+        done: tasks?.filter((task) => task.status === "Done"),
+      },
+      message: MESSAGES.success,
+      status: MESSAGES.success,
+      code: STATUS_CODES.success,
+    };
+  } catch (error) {
     return {
       message: MESSAGES.server,
       status: MESSAGES.failed,
