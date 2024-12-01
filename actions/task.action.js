@@ -69,7 +69,7 @@ export const getTasks = async () => {
 
     return {
       tasks: {
-        todo: tasks?.filter((task) => task.status === "Todod"),
+        todo: tasks?.filter((task) => task.status === "Todo"),
         progress: tasks?.filter((task) => task.status === "Progress"),
         done: tasks?.filter((task) => task.status === "Done"),
       },
