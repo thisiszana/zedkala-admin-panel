@@ -55,11 +55,33 @@ export const createTask = async (data) => {
   }
 };
 
-export const getTasks = async () => {
+export const getTasks = async (searchParams) => {
   try {
     await connectDB();
 
-    const tasks = await ZedkalaTask.find()
+    const session = getServerSession();
+
+    if (!session)
+      return {
+        message: MESSAGES.unAuthorized,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.unAuthorized,
+      };
+
+    let query = {};
+
+    if (searchParams.viewType === "personal") {
+      query = {
+        $or: [
+          { "taskOwner.username": session.username },
+          { createdBy: session.userId },
+        ],
+      };
+    } else if (searchParams.viewType === "public") {
+      query = { taskOwner: null };
+    }
+
+    const tasks = await ZedkalaTask.find(query)
       .populate({
         path: "createdBy",
         model: ZedkalaAdmin,

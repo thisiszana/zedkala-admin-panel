@@ -5,6 +5,7 @@ import { useState } from "react";
 import { AddFolder } from "@/components/icons/Icons";
 import CustomBtn from "@/components/shared/CustomBtn";
 import TaskForm from "./TaskForm";
+import TasksFilter from "./TasksFilter";
 
 export default function CreateNewTask({ session }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,7 +14,8 @@ export default function CreateNewTask({ session }) {
 
   const closeModal = () => setIsModalOpen(false);
   return (
-    <div className="w-full flex justify-end">
+    <div className="w-full flex flex-col-reverse items-center justify-between gap-5 sm:flex-row sm:gap-8">
+      <TasksFilter />
       <CustomBtn
         icon={<AddFolder />}
         title="ایجاد تسک"

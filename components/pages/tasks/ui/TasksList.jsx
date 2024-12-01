@@ -1,9 +1,9 @@
 import { getTasks } from "@/actions/task.action";
 import StatusBox from "./StatusBox";
 
-export default async function TasksList() {
-  const data = await getTasks();
-  
+export default async function TasksList({ searchParams }) {
+  const data = await getTasks(searchParams);
+
   if (data.code !== 200) return <div>خطا در دریافت اطلاعات</div>;
 
   return (
