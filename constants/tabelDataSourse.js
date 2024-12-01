@@ -22,8 +22,8 @@ export const categoriesDataSourse = (categories) =>
       >
         <div className="hidden lg:flex w-[100px] h-[100px] items-center justify-center">
           <Image
-            as={NextImage || images.imageNotFound}
-            src={c.images[0]}
+            as={NextImage}
+            src={c.images[0] || images.imageNotFound}
             width={100}
             height={100}
             alt="دسته‌بندی"
@@ -48,7 +48,7 @@ export const categoriesDataSourse = (categories) =>
         <div className="hidden lg:flex w-10 h-10 items-center justify-center">
           <Image
             as={NextImage}
-            src={c.createdBy.image || images.admin}
+            src={c.createdBy.images || images.admin}
             width={200}
             height={200}
             style={{ width: "500px", height: "auto" }}
@@ -120,7 +120,7 @@ export const productsDataSourse = (products) =>
         <div className="hidden lg:flex w-10 h-10 items-center justify-center">
           <Image
             as={NextImage}
-            src={product.createdBy.image || images.admin}
+            src={product.createdBy.images || images.admin}
             width={200}
             height={200}
             style={{ width: "100%", height: "auto" }}
@@ -179,11 +179,11 @@ export const adminsDataSourse = (admins, currentUserID, currentUserRoll) =>
     ),
     date: (
       <div>
-      <p>{moment(admin.createdAt).locale("fa").format("jYYYY/jMM/jDD")}</p>
-      <p className="text-p2 text-darkGray">
-        {moment(admin.createdAt).locale("fa").format("HH:mm")}
-      </p>
-    </div>
+        <p>{moment(admin.createdAt).locale("fa").format("jYYYY/jMM/jDD")}</p>
+        <p className="text-p2 text-darkGray">
+          {moment(admin.createdAt).locale("fa").format("HH:mm")}
+        </p>
+      </div>
     ),
     action: (
       <AdminActions

@@ -148,7 +148,6 @@ export const updateStatusTask = async (data) => {
   }
 };
 
-
 export const deleteTask = async (data) => {
   try {
     await connectDB();
