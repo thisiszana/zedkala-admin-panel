@@ -69,7 +69,7 @@ export default function Sidebar() {
                   <div className="flex items-center gap-2">
                     <Image
                       as={NextImage}
-                      src={data?.session?.image || images.admin}
+                      src={data?.session?.images || images.admin}
                       width={35}
                       height={35}
                       alt="user"

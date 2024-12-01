@@ -174,7 +174,7 @@ export const loginAdmin = async (data) => {
         userId: admin._id,
         firstName: admin.firstName,
         roll: admin.roll,
-        image: admin.image,
+        images: admin.images,
       },
 
       SECRET_KEY,
