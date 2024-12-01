@@ -1,9 +1,5 @@
-import React from 'react'
+import TasksPage from "@/components/pages/tasks/TasksPage";
 
 export default function Tasks() {
-  return (
-    <div className='mr-10'>
-      <h1>به زودی ...</h1>
-    </div>
-  )
+  return <TasksPage />;
 }
