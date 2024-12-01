@@ -1,8 +1,5 @@
 export const MESSAGES = {
   delete: "Deleted!",
-  taskUpdated: "Task Updated",
-  taskDeleted: "Task Deleted",
-  taskEdited: "Task Edited",
   blogCreated: "Blog Created",
   blogUpdated: "Blog Updated",
   blogDeleted: "Blog Deleted",
@@ -10,6 +7,10 @@ export const MESSAGES = {
   invalidId: "Invalid Id",
   badRequest: "Bad Request!",
 
+  taskNotFound: "تسک موردنظر یافت نشد!",
+  taskEdited: "تسک ویرایش شد!",
+  taskDeleted: "تسک حذف شد!",
+  taskUpdated: "تسک آپدیت شد!",
   taskCreated: "تسک ایجاد شد!",
   vendorRequest:
     "دیتای شما برای مدیرت جهت اسعلام ارسال شد، تشکر از صبر و شکیبایی شما",
