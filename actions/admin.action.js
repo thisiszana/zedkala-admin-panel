@@ -192,7 +192,7 @@ export const updateProfile = async (data) => {
         username,
         userId: admin._id,
         firstName: firstName,
-        image: images && images.length !== 0 ? images : admin.images,
+        images: images && images.length !== 0 ? images : admin.images,
         roll: admin.roll,
       },
 
@@ -210,6 +210,7 @@ export const updateProfile = async (data) => {
       path: "/",
     });
 
+    revalidatePath("/");
     revalidatePath("/account");
 
     return {

@@ -10,8 +10,8 @@ const useSession = () => {
     queryFn: fetchSession,
     staleTime: 1 * 60 * 60,
     gcTime: 1 * 60 * 60,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
+    // refetchOnMount: false,
+    // refetchOnWindowFocus: false,
   });
 
   return {

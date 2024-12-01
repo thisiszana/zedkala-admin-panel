@@ -17,7 +17,7 @@ export default function RadioList({ form, setForm }) {
               name="gender"
               value="خانم"
               id="female"
-              checked={gender === "female"}
+              checked={gender === "خانم"}
               onChange={changeHandler}
             />
           </div>

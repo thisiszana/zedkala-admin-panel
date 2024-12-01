@@ -38,13 +38,13 @@ export default function ContentSlider({ items, linkPrefix, imagesDefault }) {
           `<span class="${className} custom-pagination-bullet"></span>`,
       }}
       spaceBetween={20}
-      slidesPerView={1}
+      slidesPerView={items.length < 2 ? items.length : 1}
       breakpoints={{
         768: {
-          slidesPerView: 2,
+          slidesPerView: items.length < 2 ? items.length : 2,
         },
         1024: {
-          slidesPerView: 3,
+          slidesPerView: items.length < 3 ? items.length : 3,
         },
       }}
       className="rounded-lg overflow-hidden relative"
