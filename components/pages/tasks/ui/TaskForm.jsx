@@ -1,14 +1,19 @@
 "use client";
 
+import { createTask } from "@/actions/task.action";
 import { CircleClose } from "@/components/icons/Icons";
 import CustomBtn from "@/components/shared/CustomBtn";
 import CustomDatePicker from "@/components/shared/CustomDatePicker";
 import CustomInp from "@/components/shared/form/CustomInp";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import CustomTextarea from "@/components/shared/form/CustomTextarea";
+import Loader from "@/components/shared/Loader";
 import { images } from "@/constants";
+import useServerAction from "@/hooks/useServerAction";
+import { MESSAGES } from "@/utils/message";
 import { Avatar, Modal } from "antd";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function TaskForm({
   type,
@@ -82,7 +87,24 @@ export default function TaskForm({
     },
   };
 
-  const onSubmit = (e) => {};
+  const { loading: createLoading, res: createRes } = useServerAction(
+    createTask,
+    form,
+    () => onCancel()
+  );
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    if (
+      (form.title && form.title.length === 0) ||
+      (form.status && form.status.length === 0) ||
+      (form.dueDate && form.dueDate.length === 0)
+    )
+      toast.error(MESSAGES.fields);
+
+    createRes();
+  };
 
   return (
     <Modal
@@ -140,12 +162,25 @@ export default function TaskForm({
           <CustomBtn
             type="button"
             title="لغو"
+            disabled={createLoading}
             classNames="border p-btn rounded-btn hoverable"
             onClick={onCancel}
           />
           <CustomBtn
             type="submit"
-            title={type === "CREATE" ? "ایجاد" : "ویرایش"}
+            title={
+              createLoading ? (
+                <Loader height={15} width={15} />
+              ) : type === "create" ? (
+                "ایجاد"
+              ) : (
+                "ویرایش"
+              )
+            }
+            disabled={createLoading}
+            classNames={`font-medium p-btn rounded-btn ${
+              createLoading ? "bg-lightGray" : "bg-dark1 text-white"
+            }`}
           />
         </div>
       </form>

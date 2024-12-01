@@ -45,6 +45,7 @@ export const createTask = async (data) => {
       code: STATUS_CODES.success,
     };
   } catch (error) {
+    console.log("err in creat task", error.message)
     return {
       message: MESSAGES.server,
       status: MESSAGES.failed,
