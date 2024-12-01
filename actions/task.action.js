@@ -117,15 +117,24 @@ export const updateStatusTask = async (data) => {
         code: STATUS_CODES.not_found,
       };
 
-    if (
-      session.roll === "ADMIN" &&
-      session.userId !== task.createdBy.toString()
-    ) {
-      return {
-        message: MESSAGES.forbidden,
-        status: MESSAGES.failed,
-        code: STATUS_CODES.forbidden,
-      };
+    if (session.roll === "ADMIN") {
+      if (task.taskOwner) {
+        if (task.taskOwner.username !== session.username) {
+          return {
+            message: MESSAGES.forbidden,
+            status: MESSAGES.failed,
+            code: STATUS_CODES.forbidden,
+          };
+        }
+      } else {
+        if (session.userId !== task.createdBy.toString()) {
+          return {
+            message: MESSAGES.forbidden,
+            status: MESSAGES.failed,
+            code: STATUS_CODES.forbidden,
+          };
+        }
+      }
     }
 
     task.status = status;
@@ -212,7 +221,7 @@ export const editTask = async (data) => {
   try {
     await connectDB();
 
-    const { title, description, status, dueDate, id } = data;
+    const { title, description, status, dueDate, id, taskOwner } = data;
 
     const session = getServerSession();
 
@@ -254,6 +263,7 @@ export const editTask = async (data) => {
     task.description = description;
     task.status = status;
     task.dueDate = dueDate;
+    task.taskOwner = taskOwner || null;
     await task.save();
 
     revalidatePath("/tasks");

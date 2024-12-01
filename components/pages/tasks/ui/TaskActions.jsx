@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 
+import toast from "react-hot-toast";
 import { Popover } from "antd";
 
-import CustomBtn from "@/components/shared/CustomBtn";
 import { CircleCheck, MenuDots, Trash } from "@/components/icons/Icons";
-import useServerAction from "@/hooks/useServerAction";
-import { deleteTask, updateStatusTask } from "@/actions/task.action";
-import Loader from "@/components/shared/Loader";
 import CustomConfirmDeleteModal from "@/components/shared/CustomConfirmDeleteModal";
-import toast from "react-hot-toast";
+import { deleteTask, updateStatusTask } from "@/actions/task.action";
+import CustomBtn from "@/components/shared/CustomBtn";
+import useServerAction from "@/hooks/useServerAction";
+import Loader from "@/components/shared/Loader";
 
 export default function TaskActions({ id, currentStatus }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -48,20 +48,15 @@ export default function TaskActions({ id, currentStatus }) {
     () => closePopover()
   );
 
-  // const { loading: deleteLoading, res: deleteRes } = useServerAction(
-  //   deleteTask,
-  //   { id },
-  //   () => closePopover()
-  // );
-
   const handleDelete = async () => {
     setDeleteLoading(true);
     try {
-      await deleteTask({ id });
+      const res = await deleteTask({ id });
+      toast.error(res.message);
       setIsModalVisible(false);
       onOpenChange(false);
     } catch (error) {
-      toast.error("خطا در حذف محصول");
+      toast.error("خطا در حذف تسک");
     } finally {
       setDeleteLoading(false);
     }
