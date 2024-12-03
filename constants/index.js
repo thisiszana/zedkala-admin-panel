@@ -163,11 +163,11 @@ export const menuLinks = [
     image: icons.home,
     link: "/dashboard",
   },
-  {
-    title: "سفارشات",
-    image: icons.deliveryTruck,
-    link: "/orders",
-  },
+  // {
+  //   title: "سفارشات",
+  //   image: icons.deliveryTruck,
+  //   link: "/orders",
+  // },
   {
     title: "محصولات",
     image: icons.basket,
@@ -188,26 +188,26 @@ export const menuLinks = [
     image: icons.layerPlus,
     link: "/add-category",
   },
-  {
-    title: "نظرات",
-    image: icons.paper,
-    link: "/comments",
-  },
+  // {
+  //   title: "نظرات",
+  //   image: icons.paper,
+  //   link: "/comments",
+  // },
   {
     title: "کاربران",
     image: icons.users,
     link: "/users",
   },
-  {
-    title: "وبلاگ‌ها",
-    image: icons.textB,
-    link: "/blogs",
-  },
-  {
-    title: "ایجاد وبلاگ",
-    image: icons.paragraph,
-    link: "/add-blog",
-  },
+  // {
+  //   title: "وبلاگ‌ها",
+  //   image: icons.textB,
+  //   link: "/blogs",
+  // },
+  // {
+  //   title: "ایجاد وبلاگ",
+  //   image: icons.paragraph,
+  //   link: "/add-blog",
+  // },
   {
     title: "وظایف",
     image: icons.tasks,
@@ -277,12 +277,6 @@ export const productInformationDetails = (info) => {
       : []),
   ];
 };
-
-export const vendorCategoryOptions = [
-  { label: "پوشاک", value: "clothing" },
-  { label: "الکترونیک", value: "electronics" },
-  { label: "مواد غذایی", value: "food" },
-];
 
 export const rollOptions = [
   { label: "کاربر عادی", value: "USER" },
