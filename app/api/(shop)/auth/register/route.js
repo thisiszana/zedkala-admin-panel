@@ -55,5 +55,10 @@ export async function POST(req) {
 
     response.headers.set("Cache-Control", "no-store");
     return response;
-  } catch (error) {}
+  } catch (error) {
+    return NextResponse.json(
+      { msg: MESSAGES.server, success: false },
+      { status: STATUS_CODES.server }
+    );
+  }
 }
