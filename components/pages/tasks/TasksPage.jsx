@@ -5,6 +5,7 @@ import TasksListSkeletons from "./ui/TasksListSkeletons";
 import { getServerSession } from "@/utils/session";
 import CreateNewTask from "./ui/CreateNewTask";
 import TasksList from "./ui/TasksList";
+import CreateBoard from "./ui/board/ui/CreateBoard";
 
 export default function TasksPage({ searchParams }) {
   const viewType = searchParams?.viewType || "";
@@ -13,7 +14,8 @@ export default function TasksPage({ searchParams }) {
   return (
     <>
       <PageHeading title="وظایف" />
-      <CreateNewTask session={session} />
+      {/* <CreateNewTask session={session} /> */}
+      <CreateBoard />
       <Suspense key={viewType} fallback={<TasksListSkeletons />}>
         <TasksList searchParams={searchParams} />
       </Suspense>
