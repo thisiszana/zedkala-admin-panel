@@ -90,7 +90,7 @@ export default function ProductsActions({ productId, published }) {
         }`}
         title={
           draftLoading ? (
-            <Loader width={15} height={15} className="py-1" />
+            <Loader width={15} height={15} />
           ) : (
             <div className={`flex w-full items-center gap-4`}>
               <Draft />

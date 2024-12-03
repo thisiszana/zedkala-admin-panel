@@ -120,7 +120,7 @@ export default function TaskForm({
         {type === "create" ? "ایجاد تسک جدید" : "ویرایش تسک"}
       </p>
       <CustomBtn
-        icon={<CircleClose />}
+        icon={<CircleClose wrapperClassName="dark:bg-white" />}
         classNames="hoverable"
         onClick={closeModal}
         // disabled={createLoading}
@@ -182,7 +182,7 @@ export default function TaskForm({
           </p>
         </div>
       ) : (
-        <form className="space-y-5" onSubmit={onSubmit}>
+        <form className="space-y-5 " onSubmit={onSubmit}>
           <CustomInp
             type="text"
             label="عنوان"
@@ -269,7 +269,7 @@ export default function TaskForm({
               type="button"
               title="لغو"
               disabled={createLoading || editLoading}
-              classNames="border p-btn rounded-btn hoverable"
+              classNames="bg-dark1 text-white dark:bg-white dark:text-dark1 border p-btn rounded-btn hoverable"
               onClick={onCancel}
             />
             <CustomBtn
@@ -284,11 +284,11 @@ export default function TaskForm({
                 )
               }
               disabled={createLoading || editLoading}
-              classNames={`font-medium p-btn rounded-btn ${
+              classNames={`${
                 createLoading || editLoading
                   ? "bg-lightGray"
                   : "bg-dark1 text-white"
-              }`}
+              } flex items-center justify-center w-[150px] dark:bg-lightGray dark:text-dark1 h-[50px] rounded-btn text-p1 font-bold`}
             />
           </div>
         </form>

@@ -19,7 +19,7 @@ export default function CreateNewTask({ session }) {
       <CustomBtn
         icon={<AddFolder />}
         title="ایجاد تسک"
-        classNames="bg-dark1 text-white rounded-btn py-2.5 px-5 flex items-center gap-3 font-medium ml-3"
+        classNames="bg-dark1 text-white dark:bg-white dark:text-dark1 rounded-btn py-2.5 px-5 flex items-center gap-3 font-medium ml-3"
         onClick={openModal}
       />
       {isModalOpen && (

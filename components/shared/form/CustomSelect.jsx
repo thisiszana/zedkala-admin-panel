@@ -30,7 +30,7 @@ export default function CustomSelect({
   return (
     <div className={`my-4 w-full ${wrapperClassName}`}>
       {label && (
-        <label className={`block text-gray-700 dark:text-white mb-2`}>
+        <label className={`block text-gray-700 mb-2`}>
           {label}
         </label>
       )}
@@ -41,7 +41,7 @@ export default function CustomSelect({
         mode={mode}
         placeholder={placeholder}
         allowClear={allowClear}
-        className="w-full h-[56px] dark:bg-dark1"
+        className="w-full h-[56px]"
         onFocus={onFocus}
         onBlur={onBlur}
       >

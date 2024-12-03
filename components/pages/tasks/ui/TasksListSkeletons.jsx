@@ -8,7 +8,7 @@ export default function TasksListSkeletons() {
         .map((item, index) => (
           <Skeleton
             key={index}
-            className="rounded-xl w-full p-5 flex flex-col gap-4"
+            className="rounded-xl w-full p-5 flex flex-col gap-4 ml-3"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">

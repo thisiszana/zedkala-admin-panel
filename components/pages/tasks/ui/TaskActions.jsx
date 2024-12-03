@@ -63,9 +63,9 @@ export default function TaskActions({ id, currentStatus }) {
   };
 
   const popoverContent = (
-    <div className="popContainer w-[200px] min-h-[150px] flex flex-col justify-center items-center">
+    <div className="popContainer min-w-[150px] dark:bg-dark1 border-1 rounded-[8px]">
       <CustomBtn
-        classNames={`popButton ${
+        classNames={`popButton flex justify-center w-full ${
           currentStatus === "Todo" ? "text-darkBlue" : "hoverable"
         }`}
         title={
@@ -84,7 +84,7 @@ export default function TaskActions({ id, currentStatus }) {
         disabled={todoLoading || progressLoading || doneLoading}
       />
       <CustomBtn
-        classNames={`popButton ${
+        classNames={`popButton flex justify-center w-full ${
           currentStatus === "Progress" ? "text-darkBlue" : "hoverable"
         }`}
         title={
@@ -103,7 +103,7 @@ export default function TaskActions({ id, currentStatus }) {
         disabled={todoLoading || progressLoading || doneLoading}
       />
       <CustomBtn
-        classNames={`popButton ${
+        classNames={`popButton flex justify-center w-full ${
           currentStatus === "Done" ? "text-darkBlue" : "hoverable"
         }`}
         title={
@@ -122,7 +122,7 @@ export default function TaskActions({ id, currentStatus }) {
         disabled={todoLoading || progressLoading || doneLoading}
       />
       <CustomBtn
-        classNames="popButton hoverable popButton text-darkRose hover:bg-lightRose Transition"
+        classNames="popButton flex justify-center w-full hoverable popButton text-darkRose hover:bg-lightRose Transition"
         title={
           deleteLoading ? (
             <Loader height={20} width={20} color={"red"} />

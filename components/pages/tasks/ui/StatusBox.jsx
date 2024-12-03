@@ -15,14 +15,14 @@ export default function StatusBox({ status, taskCount, tasks }) {
   return (
     <div className="flex flex-col gap-5">
       <Badge count={taskCount} className="custom-badge">
-        <h3 className="h3">{status}</h3>
+        <h3 className="h3 dark:text-lightGray">{status}</h3>
       </Badge>
-      <div className="bg-lightGray rounded-box p-box flex flex-col gap-4">
+      <div className="bg-lightGray dark:bg-dark2 rounded-box p-box flex flex-col gap-4">
         {tasks.length !== 0 ? (
           tasks.map((task) => (
             <div
               key={task._id}
-              className="rounded-box p-box border bg-white flex flex-col gap-4"
+              className="rounded-box p-box border bg-white flex flex-col gap-4 dark:bg-dark1"
             >
               <div className="flex justify-between gap-2">
                 <div className="flex items-center gap-3">
@@ -97,7 +97,7 @@ export default function StatusBox({ status, taskCount, tasks }) {
             </div>
           ))
         ) : (
-          <Empty description="تسکی وجود ندارد" />
+          <Empty description="تسکی وجود ندارد" className="dark:text-white" />
         )}
       </div>
     </div>
