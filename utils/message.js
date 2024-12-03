@@ -12,11 +12,12 @@ export const MESSAGES = {
   taskDeleted: "تسک حذف شد!",
   taskUpdated: "تسک آپدیت شد!",
   taskCreated: "تسک ایجاد شد!",
+  taskForbidden: "شما نمیتوانید تسک را به حالت 'انجام شده' منقل کنید!",
   vendorRequest:
     "دیتای شما برای مدیرت جهت اسعلام ارسال شد، تشکر از صبر و شکیبایی شما",
   vendorAddInfoDesc:
     "اطمینان حاصل کنید که تمامی اطلاعات به درستی وارد شده است.",
-  vendorAddInfoMess: "لطفا اطلاعات مورد نظر با دقت وارد کنید",
+    vendorAddInfoMess: "لطفا اطلاعات مورد نظر با دقت وارد کنید",
   noContent: "دیتایی وجود ندارد!",
   adminHasContent: "ادمین محتوای موجود دارد!",
   deleteAdmin: "ادمین حذف شد!",

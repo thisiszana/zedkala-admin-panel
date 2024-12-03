@@ -204,6 +204,7 @@ export default function TaskForm({
             options={[
               { value: "Todo", label: "انجام دادن" },
               { value: "Progress", label: "در حال انجام" },
+              { value: "Preview", label: "بررسی" },
               { value: "Done", label: "انجام شده" },
             ]}
           />
@@ -225,11 +226,19 @@ export default function TaskForm({
           <hr />
           <div className="space-y-2">
             <p className="font-medium text-p1">سررسید</p>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col items-center gap-4">
+              <div className="flex justify-between items-start gap-3">
               <CustomDatePicker
-                value={form.dueDate}
+                label="تاریخ شروع تسک"
+                value={form.dueDate?.startAt}
                 onChange={handleDateChange}
               />
+              <CustomDatePicker
+                label="تاریخ پایان تسک"
+                value={form.dueDate?.expiresAt}
+                onChange={handleDateChange}
+              />
+              </div>
               {form.dueDate && (
                 <p className="capitalize">{moment(form.dueDate).fromNow()}</p>
               )}

@@ -39,6 +39,15 @@ export default function TaskActions({ id, currentStatus }) {
     () => closePopover()
   );
 
+  const { loading: previewLoading, res: previewRes } = useServerAction(
+    updateStatusTask,
+    {
+      id,
+      status: "Preview",
+    },
+    () => closePopover()
+  );
+
   const { loading: doneLoading, res: doneRes } = useServerAction(
     updateStatusTask,
     {
@@ -81,7 +90,9 @@ export default function TaskActions({ id, currentStatus }) {
           )
         }
         onClick={() => todoRes()}
-        disabled={todoLoading || progressLoading || doneLoading}
+        disabled={
+          todoLoading || progressLoading || previewLoading || doneLoading
+        }
       />
       <CustomBtn
         classNames={`popButton flex justify-center w-full ${
@@ -100,7 +111,30 @@ export default function TaskActions({ id, currentStatus }) {
           )
         }
         onClick={() => progressRes()}
-        disabled={todoLoading || progressLoading || doneLoading}
+        disabled={
+          todoLoading || progressLoading || previewLoading || doneLoading
+        }
+      />
+      <CustomBtn
+        classNames={`popButton flex justify-center w-full ${
+          currentStatus === "Preview" ? "text-darkBlue" : "hoverable"
+        }`}
+        title={
+          previewLoading ? (
+            <Loader height={20} width={20} />
+          ) : currentStatus === "Preview" ? (
+            <>
+              <CircleCheck size={17} />
+              <p>بررسی</p>
+            </>
+          ) : (
+            <p>بررسی</p>
+          )
+        }
+        onClick={() => previewRes()}
+        disabled={
+          todoLoading || previewLoading || progressLoading || doneLoading
+        }
       />
       <CustomBtn
         classNames={`popButton flex justify-center w-full ${
@@ -119,7 +153,9 @@ export default function TaskActions({ id, currentStatus }) {
           )
         }
         onClick={() => doneRes()}
-        disabled={todoLoading || progressLoading || doneLoading}
+        disabled={
+          todoLoading || progressLoading || previewLoading || doneLoading
+        }
       />
       <CustomBtn
         classNames="popButton flex justify-center w-full hoverable popButton text-darkRose hover:bg-lightRose Transition"
@@ -135,7 +171,11 @@ export default function TaskActions({ id, currentStatus }) {
         }
         onClick={() => setIsModalVisible(true)}
         disabled={
-          todoLoading || progressLoading || doneLoading || deleteLoading
+          todoLoading ||
+          progressLoading ||
+          doneLoading ||
+          deleteLoading ||
+          previewLoading
         }
       />
     </div>

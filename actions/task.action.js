@@ -159,6 +159,13 @@ export const updateStatusTask = async (data) => {
       }
     }
 
+    if (status === "Done" && session.roll === "ADMIN")
+      return {
+        message: MESSAGES.taskForbidden,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.forbidden,
+      };
+
     task.status = status;
     await task.save();
 

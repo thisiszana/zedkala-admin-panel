@@ -9,7 +9,7 @@ import DatePicker from "react-multi-date-picker";
 
 export default function CustomDatePicker({ label, value, onChange }) {
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex flex-col items-start gap-4">
       <label className="text-gray-600 text-[14px] dark:text-white">
         {label || "تاریخ"}
       </label>
