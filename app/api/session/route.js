@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { MESSAGES, STATUS_CODES } from "@/utils/message";
 import { getServerSession } from "@/utils/session";
 
 export async function GET() {
@@ -8,21 +9,21 @@ export async function GET() {
 
     if (!session)
       return NextResponse.json(
-        { msg: "UnAuthorized!", success: false },
-        { status: 401 }
+        { msg: MESSAGES.unAuthorized, success: false },
+        { status: STATUS_CODES.unAuthorized }
       );
 
     const response = NextResponse.json(
-      { msg: "Success", success: true, session },
-      { status: 200 }
+      { msg: MESSAGES.success, success: true, session },
+      { status: STATUS_CODES.success }
     );
 
     response.headers.set("Cache-Control", "no-store");
     return response;
   } catch (error) {
     return NextResponse.json(
-      { msg: "Server Error!", success: false },
-      { status: 500 }
+      { msg: MESSAGES.server, success: false },
+      { status: STATUS_CODES.server }
     );
   }
 }
