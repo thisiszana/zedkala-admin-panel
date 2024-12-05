@@ -67,10 +67,12 @@ import {
 } from "@/components/icons/Icons";
 
 import { IoIosColorPalette, IoIosTimer } from "react-icons/io";
+import { IoChatbubblesOutline } from "react-icons/io5";
 import { FiArrowDown } from "react-icons/fi";
 import { BsLuggage } from "react-icons/bs";
 import { CiImageOn } from "react-icons/ci";
 import { RxSize } from "react-icons/rx";
+import { MdOutlinePublic, MdSaveAs,MdOutlineReplay  } from "react-icons/md";
 
 import { e2p, reducePrice, sp } from "@/utils/fun";
 
@@ -90,6 +92,7 @@ export const icons = {
   plus: <AddFolder />,
   paper: <Comment />,
   users: <Users />,
+  public: <MdOutlinePublic />,
   user: <User />,
   textB: <BlogText />,
   tasks: <Task />,
@@ -143,6 +146,9 @@ export const icons = {
   size: <RxSize />,
   downArrow: <FiArrowDown />,
   imageNotFound: <CiImageOn />,
+  chat: <IoChatbubblesOutline  />,
+  save:<MdSaveAs />,
+  replay:<MdOutlineReplay  />,
 };
 
 export const images = {
@@ -282,4 +288,24 @@ export const rollOptions = [
   { label: "کاربر عادی", value: "USER" },
   { label: "فروشنده", value: "VENDOR" },
   { label: "ادمین", value: "ADMIN" },
+];
+
+// Tasks
+export const backgroundColorsTasksPage = [
+  { bg: "rgb(255, 228, 196)", id: 1 }, // مناسب متن مشکی
+  { bg: "rgb(173, 216, 230)", id: 2 }, // مناسب متن مشکی
+  { bg: "rgb(144, 238, 144)", id: 3 }, // مناسب متن مشکی
+  { bg: "rgb(255, 182, 193)", id: 4 }, // مناسب متن مشکی
+  { bg: "rgb(240, 248, 255)", id: 5 }, // مناسب متن مشکی
+  { bg: "rgb(245, 245, 220)", id: 6 }, // مناسب متن مشکی
+  { bg: "rgb(224, 255, 255)", id: 7 }, // مناسب متن مشکی
+  { bg: "rgb(250, 235, 215)", id: 8 }, // مناسب متن مشکی
+  { bg: "rgb(211, 211, 211)", id: 9 }, // مناسب متن مشکی
+  { bg: "rgb(255, 239, 213)", id: 10 }, // مناسب متن مشکی
+];
+
+
+export const boardMoodOptions = [
+  { label: "عمومی", value: "PUBLIC", icon: icons.public, id: 1 },
+  { label: "شخصی", value: "PRIVATE", icon: icons.users, id: 2 },
 ];

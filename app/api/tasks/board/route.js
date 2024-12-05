@@ -1,12 +1,10 @@
-import { NextResponse } from "next/server";
-
+import { ZedkalaBoard } from "@/models/zedkalaTask";
+import connectDB from "@/utils/connectDB";
 import { MESSAGES, STATUS_CODES } from "@/utils/message";
 import { getServerSession } from "@/utils/session";
-import { ZedkalaTask } from "@/models/zedkalaTask";
-import ZedkalaAdmin from "@/models/zedkalaAdmin";
-import connectDB from "@/utils/connectDB";
+import { NextResponse } from "next/server";
 
-export async function GET(req, { params: { id } }) {
+export async function GET(req, res) {
   try {
     await connectDB();
   } catch (error) {
@@ -25,22 +23,21 @@ export async function GET(req, { params: { id } }) {
         { status: STATUS_CODES.forbidden }
       );
 
-    const task = await ZedkalaTask.findById(id)
-      .populate({
-        path: "createdBy",
-        model: ZedkalaAdmin,
-        select: "username firstName images",
-      })
-      .lean();
+    const userBoards = await ZedkalaBoard.find({ createdBy: session.userId });
 
     const response = NextResponse.json(
-      { msg: MESSAGES.success, success: false, task },
+      {
+        msg: MESSAGES.success,
+        success: true,
+        userBoards,
+      },
       { status: STATUS_CODES.success }
     );
 
     response.headers.set("Cache-Control", "no-store");
     return response;
   } catch (error) {
+    console.error("Error fetching boards:", error.message);
     return NextResponse.json(
       { msg: MESSAGES.server, success: false },
       { status: STATUS_CODES.server }

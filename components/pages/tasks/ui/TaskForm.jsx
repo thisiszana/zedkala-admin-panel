@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-import { useQuery } from "@tanstack/react-query";
 import { Avatar, Modal } from "antd";
 import toast from "react-hot-toast";
 import moment from "moment-jalaali";
@@ -15,12 +14,12 @@ import CustomInp from "@/components/shared/form/CustomInp";
 import { CircleClose } from "@/components/icons/Icons";
 import CustomBtn from "@/components/shared/CustomBtn";
 import useServerAction from "@/hooks/useServerAction";
-import { QUERY_KEY } from "@/services/queriesKey";
 import Loader from "@/components/shared/Loader";
-import { fetchTask } from "@/services/queries";
 import { MESSAGES } from "@/utils/message";
-import { images } from "@/constants";
+import { backgroundColorsTasksPage, images } from "@/constants";
 import { getAdmins } from "@/actions/admin.action";
+import CommentsModal from "./CommentsModal";
+import { useGetTaskDetails } from "@/hooks/useTasksQuery";
 
 moment.locale("fa");
 
@@ -36,31 +35,25 @@ export default function TaskForm({
     title: "",
     description: "",
     status: "Todo",
-    dueDate: new Date(),
+    dueDate: { startAt: new Date(), expiresAt: null },
     taskOwner: null,
+    taskAssistants: null,
+    background: "",
   });
 
-  const { data, isFetching, isError, refetch } = useQuery({
-    queryKey: [QUERY_KEY.task_ID, taskID],
-    queryFn: fetchTask,
-    staleTime: 0,
-    cacheTime: 0,
-    enabled: !!taskID,
-  });
+  const { data, isFetching, isError, refetch } = useGetTaskDetails(taskID);
 
   useEffect(() => {
-    if (session.roll === "OWNER") {
-      const fetchAdmin = async () => {
-        try {
-          const { admins } = await getAdmins();
-          setAdmins(JSON.parse(JSON.stringify(admins)));
-        } catch (error) {
-          console.error("Error fetching admins:", error);
-        }
-      };
-      fetchAdmin();
-    }
-  }, [session.roll]);
+    const fetchAdmin = async () => {
+      try {
+        const { admins } = await getAdmins();
+        setAdmins(JSON.parse(JSON.stringify(admins)));
+      } catch (error) {
+        console.error("Error fetching admins:", error);
+      }
+    };
+    fetchAdmin();
+  }, []);
 
   useEffect(() => {
     if (data?.task) {
@@ -70,6 +63,8 @@ export default function TaskForm({
         status: data.task.status,
         dueDate: data.task.dueDate,
         taskOwner: data.task.taskOwner,
+        background: data.task.background,
+        taskAssistants: data.task.taskAssistants,
       });
     }
   }, [data]);
@@ -88,6 +83,8 @@ export default function TaskForm({
       status: taskID ? data?.task?.status : "Todo",
       dueDate: taskID ? data?.task?.dueDate : "",
       taskOwner: taskID ? data?.task?.taskOwner : "",
+      background: taskID ? data?.task?.background : "",
+      taskAssistants: taskID ? data?.task?.taskAssistants : "",
     });
   };
 
@@ -99,12 +96,16 @@ export default function TaskForm({
     });
   };
 
-  const handleDateChange = (value) => {
+  const handleDateChange = (value, dateType) => {
     const date = new Date(value);
-    setForm({
-      ...form,
-      dueDate: date,
-    });
+
+    setForm((prevForm) => ({
+      ...prevForm,
+      dueDate: {
+        ...prevForm.dueDate,
+        [dateType]: date,
+      },
+    }));
   };
 
   const handleStatus = (value) => {
@@ -163,6 +164,7 @@ export default function TaskForm({
   };
 
   return (
+    <>
     <Modal
       title={modalTitle}
       style={modalStyles}
@@ -196,6 +198,23 @@ export default function TaskForm({
             onChange={onChange}
             value={form.description}
           />
+          <div className="flex items-start flex-col gap-3">
+            <p>رنگ پس زمینه</p>
+            <div className="flex items-center flex-wrap gap-2 w-full">
+              {backgroundColorsTasksPage.map((bg) => (
+                <span
+                  key={bg.id}
+                  style={{ backgroundColor: bg.bg }}
+                  className={`w-[30px] h-[30px] rounded-full border border-gray-300 cursor-pointer ${
+                    form.background === bg.bg ? "ring-2 ring-dark1" : ""
+                  }`}
+                  onClick={() =>
+                    setForm((prevForm) => ({ ...prevForm, background: bg.bg }))
+                  }
+                ></span>
+              ))}
+            </div>
+          </div>
           <CustomSelect
             label="وضعیت"
             name="status"
@@ -208,46 +227,82 @@ export default function TaskForm({
               { value: "Done", label: "انجام شده" },
             ]}
           />
-          <div className="space-y-2">
-            <p className="font-medium text-p1">ایجاد کننده :</p>
-            <div className="flex items-center gap-3">
-              <Avatar
-                src={
-                  data
-                    ? data?.task?.createdBy?.images || images.admin
-                    : session?.images || images.admin
-                }
-              />
-              <p className="font-medium text-p1">
-                {data ? data?.task?.createdBy?.username : session?.username}
-              </p>
+          <div className="flex items-center justify-between">
+            <div className="space-y-2">
+              <p className="font-medium text-p1">ایجاد کننده :</p>
+              <div className="flex items-center gap-3">
+                <Avatar
+                  src={
+                    data
+                      ? data?.task?.createdBy?.images || images.admin
+                      : session?.images || images.admin
+                  }
+                />
+                <p className="font-medium text-p1">
+                  {data ? data?.task?.createdBy?.username : session?.username}
+                </p>
+              </div>
             </div>
+            
           </div>
           <hr />
           <div className="space-y-2">
             <p className="font-medium text-p1">سررسید</p>
             <div className="flex flex-col items-center gap-4">
               <div className="flex justify-between items-start gap-3">
-              <CustomDatePicker
-                label="تاریخ شروع تسک"
-                value={form.dueDate?.startAt}
-                onChange={handleDateChange}
-              />
-              <CustomDatePicker
-                label="تاریخ پایان تسک"
-                value={form.dueDate?.expiresAt}
-                onChange={handleDateChange}
-              />
+                <CustomDatePicker
+                  label="تاریخ شروع تسک"
+                  value={form.dueDate?.startAt}
+                  onChange={(value) => handleDateChange(value, "startAt")}
+                />
+                <CustomDatePicker
+                  label="تاریخ پایان تسک"
+                  value={form.dueDate?.expiresAt}
+                  onChange={(value) => handleDateChange(value, "expiresAt")}
+                />
               </div>
               {form.dueDate && (
-                <p className="capitalize">{moment(form.dueDate).fromNow()}</p>
+                <p className="capitalize">
+                  {moment(form.dueDate.startAt).fromNow()}
+                </p>
               )}
             </div>
           </div>
           <hr />
+
+          <CustomSelect
+            label="چه افرادی میتوانند در تسک شما را یاری کنند :"
+            name="taskAssistants"
+            mode="multiple"
+            value={
+              form.taskAssistants?.map((assistant) => assistant.userId) || []
+            }
+            onChange={(value) => {
+              const selectedAdmins = value
+                .map((id) => admins.find((admin) => admin._id === id))
+                .filter((admin) => admin);
+              setForm({
+                ...form,
+                taskAssistants: selectedAdmins.map((admin) => ({
+                  userId: admin._id,
+                  username: admin.username,
+                })),
+              });
+            }}
+            options={admins.map((admin) => ({
+              value: admin._id,
+              label: (
+                <div className="flex items-center gap-2">
+                  <Avatar src={admin.images || images.admin} />
+                  <span>{admin.username}</span>
+                </div>
+              ),
+            }))}
+          />
+
           {session.roll === "OWNER" && (
             <CustomSelect
-              label="انتخاب ادمین"
+              label="تسک رو چه کسی انجام بده :"
               name="taskOwner"
               value={form.taskOwner ? form.taskOwner.userId : undefined}
               onChange={(value) => {
@@ -303,5 +358,6 @@ export default function TaskForm({
         </form>
       )}
     </Modal>
+    </>
   );
 }

@@ -1,10 +1,9 @@
-import { NextResponse } from "next/server";
-
+import ZedkalaAdmin from "@/models/zedkalaAdmin";
+import { ZedkalaBoard } from "@/models/zedkalaTask";
+import connectDB from "@/utils/connectDB";
 import { MESSAGES, STATUS_CODES } from "@/utils/message";
 import { getServerSession } from "@/utils/session";
-import { ZedkalaTask } from "@/models/zedkalaTask";
-import ZedkalaAdmin from "@/models/zedkalaAdmin";
-import connectDB from "@/utils/connectDB";
+import { NextResponse } from "next/server";
 
 export async function GET(req, { params: { id } }) {
   try {
@@ -19,13 +18,14 @@ export async function GET(req, { params: { id } }) {
   try {
     const session = getServerSession();
 
-    if (!session || session.userId === "USER")
+    if (!session || session.userId === "USER") {
       return NextResponse.json(
         { msg: MESSAGES.forbidden, success: false },
         { status: STATUS_CODES.forbidden }
       );
+    }
 
-    const task = await ZedkalaTask.findById(id)
+    const board = await ZedkalaBoard.findById(id)
       .populate({
         path: "createdBy",
         model: ZedkalaAdmin,
@@ -33,14 +33,22 @@ export async function GET(req, { params: { id } }) {
       })
       .lean();
 
+    if (!board) {
+      return NextResponse.json(
+        { msg: MESSAGES.notFound, success: false },
+        { status: STATUS_CODES.not_found }
+      );
+    }
+
     const response = NextResponse.json(
-      { msg: MESSAGES.success, success: false, task },
+      { msg: MESSAGES.success, success: true, board },
       { status: STATUS_CODES.success }
     );
 
     response.headers.set("Cache-Control", "no-store");
     return response;
   } catch (error) {
+    console.log(error.message)
     return NextResponse.json(
       { msg: MESSAGES.server, success: false },
       { status: STATUS_CODES.server }

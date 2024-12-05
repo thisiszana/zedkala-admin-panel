@@ -6,6 +6,12 @@ html.dark {
   background-color: #33384d;
 }
 
+html,
+body {
+  height: 100%;
+}
+
+
 .custom-badge {
   .ant-badge-count {
     left: -15px; 
@@ -196,7 +202,9 @@ html.dark {
 }
 
 .pages_spaces {
-  @apply pt-[100px] pr-[280px] lg:pr-[270px]  max-md:px-4 md:pr-4 max-lg:pb-[50px] lg:mb-[200px] min-h-screen transition-all duration-150;
+  @apply pt-[100px] pr-[280px] lg:pr-[270px] max-md:px-4 md:pr-4 max-lg:pb-[50px] lg:mb-[200px] min-h-screen w-full transition-all duration-150;
+  min-height: 100vh; 
+  height: auto; 
 }
 
 .cardShadow3 {

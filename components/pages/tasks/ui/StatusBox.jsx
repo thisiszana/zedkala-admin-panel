@@ -8,10 +8,11 @@ import { Clock } from "@/components/icons/Icons";
 import TaskActions from "./TaskActions";
 import { images } from "@/constants";
 import EditTask from "./EditTask";
+import TaskProgressBar from "./TaskProgressBar";
+import TaskAssistants from "./TaskAssistants";
 
 export default function StatusBox({ status, taskCount, tasks }) {
   const session = getServerSession();
-
   return (
     <div className="flex flex-col gap-5">
       <Badge count={taskCount} className="custom-badge">
@@ -23,7 +24,12 @@ export default function StatusBox({ status, taskCount, tasks }) {
             <div
               key={task._id}
               className="rounded-box p-box border bg-white flex flex-col gap-4 dark:bg-dark1"
+              style={{ background: task.background }}
             >
+              <TaskProgressBar
+                createdAt={task.dueDate.startAt}
+                dueDate={task.dueDate.expiresAt}
+              />
               <div className="flex justify-between gap-2">
                 <div className="flex items-center gap-3">
                   <Clock
@@ -31,7 +37,7 @@ export default function StatusBox({ status, taskCount, tasks }) {
                     wrapperClassName="cardShadow p-3 rounded-btn"
                   />
                   <p className="text-darkGray text-p1 capitalize">
-                    {moment(task.dueDate).fromNow()}
+                    {moment(task.dueDate.startAt).fromNow()}
                   </p>
                 </div>
                 <div className="flex items-center gap-1">
@@ -42,6 +48,7 @@ export default function StatusBox({ status, taskCount, tasks }) {
                   <TaskActions
                     id={JSON.parse(JSON.stringify(task._id))}
                     currentStatus={JSON.parse(JSON.stringify(task.status))}
+                    currentUser={JSON.parse(JSON.stringify(session.userId))}
                   />
                 </div>
               </div>
@@ -51,23 +58,27 @@ export default function StatusBox({ status, taskCount, tasks }) {
                 <p className="text-darkGray text-p1">{task.description}</p>
               </div>
               <div className="flex items-center gap-3 mt-3">
-                {task?.taskOwner ? (
-                  <div className="flex items-center gap-3">
-                    <Image
-                      src={task?.taskOwner?.images || images.admin}
-                      width={40}
-                      height={40}
-                      alt={task?.taskOwner?.username}
-                      className="rounded-full"
-                    />
-                    <p className="text-p1">
-                      این تسک برای {task.taskOwner.username} است
+                {task.createdBy.roll === "OWNER" &&
+                  (task?.taskOwner ? (
+                    <div className="flex items-center gap-3">
+                      <Image
+                        src={task?.taskOwner?.images || images.admin}
+                        width={40}
+                        height={40}
+                        alt={task?.taskOwner?.username}
+                        className="rounded-full"
+                      />
+                      <p className="text-p1">
+                        این تسک برای {task.taskOwner.username} است
+                      </p>
+                    </div>
+                  ) : (
+                    <p className="text-p1 text-gray-600">
+                      این تسک برای همه است
                     </p>
-                  </div>
-                ) : (
-                  <p className="text-p1 text-gray-600">این تسک برای همه است</p>
-                )}
+                  ))}
               </div>
+              <TaskAssistants assistants={task.taskAssistants} />
               <div className="flex justify-between items-center gap-2 w-full">
                 <div className="flex items-center gap-3">
                   <Image

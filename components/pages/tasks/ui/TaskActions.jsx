@@ -11,8 +11,11 @@ import { deleteTask, updateStatusTask } from "@/actions/task.action";
 import CustomBtn from "@/components/shared/CustomBtn";
 import useServerAction from "@/hooks/useServerAction";
 import Loader from "@/components/shared/Loader";
+import CommentsModal from "./CommentsModal";
+import { icons } from "@/constants";
 
-export default function TaskActions({ id, currentStatus }) {
+export default function TaskActions({ id, currentStatus,currentUser }) {
+  const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -182,30 +185,55 @@ export default function TaskActions({ id, currentStatus }) {
   );
   return (
     <>
-      <Popover
-        open={isPopoverOpen}
-        onOpenChange={onOpenChange}
-        content={popoverContent}
-        overlayInnerStyle={{
-          padding: "0",
-        }}
-        trigger="click"
-        placement="leftTop"
-      >
-        <CustomBtn
-          type="button"
-          icon={<MenuDots size={15} />}
-          classNames="rounded-full w-[35px] h-[35px] flex items-center justify-center hoverable"
+      <div className="flex items-center gap-3">
+        <div className="">
+          <CustomBtn
+            type="button"
+            onClick={() => setIsCommentsOpen(true)}
+            icon={icons.chat}
+            classNames="rounded-full w-[35px] h-[35px] flex items-center justify-center hoverable"
+            disabled={
+              todoLoading ||
+              progressLoading ||
+              doneLoading ||
+              deleteLoading ||
+              previewLoading
+            }
+          />
+        </div>
+        <Popover
+          open={isPopoverOpen}
+          onOpenChange={onOpenChange}
+          content={popoverContent}
+          overlayInnerStyle={{
+            padding: "0",
+          }}
+          trigger="click"
+          placement="leftTop"
+        >
+          <CustomBtn
+            type="button"
+            icon={<MenuDots size={15} />}
+            classNames="rounded-full w-[35px] h-[35px] flex items-center justify-center hoverable"
+          />
+        </Popover>
+        <CustomConfirmDeleteModal
+          title="تایید حذف"
+          open={isModalVisible}
+          onConfirm={handleDelete}
+          onCancel={() => setIsModalVisible(false)}
+          confirmMessage="آیا مطمئن هستید که می‌خواهید این تسک را حذف کنید؟"
+          loading={deleteLoading}
         />
-      </Popover>
-      <CustomConfirmDeleteModal
-        title="تایید حذف"
-        open={isModalVisible}
-        onConfirm={handleDelete}
-        onCancel={() => setIsModalVisible(false)}
-        confirmMessage="آیا مطمئن هستید که می‌خواهید این تسک را حذف کنید؟"
-        loading={deleteLoading}
-      />
+      </div>
+      {isCommentsOpen && (
+        <CommentsModal
+          isOpen={isCommentsOpen}
+          onClose={() => setIsCommentsOpen(false)}
+          taskID={id}
+          currentUser={currentUser}
+        />
+      )}
     </>
   );
 }

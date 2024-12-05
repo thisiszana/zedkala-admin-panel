@@ -4,8 +4,8 @@ import { revalidatePath } from "next/cache";
 
 import { MESSAGES, STATUS_CODES } from "@/utils/message";
 import { getServerSession } from "@/utils/session";
+import { ZedkalaTask } from "@/models/zedkalaTask";
 import ZedkalaAdmin from "@/models/zedkalaAdmin";
-import ZedkalaTask from "@/models/zedkalaTask";
 import connectDB from "@/utils/connectDB";
 
 export const createTask = async (data) => {
@@ -13,7 +13,15 @@ export const createTask = async (data) => {
     await connectDB();
 
     const session = getServerSession();
-    const { title, description, status, dueDate, taskOwner } = data;
+    const {
+      title,
+      description,
+      status,
+      dueDate,
+      taskOwner,
+      taskAssistants,
+      background,
+    } = data;
 
     if (!session)
       return {
@@ -36,6 +44,8 @@ export const createTask = async (data) => {
       createdBy: session.userId,
       dueDate,
       taskOwner: taskOwner || null,
+      taskAssistants,
+      background,
     });
 
     revalidatePath("/tasks");
@@ -70,22 +80,29 @@ export const getTasks = async (searchParams) => {
 
     let query = {};
 
-    if (searchParams.viewType === "personal") {
-      query = {
-        $or: [
-          { "taskOwner.username": session.username },
-          { createdBy: session.userId },
-        ],
-      };
-    } else if (searchParams.viewType === "public") {
-      query = { taskOwner: null };
+    if (searchParams?.viewType) {
+      if (searchParams?.viewType === "personal") {
+        query = {
+          $or: [
+            { "taskOwner.username": session.username },
+            { createdBy: session.userId },
+          ],
+        };
+      } else if (searchParams.viewType === "public") {
+        query = { taskOwner: null };
+      }
     }
 
     const tasks = await ZedkalaTask.find(query)
       .populate({
         path: "createdBy",
         model: ZedkalaAdmin,
-        select: "username firstName image roll",
+        select: "username firstName images roll",
+      })
+      .populate({
+        path: "taskAssistants.userId", 
+        model: ZedkalaAdmin, 
+        select: "images", 
       })
       .lean();
 
@@ -93,6 +110,7 @@ export const getTasks = async (searchParams) => {
       tasks: {
         todo: tasks?.filter((task) => task.status === "Todo"),
         progress: tasks?.filter((task) => task.status === "Progress"),
+        preview: tasks?.filter((task) => task.status === "Preview"),
         done: tasks?.filter((task) => task.status === "Done"),
       },
       message: MESSAGES.success,
@@ -100,6 +118,7 @@ export const getTasks = async (searchParams) => {
       code: STATUS_CODES.success,
     };
   } catch (error) {
+    console.log("err in get tasks", error.message);
     return {
       message: MESSAGES.server,
       status: MESSAGES.failed,
@@ -303,6 +322,146 @@ export const editTask = async (data) => {
       code: STATUS_CODES.success,
     };
   } catch (error) {
+    return {
+      message: MESSAGES.server,
+      status: MESSAGES.failed,
+      code: STATUS_CODES.server,
+    };
+  }
+};
+
+
+export const editComment = async (data) => {
+  try {
+    await connectDB();
+    const { taskID, commentId, newContent } = data;
+
+    const session = getServerSession();
+
+    if (!session)
+      return {
+        message: MESSAGES.unAuthorized,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.unAuthorized,
+      };
+
+    const task = await ZedkalaTask.findById(taskID);
+
+    if (!task)
+      return {
+        message: MESSAGES.taskNotFound,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.not_found,
+      };
+
+    const comment = task.comments.id(commentId);
+
+    if (!comment)
+      return {
+        message: MESSAGES.commentNotFound,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.not_found,
+      };
+
+    if (
+      session.role !== "ADMIN" &&
+      session.userId !== comment.createdBy.toString()
+    ) {
+      return {
+        message: MESSAGES.forbidden,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.forbidden,
+      };
+    }
+
+    if (!newContent || newContent.trim().length === 0) {
+      return {
+        message: MESSAGES.invalidData,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.badRequest,
+      };
+    }
+
+    comment.content = newContent.trim();
+    comment.updatedAt = new Date();
+
+    await task.save();
+
+    revalidatePath(`/tasks`);
+
+    return {
+      message: MESSAGES.commentUpdated,
+      status: MESSAGES.success,
+      code: STATUS_CODES.success,
+    };
+  } catch (error) {
+    console.error("Error editing comment:", error);
+    return {
+      message: MESSAGES.server,
+      status: MESSAGES.failed,
+      code: STATUS_CODES.server,
+    };
+  }
+};
+
+export const deleteComment = async (data) => {
+  try {
+    await connectDB();
+    const { taskID, commentId } = data;
+
+    const session = getServerSession();
+
+    if (!session)
+      return {
+        message: MESSAGES.unAuthorized,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.unAuthorized,
+      };
+
+    const task = await ZedkalaTask.findById(taskID);
+
+    if (!task)
+      return {
+        message: MESSAGES.taskNotFound,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.not_found,
+      };
+
+    const comment = task.comments.id(commentId);
+
+    if (!comment)
+      return {
+        message: MESSAGES.commentNotFound,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.not_found,
+      };
+
+    if (
+      session.role !== "ADMIN" &&
+      session.userId !== comment.createdBy.toString()
+    ) {
+      return {
+        message: MESSAGES.forbidden,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.forbidden,
+      };
+    }
+
+    task.comments = task.comments.filter(
+      (comment) => comment._id.toString() !== commentId
+    );
+
+    await task.save();
+
+    revalidatePath(`/tasks`);
+
+    return {
+      message: MESSAGES.commentDeleted,
+      status: MESSAGES.success,
+      code: STATUS_CODES.success,
+    };
+  } catch (error) {
+    console.error("Error deleting comment:", error);
     return {
       message: MESSAGES.server,
       status: MESSAGES.failed,
