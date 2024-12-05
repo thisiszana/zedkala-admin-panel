@@ -13,7 +13,7 @@ import CommentsActions from "./ui/CommentsActions";
 import { QUERY_KEY } from "@/services/queriesKey";
 import Loader from "@/components/shared/Loader";
 import LikeButton from "./ui/LikeButton";
-import { icons, sortOptions } from "@/constants";
+import { icons, sortOptions, tagsComment } from "@/constants";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 
 const { Panel } = Collapse;
@@ -31,6 +31,7 @@ export default function CommentsModal({
   const [replyTarget, setReplyTarget] = useState("");
   const [replyContent, setReplyContent] = useState("");
   const [sortOrder, setSortOrder] = useState("createdAt_desc");
+  const [selectedTag, setSelectedTag] = useState(null);
 
   const loadingTarget = useRef(null);
 
@@ -48,10 +49,12 @@ export default function CommentsModal({
   console.log(comments);
 
   const mutation = useMutation({
-    mutationFn: ({ taskID, content }) => sendTaskComment({ taskID, content }),
+    mutationFn: ({ taskID, content, tags }) =>
+      sendTaskComment({ taskID, content, tags }),
     onSuccess: () => {
       queryClient.invalidateQueries([QUERY_KEY.tasks_comments, taskID]);
       setNewComment("");
+      setSelectedTag(null);
       refetch();
     },
     onError: (error) => {
@@ -79,7 +82,7 @@ export default function CommentsModal({
 
   const handleSend = () => {
     if (!newComment.trim()) return;
-    mutation.mutate({ taskID, content: newComment });
+    mutation.mutate({ taskID, content: newComment, tags: selectedTag });
   };
 
   const handleReply = (commentId) => {
@@ -105,11 +108,21 @@ export default function CommentsModal({
     },
   });
 
-  const handleSortChange = (value) => {
-    setSortOrder(value);
-    refetch();
+  const handleSortChange = (value, type) => {
+    if (type === "sortOrder") {
+      setSortOrder(value);
+      refetch();
+    }
   };
 
+  const handleTagChange = (value) => {
+    const selected = tagsComment.find((tag) => tag.value === value);
+
+    if (selected) {
+      setSelectedTag(selected);
+    }
+  };
+  console.log(selectedTag);
   return (
     <Modal
       title="پیام‌ها"
@@ -122,7 +135,7 @@ export default function CommentsModal({
         <CustomSelect
           value={sortOrder}
           options={sortOptions}
-          onChange={handleSortChange}
+          onChange={(value) => handleSortChange("sortOrder", value)}
           label="مرتب‌سازی"
           classNames="w-[200px]"
         />
@@ -280,6 +293,37 @@ export default function CommentsModal({
           >
             ارسال
           </Button>
+        </div>
+        <div className="flex items-center gap-2">
+          <Select
+            placeholder="انتخاب تگ"
+            className="w-[200px]"
+            value={selectedTag?.value}
+            onChange={handleTagChange}
+            dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
+          >
+            {tagsComment.map((tag) => (
+              <Option key={tag.value} value={tag.value}>
+                <span
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                >
+                  <span
+                    style={{
+                      width: "10px",
+                      height: "10px",
+                      borderRadius: "50%",
+                      backgroundColor: tag.color,
+                    }}
+                  />
+                  {tag.label}
+                </span>
+              </Option>
+            ))}
+          </Select>
         </div>
       </div>
     </Modal>

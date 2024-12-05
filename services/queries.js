@@ -20,7 +20,11 @@ export const fetchTask = async ({ queryKey }) => {
     });
 };
 
-export const fetchTasksComments = async ({ queryKey, pageParam = 1, sortOrder }) => {
+export const fetchTasksComments = async ({
+  queryKey,
+  pageParam = 1,
+  sortOrder,
+}) => {
   const [, taskID] = queryKey;
   const limit = 5;
 
@@ -29,7 +33,7 @@ export const fetchTasksComments = async ({ queryKey, pageParam = 1, sortOrder })
       params: {
         page: pageParam,
         limit,
-        sort: sortOrder, 
+        sort: sortOrder,
       },
     });
     return response.data;
@@ -39,9 +43,9 @@ export const fetchTasksComments = async ({ queryKey, pageParam = 1, sortOrder })
   }
 };
 
-export const sendTaskComment = async ({ taskID, content }) => {
+export const sendTaskComment = async ({ taskID, content, tags }) => {
   return api
-    .post(`/api/tasks/${taskID}/comments`, { content })
+    .post(`/api/tasks/${taskID}/comments`, { content, tags })
     .then((res) => res.data)
     .catch((error) => {
       console.error("Error fetching details tasks comments data:", error);
@@ -59,7 +63,7 @@ export const sendReplyToComment = async ({ taskID, content, commentId }) => {
     });
 };
 
-export const toggleLikeComment = async ({ taskID,  commentId }) => {
+export const toggleLikeComment = async ({ taskID, commentId }) => {
   return api
     .patch(`/api/tasks/${taskID}/comments/${commentId}`)
     .then((res) => res.data)

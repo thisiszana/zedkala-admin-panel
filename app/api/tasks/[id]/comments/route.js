@@ -51,8 +51,8 @@ export async function GET(req, { params: { id } }) {
       );
     }
 
-    let sortField = "createdAt"; 
-    let sortDirection = -1; 
+    let sortField = "createdAt";
+    let sortDirection = -1;
 
     if (sortOrder === "createdAt_asc") {
       sortDirection = 1;
@@ -63,7 +63,6 @@ export async function GET(req, { params: { id } }) {
       sortField = "likes.length";
       sortDirection = 1;
     }
-
 
     const sortedComments = task.comments.sort((a, b) => {
       const fieldA =
@@ -76,28 +75,30 @@ export async function GET(req, { params: { id } }) {
 
     const totalCommentsCount = sortedComments.length;
 
-    const paginatedComments = sortedComments.slice(skip, skip + limit).map((comment) => ({
-      ...comment,
-      createdBy: comment.createdBy
-        ? {
-            username: comment.createdBy.username,
-            firstName: comment.createdBy.firstName,
-            images: comment.createdBy.images,
-            _id: comment.createdBy._id,
-          }
-        : null,
-      replies: comment.replies.map((reply) => ({
-        ...reply,
-        createdBy: reply.createdBy
+    const paginatedComments = sortedComments
+      .slice(skip, skip + limit)
+      .map((comment) => ({
+        ...comment,
+        createdBy: comment.createdBy
           ? {
-              username: reply.createdBy.username,
-              firstName: reply.createdBy.firstName,
-              images: reply.createdBy.images,
-              _id: reply.createdBy._id,
+              username: comment.createdBy.username,
+              firstName: comment.createdBy.firstName,
+              images: comment.createdBy.images,
+              _id: comment.createdBy._id,
             }
           : null,
-      })),
-    }));
+        replies: comment.replies.map((reply) => ({
+          ...reply,
+          createdBy: reply.createdBy
+            ? {
+                username: reply.createdBy.username,
+                firstName: reply.createdBy.firstName,
+                images: reply.createdBy.images,
+                _id: reply.createdBy._id,
+              }
+            : null,
+        })),
+      }));
 
     const response = NextResponse.json(
       {
@@ -132,7 +133,7 @@ export async function POST(req, { params: { id } }) {
   }
 
   try {
-    const { content } = await req.json();
+    const { content, tags } = await req.json();
 
     const session = getServerSession();
     if (!session || session.userId === "USER") {
@@ -154,6 +155,13 @@ export async function POST(req, { params: { id } }) {
       createdBy: session.userId,
       content,
       createdAt: new Date(),
+      tags: [
+        {
+          tagName: tags.label,
+          tagSlug: tags.value,
+          bgc: tags.color,
+        },
+      ],
     };
 
     task.comments.push(newComment);

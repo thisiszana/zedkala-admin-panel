@@ -26,7 +26,13 @@ const zedkalaTaskSchema = new Schema({
       username: { type: String },
     },
   ],
-  tags: [{ type: String }],
+  tags: [
+    {
+      tagName: { type: String },
+      tagSlug: { type: String },
+      bgc: { type: String },
+    },
+  ],
   comments: [
     {
       createdBy: { type: Schema.Types.ObjectId, ref: "ZedkalaAdmin" },
@@ -39,8 +45,13 @@ const zedkalaTaskSchema = new Schema({
           createdAt: { type: Date, default: () => Date.now() },
         },
       ],
-      likes: [
-        { type: Schema.Types.ObjectId, ref: "ZedkalaAdmin" } 
+      likes: [{ type: Schema.Types.ObjectId, ref: "ZedkalaAdmin" }],
+      tags: [
+        {
+          tagName: { type: String },
+          tagSlug: { type: String },
+          bgc: { type: String },
+        },
       ],
     },
   ],

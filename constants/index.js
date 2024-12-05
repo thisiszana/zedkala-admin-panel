@@ -72,7 +72,7 @@ import { FiArrowDown } from "react-icons/fi";
 import { BsLuggage } from "react-icons/bs";
 import { CiImageOn } from "react-icons/ci";
 import { RxSize } from "react-icons/rx";
-import { MdOutlinePublic, MdSaveAs,MdOutlineReplay  } from "react-icons/md";
+import { MdOutlinePublic, MdSaveAs, MdOutlineReplay } from "react-icons/md";
 
 import { e2p, reducePrice, sp } from "@/utils/fun";
 
@@ -146,9 +146,9 @@ export const icons = {
   size: <RxSize />,
   downArrow: <FiArrowDown />,
   imageNotFound: <CiImageOn />,
-  chat: <IoChatbubblesOutline  />,
-  save:<MdSaveAs />,
-  replay:<MdOutlineReplay  />,
+  chat: <IoChatbubblesOutline />,
+  save: <MdSaveAs />,
+  replay: <MdOutlineReplay />,
 };
 
 export const images = {
@@ -290,7 +290,6 @@ export const rollOptions = [
   { label: "ادمین", value: "ADMIN" },
 ];
 
-
 export const sortOptions = [
   { value: "createdAt_desc", label: "تاریخ: جدید به قدیم" },
   { value: "createdAt_asc", label: "تاریخ: قدیم به جدید" },
@@ -311,8 +310,20 @@ export const backgroundColorsTasksPage = [
   { bg: "rgb(255, 239, 213)", id: 10 }, // مناسب متن مشکی
 ];
 
-
 export const boardMoodOptions = [
   { label: "عمومی", value: "PUBLIC", icon: icons.public, id: 1 },
   { label: "شخصی", value: "PRIVATE", icon: icons.users, id: 2 },
+];
+
+export const tagsComment = [
+  { label: "اطلاعیه", value: "announcement", color: "#007bff" }, // آبی برای پیام‌های رسمی
+  { label: "مهم", value: "important", color: "#dc3545" }, // قرمز برای اهمیت بالا
+  { label: "پشتیبانی", value: "support", color: "#28a745" }, // سبز برای کمک و پشتیبانی
+  { label: "فوری", value: "urgent", color: "#ffc107" }, // زرد برای هشدارهای فوری
+  { label: "پیگیری", value: "follow-up", color: "#17a2b8" }, // آبی کم‌رنگ برای پیگیری‌ها
+  { label: "نظر", value: "feedback", color: "#6610f2" }, // بنفش برای بازخورد
+  { label: "پیشنهاد", value: "suggestion", color: "#20c997" }, // سبز روشن برای پیشنهادات
+  { label: "هشدار", value: "warning", color: "#e83e8c" }, // صورتی پررنگ برای هشدارها
+  { label: "عمومی", value: "general", color: "#6c757d" }, // خاکستری برای عمومی
+  { label: "شخصی", value: "personal", color: "#fd7e14" }, // نارنجی برای پیام‌های شخصی
 ];
