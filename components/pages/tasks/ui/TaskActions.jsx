@@ -5,16 +5,17 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { Popover } from "antd";
 
-import { CircleCheck, MenuDots, Trash } from "@/components/icons/Icons";
 import CustomConfirmDeleteModal from "@/components/shared/CustomConfirmDeleteModal";
+import { CircleCheck, MenuDots, Trash } from "@/components/icons/Icons";
 import { deleteTask, updateStatusTask } from "@/actions/task.action";
 import CustomBtn from "@/components/shared/CustomBtn";
 import useServerAction from "@/hooks/useServerAction";
+import CommentsModal from "./comments/CommentsModal";
 import Loader from "@/components/shared/Loader";
-import CommentsModal from "./CommentsModal";
 import { icons } from "@/constants";
 
-export default function TaskActions({ id, currentStatus,currentUser }) {
+
+export default function TaskActions({ id, currentStatus, currentUser }) {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);

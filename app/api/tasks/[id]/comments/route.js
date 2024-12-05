@@ -28,6 +28,7 @@ export async function GET(req, { params: { id } }) {
     const url = new URL(req.url);
     const page = parseInt(url.searchParams.get("page") || "1", 10);
     const limit = parseInt(url.searchParams.get("limit") || "10", 10);
+    const sortOrder = url.searchParams.get("sort") || "createdAt_desc";
     const skip = (page - 1) * limit;
 
     const task = await ZedkalaTask.findById(id)
@@ -50,34 +51,55 @@ export async function GET(req, { params: { id } }) {
       );
     }
 
-    const totalCommentsCount = task.comments.length;
+    let sortField = "createdAt"; 
+    let sortDirection = -1; 
 
-    const paginatedComments = task.comments
-      .slice(skip, skip + limit)
-      .map((comment) => ({
-        ...comment,
-        createdBy: comment.createdBy
+    if (sortOrder === "createdAt_asc") {
+      sortDirection = 1;
+    } else if (sortOrder === "likes_desc") {
+      sortField = "likes.length";
+      sortDirection = -1;
+    } else if (sortOrder === "likes_asc") {
+      sortField = "likes.length";
+      sortDirection = 1;
+    }
+
+
+    const sortedComments = task.comments.sort((a, b) => {
+      const fieldA =
+        sortField === "likes.length" ? a.likes.length : new Date(a.createdAt);
+      const fieldB =
+        sortField === "likes.length" ? b.likes.length : new Date(b.createdAt);
+
+      return sortDirection * ((fieldA > fieldB) - (fieldA < fieldB));
+    });
+
+    const totalCommentsCount = sortedComments.length;
+
+    const paginatedComments = sortedComments.slice(skip, skip + limit).map((comment) => ({
+      ...comment,
+      createdBy: comment.createdBy
+        ? {
+            username: comment.createdBy.username,
+            firstName: comment.createdBy.firstName,
+            images: comment.createdBy.images,
+            _id: comment.createdBy._id,
+          }
+        : null,
+      replies: comment.replies.map((reply) => ({
+        ...reply,
+        createdBy: reply.createdBy
           ? {
-              username: comment.createdBy.username,
-              firstName: comment.createdBy.firstName,
-              images: comment.createdBy.images,
-              _id: comment.createdBy._id,
+              username: reply.createdBy.username,
+              firstName: reply.createdBy.firstName,
+              images: reply.createdBy.images,
+              _id: reply.createdBy._id,
             }
           : null,
-        replies: comment.replies.map((reply) => ({
-          ...reply,
-          createdBy: reply.createdBy
-            ? {
-                username: reply.createdBy.username,
-                firstName: reply.createdBy.firstName,
-                images: reply.createdBy.images,
-                _id: reply.createdBy._id,
-              }
-            : null,
-        })),
-      }));
+      })),
+    }));
 
-    return NextResponse.json(
+    const response = NextResponse.json(
       {
         msg: MESSAGES.success,
         success: true,
@@ -87,6 +109,9 @@ export async function GET(req, { params: { id } }) {
       },
       { status: STATUS_CODES.success }
     );
+
+    response.headers.set("Cache-Control", "no-store");
+    return response;
   } catch (error) {
     console.error("Error in get task comments:", error.message);
     return NextResponse.json(

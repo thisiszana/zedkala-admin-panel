@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 
-import { AddFolder } from "@/components/icons/Icons";
 import CustomBtn from "@/components/shared/CustomBtn";
-import TaskForm from "./TaskForm";
+import { AddFolder } from "@/components/icons/Icons";
 import TasksFilter from "./TasksFilter";
+import TaskForm from "./TaskForm";
 
 export default function CreateNewTask({ session }) {
   const [isModalOpen, setIsModalOpen] = useState(false);

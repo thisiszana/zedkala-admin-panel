@@ -1,14 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Popover, Button, Modal, Input } from "antd";
-import {
-  EditOutlined,
-  DeleteOutlined,
-  SaveOutlined,
-  CloseOutlined,
-} from "@ant-design/icons";
-// import { deleteComment, updateComment } from "@/services/queries"; // فرض کنید این توابع وجود دارند
+import { Button, Popover, Input, Modal } from "antd";
+import { SendOutlined } from "@ant-design/icons";
+
 import Loader from "@/components/shared/Loader";
 import { Close, Edit, MenuDots, Trash } from "@/components/icons/Icons";
 import CustomBtn from "@/components/shared/CustomBtn";
@@ -34,7 +29,7 @@ export default function CommentsActions({
     setLoading(true);
     try {
       const res = await deleteComment({ commentId: comment._id, taskID });
-      toast.success(res.message)
+      toast.success(res.message);
       closePopover();
       onRefresh();
     } catch (error) {
@@ -47,8 +42,12 @@ export default function CommentsActions({
   const handleEdit = async () => {
     setLoading(true);
     try {
-      const res = await editComment({ taskID, commentId: comment._id, newContent });
-      toast.success(res.message)
+      const res = await editComment({
+        taskID,
+        commentId: comment._id,
+        newContent,
+      });
+      toast.success(res.message);
       setIsEditing(false);
       onRefresh();
     } catch (error) {
@@ -98,32 +97,33 @@ export default function CommentsActions({
   return (
     <div className="flex items-center space-x-2">
       {isEditing ? (
-        <div className="flex flex-col items-center gap-2">
-          <CustomInp
+        <Modal
+        title="ویرایش"
+        open={isEditing}
+        // onCancel={onClose}
+        footer={null}
+      >
+        <div className="flex items-center gap-2">
+          <Input.TextArea
+            placeholder="پیام خود را بنویسید..."
             value={newContent}
             onChange={(e) => setNewContent(e.target.value)}
-            disabled={loading}
-            wrapperClassName="w-full h-full"
+            autoSize={{ minRows: 1, maxRows: 5 }}
+            className="rounded-[8px] border-gray-300 shadow-sm"
           />
-          <div className="flex gap-1 items-center justify-start">
-            {loading ? (
-              <Loader />
-            ) : (
-              <CustomBtn
-                icon={icons.save}
-                onClick={handleEdit}
-                loading={loading}
-                classNames="p-1 text-xl bg-green-600 rounded-[8px]"
-              />
-            )}
-
-            <CustomBtn
-              icon={<Close />}
-              onClick={() => setIsEditing(false)}
-              classNames="p-1 text-xl bg-darkRose rounded-[8px]"
-            />
-          </div>
+          <Button
+            type="primary"
+            icon={<SendOutlined />}
+            onClick={handleEdit}
+            loading={loading}
+            disabled={!newContent.trim()}
+            className="rounded-[8px]"
+          >
+            ویرایش
+          </Button>
         </div>
+      </Modal>
+        
       ) : (
         <Popover
           content={popoverContent}

@@ -11,6 +11,7 @@ export default function CustomSelect({
   value,
   onChange,
   wrapperClassName = "",
+  classNames = "",
   options = [],
   placeholder = "انتخاب کنید",
   allowClear = true,
@@ -41,7 +42,7 @@ export default function CustomSelect({
         mode={mode}
         placeholder={placeholder}
         allowClear={allowClear}
-        className="w-full h-[56px]"
+        className={`${classNames ? classNames : "w-full h-[56px]"}`}
         onFocus={onFocus}
         onBlur={onBlur}
       >

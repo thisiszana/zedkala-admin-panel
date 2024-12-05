@@ -5,11 +5,14 @@ import { Badge, Empty } from "antd";
 
 import { getServerSession } from "@/utils/session";
 import { Clock } from "@/components/icons/Icons";
+import TaskProgressBar from "./TaskProgressBar";
+import TaskAssistants from "./TaskAssistants";
 import TaskActions from "./TaskActions";
 import { images } from "@/constants";
 import EditTask from "./EditTask";
-import TaskProgressBar from "./TaskProgressBar";
-import TaskAssistants from "./TaskAssistants";
+
+moment.locale("fa");
+moment.loadPersian({ usePersianDigits: true });
 
 export default function StatusBox({ status, taskCount, tasks }) {
   const session = getServerSession();
@@ -34,7 +37,7 @@ export default function StatusBox({ status, taskCount, tasks }) {
                 <div className="flex items-center gap-3">
                   <Clock
                     size={17}
-                    wrapperClassName="cardShadow p-3 rounded-btn"
+                    wrapperClassName="cardShadow p-3 rounded-btn text-dark1"
                   />
                   <p className="text-darkGray text-p1 capitalize">
                     {moment(task.dueDate.startAt).fromNow()}
@@ -54,7 +57,7 @@ export default function StatusBox({ status, taskCount, tasks }) {
               </div>
 
               <div className="flex flex-col gap-1">
-                <p className="font-medium">{task.title}</p>
+                <p className="font-medium text-dark1">{task.title}</p>
                 <p className="text-darkGray text-p1">{task.description}</p>
               </div>
               <div className="flex items-center gap-3 mt-3">
@@ -68,12 +71,12 @@ export default function StatusBox({ status, taskCount, tasks }) {
                         alt={task?.taskOwner?.username}
                         className="rounded-full"
                       />
-                      <p className="text-p1">
+                      <p className="text-p1 text-dark1">
                         این تسک برای {task.taskOwner.username} است
                       </p>
                     </div>
                   ) : (
-                    <p className="text-p1 text-gray-600">
+                    <p className="text-p1 text-darkGray">
                       این تسک برای همه است
                     </p>
                   ))}
@@ -91,7 +94,7 @@ export default function StatusBox({ status, taskCount, tasks }) {
                     className="w-[100px] h-[100px] mb-2 rounded-full"
                   />
                   <div>
-                    <p className="text-p1 font-medium">
+                    <p className="text-p1 font-medium text-dark1">
                       {task?.createdBy?.username}
                     </p>
                     {task?.createdBy?.firstName && (
@@ -108,7 +111,7 @@ export default function StatusBox({ status, taskCount, tasks }) {
             </div>
           ))
         ) : (
-          <Empty description="تسکی وجود ندارد" className="dark:text-white" />
+          <Empty description="تسکی وجود ندارد" className="empty-description" />
         )}
       </div>
     </div>

@@ -7,7 +7,7 @@ export default async function TasksList({ searchParams }) {
   if (data.code !== 200) return <div>خطا در دریافت اطلاعات</div>;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-8 mt-5 ml-3">
+    <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-8 mt-5 ml-0 md:ml-3">
       <StatusBox
         status="انجام دادن"
         taskCount={data.tasks.todo.length}

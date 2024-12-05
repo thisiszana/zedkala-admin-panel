@@ -144,6 +144,14 @@ body {
   animation: mltShdSpin 1.7s infinite ease, round 1.7s infinite ease;
 }
 
+.empty-description {
+  color: #fff !important;
+}
+
+.empty-description p {
+  color: #fff !important;
+}
+
 .loader.dark {
   color: #fff;
 }

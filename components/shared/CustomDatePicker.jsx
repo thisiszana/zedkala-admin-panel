@@ -10,11 +10,11 @@ import DatePicker from "react-multi-date-picker";
 export default function CustomDatePicker({ label, value, onChange }) {
   return (
     <div className="flex flex-col items-start gap-4">
-      <label className="text-gray-600 text-[14px] dark:text-white">
+      <label className="text-gray-600 text-[14px]">
         {label || "تاریخ"}
       </label>
       <DatePicker
-        inputClass="focus:outline-none w-full text-gray-700 bg-white text-dark2"
+        inputClass="focus:outline-none w-full"
         calendar={persian}
         locale={persian_fa}
         format="MM/DD/YYYY HH:mm:ss"

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const CustomTextarea = ({ name, label, value, onChange, wrapperClassName }) => {
+const CustomTextarea = ({ name, label, value, onChange, wrapperClassName, classNames }) => {
   const [active, setActive] = useState(false);
 
   const onFocus = () => {
@@ -27,7 +27,7 @@ const CustomTextarea = ({ name, label, value, onChange, wrapperClassName }) => {
         name={name || "textarea"}
         value={value}
         onChange={onChange}
-        className="input w-full dark:text-white"
+        className={classNames ? `${classNames} ` : "input w-full dark:text-white"}
         onFocus={onFocus}
         onBlur={onBlur}
       />

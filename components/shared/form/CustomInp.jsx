@@ -10,6 +10,7 @@ export default function CustomInp({
   onChange,
   label,
   wrapperClassName,
+  classNames,
   min,
   max,
   readOnly,
@@ -43,7 +44,7 @@ export default function CustomInp({
         max={max}
         readOnly={readOnly}
         disabled={disabled}
-        className="input w-full dark:text-white"
+        className={classNames ? `${classNames} ` : "input w-full dark:text-white"}
         pattern={pattern && pattern}
         onFocus={onFocus}
         onBlur={onBlur}

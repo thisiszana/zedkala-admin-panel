@@ -20,24 +20,24 @@ export const fetchTask = async ({ queryKey }) => {
     });
 };
 
-export const fetchTasksComments = async ({ queryKey, pageParam = 1 }) => {
-  const [, taskID] = queryKey; 
-  const limit = 5; 
+export const fetchTasksComments = async ({ queryKey, pageParam = 1, sortOrder }) => {
+  const [, taskID] = queryKey;
+  const limit = 5;
 
   try {
     const response = await api.get(`/api/tasks/${taskID}/comments`, {
       params: {
-        page: pageParam, 
-        limit, 
+        page: pageParam,
+        limit,
+        sort: sortOrder, 
       },
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching details tasks comments data:", error);
+    console.error("Error fetching task comments:", error);
     return null;
   }
 };
-
 
 export const sendTaskComment = async ({ taskID, content }) => {
   return api

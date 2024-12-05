@@ -1,19 +1,25 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Modal, Input, Button, Avatar, Collapse, Empty } from "antd";
+import { Modal, Input, Button, Avatar, Collapse, Empty, Select } from "antd";
 import { SendOutlined } from "@ant-design/icons";
-import { useGetTaskComments } from "@/hooks/useTasksQuery";
-import Loader from "@/components/shared/Loader";
-import { sendReplyToComment, sendTaskComment } from "@/services/queries";
-import { QUERY_KEY } from "@/services/queriesKey";
 import moment from "moment-jalaali";
-import CommentsActions from "./CommentsActions";
-import { icons } from "@/constants";
-import LikeButton from "./comments/ui/LikeButton";
+
+import { sendReplyToComment, sendTaskComment } from "@/services/queries";
+import { useGetTaskComments } from "@/hooks/useTasksQuery";
+import CommentsActions from "./ui/CommentsActions";
+import { QUERY_KEY } from "@/services/queriesKey";
+import Loader from "@/components/shared/Loader";
+import LikeButton from "./ui/LikeButton";
+import { icons, sortOptions } from "@/constants";
+import CustomSelect from "@/components/shared/form/CustomSelect";
 
 const { Panel } = Collapse;
+
+moment.locale("fa");
+moment.loadPersian({ usePersianDigits: true });
 
 export default function CommentsModal({
   isOpen,
@@ -24,6 +30,7 @@ export default function CommentsModal({
   const [newComment, setNewComment] = useState("");
   const [replyTarget, setReplyTarget] = useState("");
   const [replyContent, setReplyContent] = useState("");
+  const [sortOrder, setSortOrder] = useState("createdAt_desc");
 
   const loadingTarget = useRef(null);
 
@@ -35,13 +42,17 @@ export default function CommentsModal({
     isFetchingNextPage,
     hasNextPage,
     fetchNextPage,
-  } = useGetTaskComments(taskID);
+    refetch,
+  } = useGetTaskComments(taskID, sortOrder);
+
   console.log(comments);
+
   const mutation = useMutation({
     mutationFn: ({ taskID, content }) => sendTaskComment({ taskID, content }),
     onSuccess: () => {
       queryClient.invalidateQueries([QUERY_KEY.tasks_comments, taskID]);
       setNewComment("");
+      refetch();
     },
     onError: (error) => {
       console.error("Error posting comment:", error);
@@ -94,15 +105,27 @@ export default function CommentsModal({
     },
   });
 
+  const handleSortChange = (value) => {
+    setSortOrder(value);
+    refetch();
+  };
+
   return (
     <Modal
       title="پیام‌ها"
       open={isOpen}
       onCancel={onClose}
       footer={null}
-      style={{ height: "600px" }}
+      height={600}
     >
       <div className="flex flex-col space-y-4">
+        <CustomSelect
+          value={sortOrder}
+          options={sortOptions}
+          onChange={handleSortChange}
+          label="مرتب‌سازی"
+          classNames="w-[200px]"
+        />
         <div className="overflow-y-auto max-h-[300px] space-y-3">
           {isLoading ? (
             <div className="w-full flex items-center justify-center">
@@ -129,7 +152,7 @@ export default function CommentsModal({
                           {moment(comment.createdAt).fromNow()}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-700 mt-1">
+                      <p className="text-sm text-gray-700 mt-1  overflow-hidden  w-[250px]">
                         {comment.content}
                       </p>
                     </div>
@@ -200,11 +223,12 @@ export default function CommentsModal({
                       placeholder="پاسخ خود را بنویسید..."
                       value={replyContent}
                       onChange={(e) => setReplyContent(e.target.value)}
-                      className="rounded-full border-gray-300 shadow-sm"
+                      className="rounded-[8px] border-gray-300 shadow-sm"
+                      autoSize={{ minRows: 1, maxRows: 5 }}
                     />
 
                     {replyContent.trim() && (
-                      <div className="p-2 border rounded-md bg-gray-50 text-gray-700">
+                      <div className="p-2 border rounded-[8px] bg-gray-50 text-gray-700">
                         <p className="text-sm font-medium text-gray-500 mb-1">
                           پیش‌نمایش:
                         </p>
@@ -217,7 +241,7 @@ export default function CommentsModal({
                       onClick={() => handleReply(comment._id)}
                       loading={replyMutation.isLoading}
                       disabled={!replyContent.trim()}
-                      className="rounded-full"
+                      className="rounded-[8px]"
                     >
                       ارسال
                     </Button>
@@ -239,11 +263,12 @@ export default function CommentsModal({
         )}
 
         <div className="flex items-center gap-2">
-          <Input
+          <Input.TextArea
             placeholder="پیام خود را بنویسید..."
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
-            className="rounded-full border-gray-300 shadow-sm"
+            autoSize={{ minRows: 1, maxRows: 5 }}
+            className="rounded-[8px] border-gray-300 shadow-sm"
           />
           <Button
             type="primary"
@@ -251,8 +276,10 @@ export default function CommentsModal({
             onClick={handleSend}
             loading={mutation.isLoading}
             disabled={!newComment.trim()}
-            className="rounded-full"
-          ></Button>
+            className="rounded-[8px]"
+          >
+            ارسال
+          </Button>
         </div>
       </div>
     </Modal>

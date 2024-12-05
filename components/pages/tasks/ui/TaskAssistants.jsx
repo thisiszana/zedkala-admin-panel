@@ -7,7 +7,7 @@ import { images } from "@/constants";
 export default function TaskAssistants({ assistants = [] }) {
   if (!assistants || assistants.length === 0) {
     return (
-      <p className="text-sm text-gray-500">
+      <p className="text-sm text-dark1">
         همکاری برای این تسک تعیین نشده است.
       </p>
     );
@@ -15,7 +15,7 @@ export default function TaskAssistants({ assistants = [] }) {
 
   return (
     <div className="flex items-center gap-2 mt-4">
-      <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+      <p className="text-sm font-medium text-dark1">
         همکاران:
       </p>
       <div className="flex items-center gap-2">

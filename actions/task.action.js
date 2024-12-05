@@ -100,9 +100,9 @@ export const getTasks = async (searchParams) => {
         select: "username firstName images roll",
       })
       .populate({
-        path: "taskAssistants.userId", 
-        model: ZedkalaAdmin, 
-        select: "images", 
+        path: "taskAssistants.userId",
+        model: ZedkalaAdmin,
+        select: "images",
       })
       .lean();
 
@@ -269,7 +269,16 @@ export const editTask = async (data) => {
   try {
     await connectDB();
 
-    const { title, description, status, dueDate, id, taskOwner } = data;
+    const {
+      title,
+      description,
+      status,
+      dueDate,
+      id,
+      taskOwner,
+      background,
+      taskAssistants,
+    } = data;
 
     const session = getServerSession();
 
@@ -311,6 +320,8 @@ export const editTask = async (data) => {
     task.description = description;
     task.status = status;
     task.dueDate = dueDate;
+    task.taskAssistants = taskAssistants || null;
+    task.background = background;
     task.taskOwner = taskOwner || null;
     await task.save();
 
@@ -329,7 +340,6 @@ export const editTask = async (data) => {
     };
   }
 };
-
 
 export const editComment = async (data) => {
   try {

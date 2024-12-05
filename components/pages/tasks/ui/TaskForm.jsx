@@ -9,19 +9,18 @@ import moment from "moment-jalaali";
 import CustomTextarea from "@/components/shared/form/CustomTextarea";
 import CustomDatePicker from "@/components/shared/CustomDatePicker";
 import CustomSelect from "@/components/shared/form/CustomSelect";
+import { backgroundColorsTasksPage, images } from "@/constants";
 import { createTask, editTask } from "@/actions/task.action";
 import CustomInp from "@/components/shared/form/CustomInp";
+import { useGetTaskDetails } from "@/hooks/useTasksQuery";
 import { CircleClose } from "@/components/icons/Icons";
 import CustomBtn from "@/components/shared/CustomBtn";
 import useServerAction from "@/hooks/useServerAction";
+import { getAdmins } from "@/actions/admin.action";
 import Loader from "@/components/shared/Loader";
 import { MESSAGES } from "@/utils/message";
-import { backgroundColorsTasksPage, images } from "@/constants";
-import { getAdmins } from "@/actions/admin.action";
-import CommentsModal from "./CommentsModal";
-import { useGetTaskDetails } from "@/hooks/useTasksQuery";
 
-moment.locale("fa");
+// moment.locale("fa");
 
 export default function TaskForm({
   type,
@@ -184,19 +183,21 @@ export default function TaskForm({
           </p>
         </div>
       ) : (
-        <form className="space-y-5 " onSubmit={onSubmit}>
+        <form className="space-y-5 dark:text-dark1" onSubmit={onSubmit}>
           <CustomInp
             type="text"
             label="عنوان"
             name="title"
             onChange={onChange}
             value={form.title}
+            classNames="input w-full dark:text-dark1"
           />
           <CustomTextarea
             label="توضیحات"
             name="description"
             onChange={onChange}
             value={form.description}
+            classNames="input w-full dark:text-dark1"
           />
           <div className="flex items-start flex-col gap-3">
             <p>رنگ پس زمینه</p>
@@ -249,7 +250,7 @@ export default function TaskForm({
           <div className="space-y-2">
             <p className="font-medium text-p1">سررسید</p>
             <div className="flex flex-col items-center gap-4">
-              <div className="flex justify-between items-start gap-3">
+              <div className="flex flex-col md:flex-row justify-between items-start gap-3">
                 <CustomDatePicker
                   label="تاریخ شروع تسک"
                   value={form.dueDate?.startAt}

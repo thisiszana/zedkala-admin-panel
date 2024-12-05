@@ -290,6 +290,13 @@ export const rollOptions = [
   { label: "ادمین", value: "ADMIN" },
 ];
 
+
+export const sortOptions = [
+  { value: "createdAt_desc", label: "تاریخ: جدید به قدیم" },
+  { value: "createdAt_asc", label: "تاریخ: قدیم به جدید" },
+  { value: "likes_desc", label: "لایک: بالا به پایین" },
+  { value: "likes_asc", label: "لایک: پایین به بالا" },
+];
 // Tasks
 export const backgroundColorsTasksPage = [
   { bg: "rgb(255, 228, 196)", id: 1 }, // مناسب متن مشکی

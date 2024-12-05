@@ -20,7 +20,7 @@ export const useGetTaskDetails = (taskID) => {
   };
 };
 
-export const useGetTaskComments = (taskID) => {
+export const useGetTaskComments = (taskID, sortOrder = "createdAt_desc") => {
   const {
     data: commentsData,
     isLoading,
@@ -29,27 +29,28 @@ export const useGetTaskComments = (taskID) => {
     fetchNextPage,
     refetch,
   } = useInfiniteQuery({
-    queryKey: [QUERY_KEY.tasks_comments, taskID],
+    queryKey: [QUERY_KEY.tasks_comments, taskID, sortOrder],
     queryFn: ({ queryKey, pageParam = 1 }) =>
-      fetchTasksComments({ queryKey, pageParam }),
+      fetchTasksComments({ queryKey, pageParam, sortOrder }),
     enabled: !!taskID,
     getNextPageParam: (lastPage) =>
       lastPage.currentPage < lastPage.totalPages
         ? lastPage.currentPage + 1
         : false,
-   
   });
-  const uniqueComments = commentsData?.pages
-  ?.flatMap((page) => page.comments)
-  ?.reduce((acc, comment) => {
-    if (!acc.find((item) => item._id === comment._id)) {
-      acc.push(comment);
-    }
-    return acc;
-  }, [])
+
+  const uniqueComments =
+    commentsData?.pages
+      ?.flatMap((page) => page.comments)
+      ?.reduce((acc, comment) => {
+        if (!acc.find((item) => item._id === comment._id)) {
+          acc.push(comment);
+        }
+        return acc;
+      }, []) || [];
 
   return {
-    comments: uniqueComments || [], // حالا pages شامل تمام کامنت‌ها به صورت فلت شده است
+    comments: uniqueComments,
     isLoading,
     isFetchingNextPage,
     hasNextPage,
