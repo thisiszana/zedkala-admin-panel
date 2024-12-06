@@ -94,6 +94,14 @@ export default function LoginPage() {
                       یوزرنیم مالک : <span className="font-bold">Zana80</span>{" "}
                       / پسورد : <span className="font-bold">zana12345</span>
                     </p>
+                    <p>
+                      یوزرنیم ادمین : <span className="font-bold">Shahi78</span>{" "}
+                      / پسورد : <span className="font-bold">zana12345</span>
+                    </p>
+                    <p>
+                      یوزرنیم ادمین : <span className="font-bold">Adibe80</span>{" "}
+                      / پسورد : <span className="font-bold">zana12345</span>
+                    </p>
                   </div>
                 }
                 type="info"
