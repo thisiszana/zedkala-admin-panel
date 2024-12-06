@@ -157,26 +157,28 @@ export const updateStatusTask = async (data) => {
         status: MESSAGES.failed,
         code: STATUS_CODES.not_found,
       };
-
-    if (session.roll === "ADMIN") {
-      if (task.taskOwner) {
-        if (task.taskOwner.username !== session.username) {
-          return {
-            message: MESSAGES.forbidden,
-            status: MESSAGES.failed,
-            code: STATUS_CODES.forbidden,
-          };
-        }
-      } else {
-        if (session.userId !== task.createdBy.toString()) {
-          return {
-            message: MESSAGES.forbidden,
-            status: MESSAGES.failed,
-            code: STATUS_CODES.forbidden,
-          };
+    
+      if (session.roll === "ADMIN") {
+        if (!task.taskOwner || task.taskOwner.toObject() === null) {
+          if (session.userId.toString() !== task.createdBy.toString()) {
+            return {
+              message: MESSAGES.forbidden,
+              status: MESSAGES.failed,
+              code: STATUS_CODES.forbidden,
+            };
+          }
+        } else {
+          if (task.taskOwner.username !== session.username) {
+            console.log("conditional 1");
+            return {
+              message: MESSAGES.forbidden,
+              status: MESSAGES.failed,
+              code: STATUS_CODES.forbidden,
+            };
+          }
         }
       }
-    }
+      
 
     if (status === "Done" && session.roll === "ADMIN")
       return {
