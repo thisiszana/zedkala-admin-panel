@@ -74,3 +74,14 @@ export const toggleLikeComment = async ({ taskID, commentId }) => {
       return null;
     });
 };
+
+export const sendTaskAttachFile = async ({ taskID, content }) => {
+  console.log(taskID)
+  return api
+    .post(`/api/tasks/${taskID}/attachFile`, { content })
+    .then((res) => res.data)
+    .catch((error) => {
+      console.error("Error fetching details tasks comments data:", error);
+      return null;
+    });
+};

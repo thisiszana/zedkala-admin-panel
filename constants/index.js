@@ -72,7 +72,7 @@ import { FiArrowDown } from "react-icons/fi";
 import { BsLuggage } from "react-icons/bs";
 import { CiImageOn } from "react-icons/ci";
 import { RxSize } from "react-icons/rx";
-import { MdOutlinePublic, MdSaveAs, MdOutlineReplay } from "react-icons/md";
+import { MdOutlinePublic, MdSaveAs, MdOutlineReplay, MdAttachFile } from "react-icons/md";
 
 import { e2p, reducePrice, sp } from "@/utils/fun";
 
@@ -149,6 +149,7 @@ export const icons = {
   chat: <IoChatbubblesOutline />,
   save: <MdSaveAs />,
   replay: <MdOutlineReplay />,
+  attachFile: <MdAttachFile />,
 };
 
 export const images = {

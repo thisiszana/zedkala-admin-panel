@@ -13,10 +13,11 @@ import useServerAction from "@/hooks/useServerAction";
 import CommentsModal from "./comments/CommentsModal";
 import Loader from "@/components/shared/Loader";
 import { icons } from "@/constants";
-
+import AttachFileModal from "./attachFile/AttachFileModal";
 
 export default function TaskActions({ id, currentStatus, currentUser }) {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
+  const [isAttachFileOpen, setIsAttachFileOpen] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -187,7 +188,7 @@ export default function TaskActions({ id, currentStatus, currentUser }) {
   return (
     <>
       <div className="flex items-center gap-3">
-        <div className="">
+        <div className="flex items-center ">
           <CustomBtn
             type="button"
             onClick={() => setIsCommentsOpen(true)}
@@ -200,6 +201,19 @@ export default function TaskActions({ id, currentStatus, currentUser }) {
               deleteLoading ||
               previewLoading
             }
+          />
+          <CustomBtn
+            type="button"
+            onClick={() => setIsAttachFileOpen(true)}
+            icon={icons.attachFile}
+            disabled={
+              todoLoading ||
+              progressLoading ||
+              doneLoading ||
+              deleteLoading ||
+              previewLoading
+            }
+            classNames="rounded-full w-[35px] h-[35px] flex items-center justify-center hoverable"
           />
         </div>
         <Popover
@@ -231,6 +245,14 @@ export default function TaskActions({ id, currentStatus, currentUser }) {
         <CommentsModal
           isOpen={isCommentsOpen}
           onClose={() => setIsCommentsOpen(false)}
+          taskID={id}
+          currentUser={currentUser}
+        />
+      )}
+      {isAttachFileOpen && (
+        <AttachFileModal
+          isOpen={isAttachFileOpen}
+          onClose={() => setIsAttachFileOpen(false)}
           taskID={id}
           currentUser={currentUser}
         />

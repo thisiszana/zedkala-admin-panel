@@ -56,6 +56,18 @@ const zedkalaTaskSchema = new Schema({
       ],
     },
   ],
+  attachFiles: [
+    {
+      fileUrl: { type: String, required: true },
+      content: { type: String, required: true },
+      uploadedBy: {
+        type: Schema.Types.ObjectId,
+        ref: "ZedkalaAdmin",
+        required: true,
+      },
+      uploadedAt: { type: Date, default: () => Date.now() },
+    },
+  ],
 });
 
 zedkalaTaskSchema.index({ title: "text", description: "text" });
