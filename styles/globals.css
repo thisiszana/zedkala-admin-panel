@@ -6,16 +6,10 @@ html.dark {
   background-color: #33384d;
 }
 
-html,
-body {
-  height: 100%;
-}
-
-
 .custom-badge {
   .ant-badge-count {
-    left: -15px; 
-    top: -5px;   
+    left: -15px;
+    top: -5px;
   }
 }
 
@@ -24,7 +18,7 @@ body {
 .custom-pagination-bullet {
   width: 10px;
   height: 10px;
-  background-color: #007bff; 
+  background-color: #007bff;
   border-radius: 50%;
   margin: 0 5px;
   transition: transform 0.3s, background-color 0.3s;
@@ -32,9 +26,8 @@ body {
 
 .swiper-pagination-bullet-active {
   background-color: #ff5722 !important;
-  transform: scale(1.3); 
+  transform: scale(1.3);
 }
-
 
 /* Antd Custom Style */
 .ant-table {
@@ -158,7 +151,8 @@ body {
 
 /* Tags comments */
 @keyframes blink {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -220,9 +214,7 @@ body {
 }
 
 .pages_spaces {
-  @apply pt-[100px] pr-[280px] lg:pr-[270px] max-md:px-4 md:pr-4 max-lg:pb-[50px] lg:mb-[200px] min-h-screen w-full transition-all duration-150;
-  min-height: 100vh; 
-  height: auto; 
+  @apply pt-[100px] pr-[280px] lg:pr-[270px]  max-md:px-4 md:pr-4 max-lg:pb-[50px] lg:mb-[200px] min-h-screen transition-all duration-150;
 }
 
 .cardShadow3 {

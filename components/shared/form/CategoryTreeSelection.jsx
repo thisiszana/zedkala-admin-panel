@@ -99,9 +99,14 @@ export default function CategoryTreeSelection({ form, setForm }) {
       try {
         setIsLoading(true);
         const { category } = await getCategories();
-        setCategories(category);
 
-        const formattedTreeData = category.map((cat) => ({
+        const publishedCategories = category.filter(
+          (cat) => cat.published === true
+        );
+
+        setCategories(publishedCategories);
+
+        const formattedTreeData = publishedCategories.map((cat) => ({
           title: cat.name,
           key: cat.slug,
           children:
@@ -145,10 +150,7 @@ export default function CategoryTreeSelection({ form, setForm }) {
           style={{ width: "50%", marginBottom: 10 }}
         >
           {categories.map((cat) => (
-            <Option
-              key={cat.slug}
-              value={cat.name}
-            >
+            <Option key={cat.slug} value={cat.name}>
               {cat.name}
             </Option>
           ))}

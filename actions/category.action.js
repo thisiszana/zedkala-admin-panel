@@ -112,7 +112,7 @@ export const getCategories = async () => {
       .populate({
         path: "createdBy",
         model: ZedkalaAdmin,
-        select: "username firstName image",
+        select: "username firstName images",
       })
       .lean();
 

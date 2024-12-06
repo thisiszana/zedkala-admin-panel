@@ -13,11 +13,11 @@ import { Edit, Trash, UploadIcon } from "@/components/icons/Icons";
 import CustomSelection from "./CustomSelection";
 import UploadedImage from "./UploadedImage";
 import { MESSAGES } from "@/utils/message";
+import CustomSwitch from "./CustomSwitch";
 import { uploadImage } from "@/utils/fun";
 import DetailedBox from "../DetailedBox";
 import CustomBtn from "../CustomBtn";
 import CustomInp from "./CustomInp";
-import CustomSwitch from "./CustomSwitch";
 
 export default function CategoryForm({
   type,
@@ -48,7 +48,7 @@ export default function CategoryForm({
         <CustomInp
           type="text"
           name="slug"
-          label="اسلاگ دسته‌بندی"
+          label="اسلاگ دسته‌بندی *"
           value={form.slug}
           onChange={onChange}
           wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
