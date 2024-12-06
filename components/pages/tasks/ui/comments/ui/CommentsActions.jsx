@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Button, Popover, Input, Modal } from "antd";
-import { SendOutlined } from "@ant-design/icons";
 
-import Loader from "@/components/shared/Loader";
-import { Close, Edit, MenuDots, Trash } from "@/components/icons/Icons";
-import CustomBtn from "@/components/shared/CustomBtn";
-import CustomInp from "@/components/shared/form/CustomInp";
-import { icons } from "@/constants";
-import { deleteComment, editComment } from "@/actions/task.action";
+import { Button, Popover, Input, Modal, Select } from "antd";
+import { SendOutlined } from "@ant-design/icons";
 import toast from "react-hot-toast";
+
+import { deleteComment, editComment } from "@/actions/task.action";
+import { MenuDots } from "@/components/icons/Icons";
+import { tagsComment } from "@/constants";
+
+const { Option } = Select;
 
 export default function CommentsActions({
   comment,
@@ -19,11 +19,38 @@ export default function CommentsActions({
   onRefresh,
 }) {
   const [newContent, setNewContent] = useState(comment.content);
+  const [selectedTag, setSelectedTag] = useState(
+    tagsComment.find((tag) => tag.value === comment.tagSlug) || null
+  );
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const closePopover = () => setIsPopoverOpen(false);
+console.log(selectedTag)
+  const handleTagChange = (value) => {
+    const tag = tagsComment.find((tag) => tag.value === value);
+    setSelectedTag(tag);
+  };
+
+  const handleEdit = async () => {
+    setLoading(true);
+    try {
+      const res = await editComment({
+        taskID,
+        commentId: comment._id,
+        newContent,
+        tag: selectedTag,
+      });
+      toast.success(res.message);
+      setIsEditing(false);
+      onRefresh();
+    } catch (error) {
+      console.error("Error updating comment:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleDelete = async () => {
     setLoading(true);
@@ -39,56 +66,26 @@ export default function CommentsActions({
     }
   };
 
-  const handleEdit = async () => {
-    setLoading(true);
-    try {
-      const res = await editComment({
-        taskID,
-        commentId: comment._id,
-        newContent,
-      });
-      toast.success(res.message);
-      setIsEditing(false);
-      onRefresh();
-    } catch (error) {
-      console.error("Error updating comment:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const popoverContent = (
     <div className="popContainer min-w-[150px] dark:bg-dark1 border-1 rounded-[8px]">
-      <CustomBtn
-        title={
-          <div className="flex w-full items-center py-1 px-2 gap-4 rounded-btn hover:bg-lightRose text-green-600">
-            <Edit />
-            <p>ویرایش</p>
-          </div>
-        }
+      <Button
         onClick={() => {
           setIsEditing(true);
           closePopover();
         }}
-        classNames="flex justify-center w-full"
         disabled={loading}
-      />
+        className="w-full text-left"
+      >
+        ویرایش
+      </Button>
       <hr />
-      <CustomBtn
-        title={
-          loading ? (
-            <Loader width={15} height={15} color={"red"} className="py-1" />
-          ) : (
-            <div className="flex w-full items-center hoverable py-1 px-2 gap-4 rounded-btn hover:bg-lightRose text-darkRose">
-              <Trash />
-              <p>حذف</p>
-            </div>
-          )
-        }
+      <Button
         onClick={handleDelete}
         disabled={loading}
-        classNames="flex justify-center w-full"
-      />
+        className="w-full text-left text-red-500"
+      >
+        حذف
+      </Button>
     </div>
   );
 
@@ -98,33 +95,57 @@ export default function CommentsActions({
     <div className="flex items-center space-x-2">
       {isEditing ? (
         <Modal
-        title="ویرایش"
-        open={isEditing}
-        // onCancel={onClose}
-        footer={null}
-      >
-        <div className="flex items-center gap-2">
-          
-          <Input.TextArea
-            placeholder="پیام خود را بنویسید..."
-            value={newContent}
-            onChange={(e) => setNewContent(e.target.value)}
-            autoSize={{ minRows: 1, maxRows: 5 }}
-            className="rounded-[8px] border-gray-300 shadow-sm"
-          />
-          <Button
-            type="primary"
-            icon={<SendOutlined />}
-            onClick={handleEdit}
-            loading={loading}
-            disabled={!newContent.trim()}
-            className="rounded-[8px]"
-          >
-            ویرایش
-          </Button>
-        </div>
-      </Modal>
-        
+          title="ویرایش کامنت"
+          open={isEditing}
+          onCancel={() => setIsEditing(false)}
+          footer={null}
+        >
+          <div className="flex flex-col gap-4">
+            <Select
+              placeholder="انتخاب تگ"
+              className="w-full"
+              value={selectedTag?.value}
+              onChange={handleTagChange}
+            >
+              {tagsComment.map((tag) => (
+                <Option key={tag.value} value={tag.value}>
+                  <span
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: "10px",
+                        height: "10px",
+                        borderRadius: "50%",
+                        backgroundColor: tag.color,
+                      }}
+                    />
+                    {tag.label}
+                  </span>
+                </Option>
+              ))}
+            </Select>
+            <Input.TextArea
+              placeholder="متن کامنت را وارد کنید..."
+              value={newContent}
+              onChange={(e) => setNewContent(e.target.value)}
+              autoSize={{ minRows: 3, maxRows: 5 }}
+            />
+            <Button
+              type="primary"
+              icon={<SendOutlined />}
+              onClick={handleEdit}
+              loading={loading}
+              disabled={!newContent.trim()}
+            >
+              ذخیره تغییرات
+            </Button>
+          </div>
+        </Modal>
       ) : (
         <Popover
           content={popoverContent}
@@ -136,7 +157,7 @@ export default function CommentsActions({
             padding: "0",
           }}
         >
-          <CustomBtn icon={<MenuDots />} classNames="iconButton" />
+          <Button type="text" icon={<MenuDots />} />
         </Popover>
       )}
     </div>

@@ -344,7 +344,7 @@ export const editTask = async (data) => {
 export const editComment = async (data) => {
   try {
     await connectDB();
-    const { taskID, commentId, newContent } = data;
+    const { taskID, commentId, newContent, tag } = data;
 
     const session = getServerSession();
 
@@ -390,6 +390,16 @@ export const editComment = async (data) => {
         status: MESSAGES.failed,
         code: STATUS_CODES.badRequest,
       };
+    }
+
+    if (tag) {
+      comment.tags = [
+        {
+          tagName: tag.label,
+          tagSlug: tag.value,
+          bgc: tag.color,
+        },
+      ];
     }
 
     comment.content = newContent.trim();
