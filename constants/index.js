@@ -229,6 +229,34 @@ export const menuLinks = [
   },
 ];
 
+export const profileLinks = [
+  {
+    icon: <Home />,
+    name: "صفحه اصلی",
+    href: "/dashboard",
+  },
+  {
+    icon: <User />,
+    name: "پروفایل",
+    href: "/account",
+  },
+  {
+    icon: <Task />,
+    name: "وضایف",
+    href: "/tasks",
+  },
+  {
+    icon: <ShoppingBasket />,
+    name: "محصولات",
+    href: "/products",
+  },
+  {
+    icon: <LayerPlus />,
+    name: "محصول جدید",
+    href: "/add-product",
+  },
+];
+
 export const productInformationDetails = (info) => {
   const hasDiscount = info?.discount && info?.discount?.value > 0;
 
