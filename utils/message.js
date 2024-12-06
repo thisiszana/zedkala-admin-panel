@@ -6,7 +6,8 @@ export const MESSAGES = {
   blogEdited: "Blog Edited",
   invalidId: "Invalid Id",
   badRequest: "Bad Request!",
-
+  
+  searchSome: "چیزی را جستجو کنید!",
   likeRemoved: "لایک پاک شد",
   likeAdded: "لایک شد",
   commentDeleted: "کامنت شما حذف شد!",
