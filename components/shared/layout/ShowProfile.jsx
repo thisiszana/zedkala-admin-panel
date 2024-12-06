@@ -45,7 +45,7 @@ export default function ShowProfile() {
       <CustomBtn
         onClick={() => onClose()}
         icon={<Close />}
-        classNames=" rounded-full p-2 mx-4 flex items-center justify-between gap-2 cursor-pointer hoverable dark:bg-dark1"
+        classNames="rounded-full p-2 mx-4 flex items-center justify-between gap-2 cursor-pointer hoverable dark:bg-dark1 dark:text-lightGray"
       />
     ),
   };
@@ -82,7 +82,9 @@ export default function ShowProfile() {
               radius="full"
               className="w-[100px] h-[100px] mb-2 rounded-full"
             />
-            <p className="font-medium dark:text-lightGray">{data?.session?.username}</p>
+            <p className="font-medium dark:text-lightGray">
+              {data?.session?.username}
+            </p>
             <p className="text-darkGray mb-2">{data?.session?.firstName}</p>
             <CustomBadge
               title={data?.session?.roll}

@@ -1,9 +1,8 @@
+import NotifcationBox from "../notifcation/NotifcationBox";
 import DarkLightMode from "./DarkLightMode";
-import MobileNav from "./MobileNav";
-import NavbarSearchBox from "./NavbarSearchBox";
-import NotifcationBox from "./NotifcationBox";
 import ShowProfile from "./ShowProfile";
 import SignoutBtn from "./SignoutBtn";
+import MobileNav from "./MobileNav";
 
 export default function Navbar({ isCollapsed }) {
   return (
@@ -19,11 +18,11 @@ export default function Navbar({ isCollapsed }) {
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <DarkLightMode />
-          <SignoutBtn style="p-2 hover:bg-gray-100 rounded-full Transition text-darkGray text-[22px] flex items-center gap-btn" />
-          <NavbarSearchBox />
-          <NotifcationBox />
           <ShowProfile />
+          <DarkLightMode />
+          {/* <NavbarSearchBox /> */}
+          <NotifcationBox />
+          <SignoutBtn style="p-2 hover:bg-gray-100 rounded-full Transition text-darkGray text-[22px] flex items-center gap-btn" />
         </div>
       </div>
     </header>

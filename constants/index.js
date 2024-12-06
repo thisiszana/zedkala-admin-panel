@@ -52,6 +52,7 @@ import {
   User,
   Users,
   Camera,
+  Mail,
   Television,
   Printer,
   Mobile,
@@ -76,6 +77,7 @@ import { RxSize } from "react-icons/rx";
 import { MdOutlinePublic, MdSaveAs, MdOutlineReplay, MdAttachFile } from "react-icons/md";
 
 import { e2p, reducePrice, sp } from "@/utils/fun";
+import Image from "next/image";
 
 export const sizesDefault = ["XS", "S", "M", "L", "XL"];
 
@@ -254,6 +256,84 @@ export const profileLinks = [
     icon: <LayerPlus />,
     name: "محصول جدید",
     href: "/add-product",
+  },
+];
+
+export const notifications = [
+  {
+    key: "1",
+    image: (
+      <Image
+        src={images.admin}
+        width={100}
+        height={100}
+        alt="image"
+        radius="full"
+        className="w-[40px]"
+      />
+    ),
+    text: "John Doe sent you a friend request",
+    date: "3 hours",
+    category: "Communication",
+  },
+  {
+    key: "2",
+    image: (
+      <Image
+        src={images.admin2}
+        width={100}
+        height={100}
+        alt="image"
+        radius="full"
+        className="w-[40px]"
+      />
+    ),
+    text: "Jayvon Hull has Mentioned you",
+    date: "a day",
+    category: "Project UI",
+  },
+  {
+    key: "3",
+    image: (
+      <Image
+        src={images.admin3}
+        width={100}
+        height={100}
+        alt="image"
+        radius="full"
+        className="w-[40px]"
+      />
+    ),
+    text: "Jason desson added new tags to file manager",
+    date: "3 day",
+    category: "File manager",
+  },
+  {
+    key: "4",
+    image: (
+      <Truck wrapperClassName="w-[40px] h-[40px] flex items-center justify-center rounded-full bg-lightGreen text-darkGreen" />
+    ),
+    text: "Your order is placed waiting for shipping",
+    date: "5 day",
+    category: "Order",
+  },
+  {
+    key: "5",
+    image: (
+      <Comment wrapperClassName="w-[40px] h-[40px] flex items-center justify-center rounded-full bg-lightOrange text-darkOrange" />
+    ),
+    text: "You have 5 new unread messages",
+    date: "7 day",
+    category: "Communication",
+  },
+  {
+    key: "5",
+    image: (
+      <Mail wrapperClassName="w-[40px] h-[40px] flex items-center justify-center rounded-full bg-lightRose text-darkRose" />
+    ),
+    text: "You have new mail",
+    date: "8 day",
+    category: "Communication",
   },
 ];
 
