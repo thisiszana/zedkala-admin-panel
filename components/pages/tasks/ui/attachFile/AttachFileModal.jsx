@@ -21,6 +21,7 @@ import { useGetTaskDetails } from "@/hooks/useTasksQuery";
 import Link from "next/link";
 import { icons } from "@/constants";
 import { Trash } from "@/components/icons/Icons";
+import CustomBtn from "@/components/shared/CustomBtn";
 
 export default function AttachFileModal({
   isOpen,
@@ -97,15 +98,19 @@ export default function AttachFileModal({
                 {icons.download}
               </Link>,
               item.uploadedBy?._id === currentUser && (
-                <Button
+                <CustomBtn
+                  type="button"
                   icon={<Trash />}
-                  danger
+                  classNames="rounded-btn flex items-center gap-btn text-darkRose hover:bg-lightOrange Transition p-2"
                   onClick={async () => {
                     try {
-                      const res =await deleteTaskAttachFile({taskID, fileId: item._id }); 
-                      cosole.log(res)
+                      const res = await deleteTaskAttachFile({
+                        taskID,
+                        fileId: item._id,
+                      });
+                      cosole.log(res);
                       toast.success("فایل با موفقیت حذف شد.");
-                      refetch(); 
+                      refetch();
                     } catch (error) {
                       toast.error("خطا در حذف فایل!");
                     }
@@ -118,7 +123,7 @@ export default function AttachFileModal({
               avatar={<Avatar icon={<FileOutlined />} />}
               title={<span>{item.content}</span>}
               description={
-                <div className="flex items-center gap-4 text-gray-500">
+                <div className="flex items-center flex-col md:flex-row gap-4 text-gray-500 mt-2 md:mt-0">
                   <span>
                     <UserOutlined /> {item.uploadedBy?.username || "ناشناس"}
                   </span>

@@ -188,7 +188,7 @@ export default function TaskActions({ id, currentStatus, currentUser }) {
   return (
     <>
       <div className="flex items-center gap-3">
-        <div className="flex items-center ">
+        <div className="flex items-center flex-col md:flex-row gap-y-3">
           <CustomBtn
             type="button"
             onClick={() => setIsCommentsOpen(true)}

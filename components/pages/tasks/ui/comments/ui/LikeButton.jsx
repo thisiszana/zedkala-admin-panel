@@ -49,7 +49,7 @@ export default function LikeButton({
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center flex-col md:flex-row gap-0 md:gap-2">
       <Tooltip title={isLiked ? "Unlike" : "Like"}>
         <Button
           type="text"

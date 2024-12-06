@@ -100,14 +100,14 @@ export const getTasks = async (searchParams) => {
         select: "username firstName images roll",
       })
       .populate({
-        path: "taskOwner.userId",
+        path: "taskOwner",
         model: ZedkalaAdmin,
-        select: "images",
+        select: "images username",
       })
       .populate({
         path: "taskAssistants.userId",
         model: ZedkalaAdmin,
-        select: "images",
+        select: "images username",
       })
       .lean();
 

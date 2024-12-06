@@ -3,7 +3,7 @@ import StatusBox from "./StatusBox";
 
 export default async function TasksList({ searchParams }) {
   const data = await getTasks(searchParams);
-
+  console.log(data.tasks.todo)
   if (data.code !== 200) return <div>خطا در دریافت اطلاعات</div>;
 
   return (

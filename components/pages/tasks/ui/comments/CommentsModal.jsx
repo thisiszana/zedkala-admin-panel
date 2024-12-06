@@ -137,7 +137,7 @@ export default function CommentsModal({
       height={600}
     >
       <div className="flex flex-col space-y-4">
-        <div className="flex items-center gap-2 justify-between w-full">
+        <div className="flex items-center gap-0 md:gap-2 justify-between w-full flex-col md:flex-row">
           <CustomSelect
             value={sortOrder}
             options={sortOptions}
@@ -176,7 +176,7 @@ export default function CommentsModal({
                           {comment.tags.map((tag) => (
                             <span
                               key={tag._id}
-                              className="px-2 py-1 text-xs font-medium text-white rounded-md shadow-md"
+                              className="px-[4px] py-[2px] md:px-2 md:py-1 text-[10px] md:font-medium text-white rounded-md shadow-md md:text-xs"
                               style={{
                                 backgroundColor: tag.bgc,
                                 animation: "blink 2s infinite",
@@ -201,7 +201,7 @@ export default function CommentsModal({
                             moment(comment.updatedAt).fromNow()}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-700 mt-1  overflow-hidden  w-[250px]">
+                      <p className="text-sm text-gray-700 mt-1  overflow-hidden  w-[180px] md:w-[250px]">
                         {comment.content}
                       </p>
                     </div>

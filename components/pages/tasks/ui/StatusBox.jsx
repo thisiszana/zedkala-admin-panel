@@ -43,7 +43,7 @@ export default function StatusBox({ status, taskCount, tasks }) {
                     {moment(task.dueDate.startAt).fromNow()}
                   </p>
                 </div>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-3">
                   <EditTask
                     id={JSON.parse(JSON.stringify(task._id))}
                     session={JSON.parse(JSON.stringify(session))}
