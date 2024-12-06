@@ -27,7 +27,7 @@ export default function CommentsActions({
   const [loading, setLoading] = useState(false);
 
   const closePopover = () => setIsPopoverOpen(false);
-console.log(selectedTag)
+  
   const handleTagChange = (value) => {
     const tag = tagsComment.find((tag) => tag.value === value);
     setSelectedTag(tag);

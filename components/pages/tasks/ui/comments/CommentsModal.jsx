@@ -8,13 +8,13 @@ import { SendOutlined } from "@ant-design/icons";
 import moment from "moment-jalaali";
 
 import { sendReplyToComment, sendTaskComment } from "@/services/queries";
+import CustomSelect from "@/components/shared/form/CustomSelect";
+import { icons, sortOptions, tagsComment } from "@/constants";
 import { useGetTaskComments } from "@/hooks/useTasksQuery";
 import CommentsActions from "./ui/CommentsActions";
+import CommentSkeleton from "./ui/CommentSkeleton";
 import { QUERY_KEY } from "@/services/queriesKey";
-import Loader from "@/components/shared/Loader";
 import LikeButton from "./ui/LikeButton";
-import { icons, sortOptions, tagsComment } from "@/constants";
-import CustomSelect from "@/components/shared/form/CustomSelect";
 
 const { Panel } = Collapse;
 
@@ -156,7 +156,7 @@ export default function CommentsModal({
         <div className="overflow-y-auto max-h-[300px] space-y-3">
           {isLoading ? (
             <div className="w-full flex items-center justify-center">
-              <Loader />
+              <CommentSkeleton />
             </div>
           ) : comments?.length > 0 ? (
             comments?.map((comment) => (
@@ -195,6 +195,10 @@ export default function CommentsModal({
                         </span>
                         <span className="text-xs text-gray-400">
                           {moment(comment.createdAt).fromNow()}
+                        </span>
+                        <span className="text-xs text-gray-400">
+                          {comment.updatedAt &&
+                            moment(comment.updatedAt).fromNow()}
                         </span>
                       </div>
                       <p className="text-sm text-gray-700 mt-1  overflow-hidden  w-[250px]">
@@ -303,7 +307,7 @@ export default function CommentsModal({
         </div>
         {isFetchingNextPage && (
           <div className="flex items-center justify-center">
-            <Loader />
+            <CommentSkeleton />
           </div>
         )}
 
