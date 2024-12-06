@@ -31,6 +31,11 @@ export async function GET(req, { params: { id } }) {
         model: ZedkalaAdmin,
         select: "username firstName images",
       })
+      .populate({
+        path: "attachFiles.uploadedBy",
+        model: ZedkalaAdmin,
+        select: "username firstName images",
+      })
       .lean();
 
     const response = NextResponse.json(

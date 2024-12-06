@@ -66,6 +66,7 @@ import {
   Brand,
 } from "@/components/icons/Icons";
 
+import { BsCloudDownload } from "react-icons/bs";
 import { IoIosColorPalette, IoIosTimer } from "react-icons/io";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { FiArrowDown } from "react-icons/fi";
@@ -150,6 +151,7 @@ export const icons = {
   save: <MdSaveAs />,
   replay: <MdOutlineReplay />,
   attachFile: <MdAttachFile />,
+  download: <BsCloudDownload />,
 };
 
 export const images = {

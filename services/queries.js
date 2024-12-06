@@ -76,9 +76,21 @@ export const toggleLikeComment = async ({ taskID, commentId }) => {
 };
 
 export const sendTaskAttachFile = async ({ taskID, content }) => {
-  console.log(taskID)
   return api
     .post(`/api/tasks/${taskID}/attachFile`, { content })
+    .then((res) => res.data)
+    .catch((error) => {
+      console.error("Error fetching details tasks comments data:", error);
+      return null;
+    });
+};
+
+export const deleteTaskAttachFile = async ({ taskID, fileId }) => {
+  console.log({ taskID, fileId });
+  return api
+    .delete(`/api/tasks/${taskID}/attachFile`, {
+      data: { fileId },
+    })
     .then((res) => res.data)
     .catch((error) => {
       console.error("Error fetching details tasks comments data:", error);
