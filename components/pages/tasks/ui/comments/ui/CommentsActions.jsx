@@ -104,6 +104,7 @@ export default function CommentsActions({
         footer={null}
       >
         <div className="flex items-center gap-2">
+          
           <Input.TextArea
             placeholder="پیام خود را بنویسید..."
             value={newContent}

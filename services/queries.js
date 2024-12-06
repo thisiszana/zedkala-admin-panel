@@ -24,6 +24,7 @@ export const fetchTasksComments = async ({
   queryKey,
   pageParam = 1,
   sortOrder,
+  sortTags,
 }) => {
   const [, taskID] = queryKey;
   const limit = 5;
@@ -34,6 +35,7 @@ export const fetchTasksComments = async ({
         page: pageParam,
         limit,
         sort: sortOrder,
+        sortTags,
       },
     });
     return response.data;

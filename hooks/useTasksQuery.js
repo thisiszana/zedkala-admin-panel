@@ -20,7 +20,7 @@ export const useGetTaskDetails = (taskID) => {
   };
 };
 
-export const useGetTaskComments = (taskID, sortOrder = "createdAt_desc") => {
+export const useGetTaskComments = (taskID, sortOrder = "createdAt_desc", sortTags) => {
   const {
     data: commentsData,
     isLoading,
@@ -29,9 +29,9 @@ export const useGetTaskComments = (taskID, sortOrder = "createdAt_desc") => {
     fetchNextPage,
     refetch,
   } = useInfiniteQuery({
-    queryKey: [QUERY_KEY.tasks_comments, taskID, sortOrder],
+    queryKey: [QUERY_KEY.tasks_comments, taskID, sortOrder, sortTags],
     queryFn: ({ queryKey, pageParam = 1 }) =>
-      fetchTasksComments({ queryKey, pageParam, sortOrder }),
+      fetchTasksComments({ queryKey, pageParam, sortOrder, sortTags }),
     enabled: !!taskID,
     getNextPageParam: (lastPage) =>
       lastPage.currentPage < lastPage.totalPages

@@ -29,6 +29,7 @@ export async function GET(req, { params: { id } }) {
     const page = parseInt(url.searchParams.get("page") || "1", 10);
     const limit = parseInt(url.searchParams.get("limit") || "10", 10);
     const sortOrder = url.searchParams.get("sort") || "createdAt_desc";
+    const sortTags = url.searchParams.get("sortTags");
     const skip = (page - 1) * limit;
 
     const task = await ZedkalaTask.findById(id)
@@ -51,6 +52,15 @@ export async function GET(req, { params: { id } }) {
       );
     }
 
+    let filteredComments = task.comments;
+    if (sortTags) {
+      filteredComments = filteredComments.filter(
+        (comment) =>
+          comment.tags && 
+          comment.tags.some((tag) => tag.tagSlug === sortTags) 
+      );
+    }
+
     let sortField = "createdAt";
     let sortDirection = -1;
 
@@ -64,7 +74,7 @@ export async function GET(req, { params: { id } }) {
       sortDirection = 1;
     }
 
-    const sortedComments = task.comments.sort((a, b) => {
+    const sortedComments = filteredComments.sort((a, b) => {
       const fieldA =
         sortField === "likes.length" ? a.likes.length : new Date(a.createdAt);
       const fieldB =

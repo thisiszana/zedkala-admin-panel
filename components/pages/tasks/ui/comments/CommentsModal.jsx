@@ -31,6 +31,7 @@ export default function CommentsModal({
   const [replyTarget, setReplyTarget] = useState("");
   const [replyContent, setReplyContent] = useState("");
   const [sortOrder, setSortOrder] = useState("createdAt_desc");
+  const [sortTags, setSortTags] = useState("");
   const [selectedTag, setSelectedTag] = useState(null);
 
   const loadingTarget = useRef(null);
@@ -44,9 +45,10 @@ export default function CommentsModal({
     hasNextPage,
     fetchNextPage,
     refetch,
-  } = useGetTaskComments(taskID, sortOrder);
+  } = useGetTaskComments(taskID, sortOrder, sortTags);
 
   console.log(comments);
+  console.log(sortTags);
 
   const mutation = useMutation({
     mutationFn: ({ taskID, content, tags }) =>
@@ -108,9 +110,12 @@ export default function CommentsModal({
     },
   });
 
-  const handleSortChange = (value, type) => {
+  const handleSortChange = (type, value) => {
     if (type === "sortOrder") {
       setSortOrder(value);
+      refetch();
+    } else if (type === "sortTags") {
+      setSortTags(value);
       refetch();
     }
   };
@@ -122,7 +127,7 @@ export default function CommentsModal({
       setSelectedTag(selected);
     }
   };
-  console.log(selectedTag);
+
   return (
     <Modal
       title="پیام‌ها"
@@ -132,13 +137,22 @@ export default function CommentsModal({
       height={600}
     >
       <div className="flex flex-col space-y-4">
-        <CustomSelect
-          value={sortOrder}
-          options={sortOptions}
-          onChange={(value) => handleSortChange("sortOrder", value)}
-          label="مرتب‌سازی"
-          classNames="w-[200px]"
-        />
+        <div className="flex items-center gap-2 justify-between w-full">
+          <CustomSelect
+            value={sortOrder}
+            options={sortOptions}
+            onChange={(value) => handleSortChange("sortOrder", value)}
+            label="مرتب‌سازی"
+            classNames="w-[200px] flex flex-1"
+          />
+          <CustomSelect
+            value={sortTags}
+            options={tagsComment}
+            onChange={(value) => handleSortChange("sortTags", value)}
+            label="براساس تگ"
+            classNames="w-[200px] flex flex-1"
+          />
+        </div>
         <div className="overflow-y-auto max-h-[300px] space-y-3">
           {isLoading ? (
             <div className="w-full flex items-center justify-center">
@@ -155,7 +169,25 @@ export default function CommentsModal({
                   }`}
                 >
                   <div className="flex items-center gap-2">
-                    <Avatar src={comment.createdBy.images} size={40} />
+                    <div className="flex flex-col gap-1">
+                      <Avatar src={comment.createdBy.images} size={40} />
+                      {comment.tags?.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {comment.tags.map((tag) => (
+                            <span
+                              key={tag._id}
+                              className="px-2 py-1 text-xs font-medium text-white rounded-md shadow-md"
+                              style={{
+                                backgroundColor: tag.bgc,
+                                animation: "blink 2s infinite",
+                              }}
+                            >
+                              {tag.tagName}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                     <div className="flex flex-col mr-1">
                       <div className="flex items-center gap-2">
                         <span className="font-semibold text-sm">
