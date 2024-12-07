@@ -496,3 +496,63 @@ export const deleteComment = async (data) => {
     };
   }
 };
+
+export async function reviewTask({ taskID, status, reviewComment }) {
+  try {
+    await connectDB();
+
+    const session =  getServerSession();
+    if (!session) {
+      return {
+        message: MESSAGES.unAuthorized,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.unAuthorized,
+      };
+    }
+
+    if (session.roll === "USER" || session.roll === "ADMIN") {
+      return {
+        message: MESSAGES.forbidden,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.forbidden,
+      };
+    }
+
+    const task = await ZedkalaTask.findById(taskID);
+    if (!task) {
+      return {
+        message: MESSAGES.taskNotFound,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.not_found,
+      };
+    }
+
+    task.reviews.push({
+      status,
+      reviewComment,
+      reviewedAt: new Date(),
+      reviewedBy: session.userId,
+    });
+
+    if (status === "approved") {
+      task.status = "Done";
+    } else {
+      task.status = "needsReview";
+    }
+
+    await task.save();
+
+    return {
+      message: MESSAGES.reviewSuccess,
+      status: MESSAGES.success,
+      code: STATUS_CODES.success,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      message: MESSAGES.server,
+      status: MESSAGES.failed,
+      code: STATUS_CODES.server,
+    };
+  }
+}

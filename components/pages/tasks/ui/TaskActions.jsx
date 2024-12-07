@@ -14,8 +14,10 @@ import CommentsModal from "./comments/CommentsModal";
 import Loader from "@/components/shared/Loader";
 import { icons } from "@/constants";
 import AttachFileModal from "./attachFile/AttachFileModal";
+import PreviewModal from "./preview/PreviewModal";
 
-export default function TaskActions({ id, currentStatus, currentUser }) {
+export default function TaskActions({ id, currentStatus, currentUser,currentRoll }) {
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false)
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const [isAttachFileOpen, setIsAttachFileOpen] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -189,6 +191,21 @@ export default function TaskActions({ id, currentStatus, currentUser }) {
     <>
       <div className="flex items-center gap-3">
         <div className="flex items-center flex-col md:flex-row gap-y-3 gap-x-2">
+          {currentRoll === "OWNER" && currentStatus === "Preview" && (
+            <CustomBtn
+            type="button"
+            onClick={() => setIsPreviewModalOpen(true)}
+            icon={icons.preview}
+            classNames="rounded-full w-[35px] h-[35px] flex items-center justify-center hoverable"
+            disabled={
+              todoLoading ||
+              progressLoading ||
+              doneLoading ||
+              deleteLoading ||
+              previewLoading
+            }
+          />
+          )}
           <CustomBtn
             type="button"
             onClick={() => setIsCommentsOpen(true)}
@@ -253,6 +270,14 @@ export default function TaskActions({ id, currentStatus, currentUser }) {
         <AttachFileModal
           isOpen={isAttachFileOpen}
           onClose={() => setIsAttachFileOpen(false)}
+          taskID={id}
+          currentUser={currentUser}
+        />
+      )}
+      {isPreviewModalOpen && (
+        <PreviewModal
+          isOpen={isPreviewModalOpen}
+          onClose={() => setIsPreviewModalOpen(false)}
           taskID={id}
           currentUser={currentUser}
         />

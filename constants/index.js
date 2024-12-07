@@ -68,6 +68,7 @@ import {
 } from "@/components/icons/Icons";
 
 import { BsCloudDownload } from "react-icons/bs";
+import { VscPreview } from "react-icons/vsc";
 import { IoIosColorPalette, IoIosTimer } from "react-icons/io";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { FiArrowDown } from "react-icons/fi";
@@ -159,6 +160,7 @@ export const icons = {
   replay: <MdOutlineReplay />,
   attachFile: <MdAttachFile />,
   download: <BsCloudDownload />,
+  preview: <VscPreview />,
 };
 
 export const images = {

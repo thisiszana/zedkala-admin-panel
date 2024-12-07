@@ -52,6 +52,7 @@ export default function StatusBox({ status, taskCount, tasks }) {
                     id={JSON.parse(JSON.stringify(task._id))}
                     currentStatus={JSON.parse(JSON.stringify(task.status))}
                     currentUser={JSON.parse(JSON.stringify(session.userId))}
+                    currentRoll={JSON.parse(JSON.stringify(session.roll))}
                   />
                 </div>
               </div>

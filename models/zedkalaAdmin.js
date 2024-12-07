@@ -21,6 +21,14 @@ const zedkalaAdminSchema = new Schema(
       enum: ["آقا", "خانم", "سایر", ""],
       default: "",
     },
+    permissions: {
+      edit: {
+        product: { type: Boolean, default: false },
+        category: { type: Boolean, default: false },
+        blog: { type: Boolean, default: false },
+        user: { type: Boolean, default: false },
+      },
+    },
   },
   { timestamps: true }
 );

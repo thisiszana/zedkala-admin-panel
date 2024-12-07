@@ -1,5 +1,26 @@
 import { Schema, models, model } from "mongoose";
 
+const reviewSchema = new Schema({
+  status: {
+    type: String,
+    enum: ["approved", "needsReview"],
+    required: true,
+  },
+  reviewComment: {
+    type: String,
+    default: "",
+  },
+  reviewedAt: {
+    type: Date,
+    default: () => Date.now(),
+  },
+  reviewedBy: {
+    type: Schema.Types.ObjectId,
+    ref: "ZedkalaAdmin",
+    required: true,
+  },
+});
+
 const zedkalaTaskSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, default: "" },
@@ -68,6 +89,7 @@ const zedkalaTaskSchema = new Schema({
       uploadedAt: { type: Date, default: () => Date.now() },
     },
   ],
+  reviews: [reviewSchema],
 });
 
 zedkalaTaskSchema.index(
