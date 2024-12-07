@@ -77,6 +77,7 @@ export default function NavbarSearchBox() {
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          classNames="input w-full dark:text-dark1"
         />
       </form>
       {loading ? (

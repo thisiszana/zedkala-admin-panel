@@ -11,9 +11,9 @@ export default function ProductsResult({ products, closeModal }) {
       <h1 className="text-h3 font-medium mb-2">محصولات</h1>
       {products.map((product) => (
         <Link
-          href={`/products/${product._id}`}
+          href={`/product/${product._id}`}
           key={product._id}
-          className="flex items-center gap-3 justify-between hoverable rounded-btn py-2 px-3"
+          className="flex items-center gap-3 justify-between hoverable rounded-btn py-2 px-3 dark:bg-transparent dark:hover:bg-lightGray mb-2 dark:hover:text-dark1"
           onClick={closeModal}
         >
           <div className="flex items-center gap-4  w-full">

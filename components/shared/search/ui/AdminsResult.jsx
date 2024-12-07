@@ -13,10 +13,10 @@ export default function AdminsResult({ admins, closeModal }) {
         <Link
           href={`/account/admin/${admin._id}`}
           key={admin._id}
-          className="flex items-center gap-3 justify-between hoverable rounded-btn py-2 px-3 w-full"
+          className="flex items-center gap-3 justify-between hoverable rounded-btn py-2 px-3 w-full dark:bg-transparent dark:hover:bg-lightGray mb-2 dark:hover:text-dark1"
           onClick={closeModal}
         >
-          <div className="flex items-center gap-5  w-full">
+          <div className="flex items-center gap-5  w-full dark:bg-transparent">
             <Image
               as={NextImage}
               src={admin.images || images.admin}
@@ -28,7 +28,7 @@ export default function AdminsResult({ admins, closeModal }) {
               className="ml-4"
             />
             <div>
-              <p className="text-p1 font-medium line-clamp-4">
+              <p className="text-p1 font-medium line-clamp-4 dark:hover:text-dark1">
                 {admin.username}
               </p>
               <p className="text-p2 text-darkGray line-clamp-4">

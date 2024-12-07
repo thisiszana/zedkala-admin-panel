@@ -20,7 +20,7 @@ const TasksResult = ({ tasks, closeModal }) => {
         return (
           <div
             key={task._id}
-            className="hoverable rounded-btn p-4 space-y-4 cardShadow3 border bg-white mb-4 relative"
+            className="hoverable rounded-btn p-4 space-y-4 cardShadow3 border bg-white mb-4 relative dark:bg-transparent dark:hover:bg-lightGray dark:hover:text-dark1"
           >
             <div className="flex justify-between items-center">
               <p className="text-p1 font-medium">{task.title}</p>
