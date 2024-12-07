@@ -8,6 +8,7 @@ import TaskActions from "./TaskActions";
 import { images } from "@/constants";
 import EditTask from "./EditTask";
 import { getServerSession } from "@/utils/session";
+import TaskDescription from "./TaskDescription ";
 
 moment.locale("fa");
 moment.loadPersian({ usePersianDigits: true });
@@ -63,10 +64,7 @@ export default function StatusBox({ status, taskCount, tasks }) {
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-1">
-                  <p className="font-medium text-dark1">{task.title}</p>
-                  <p className="text-darkGray text-p1">{task.description}</p>
-                </div>
+                <TaskDescription task={task}/>
 
                 <div className="flex items-center gap-3 mt-3">
                   {task.createdBy.roll === "OWNER" &&
