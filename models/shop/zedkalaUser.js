@@ -29,9 +29,7 @@ const zedkalaUserSchema = new Schema(
       default: "etc",
     },
     orders: [{ type: Schema.Types.ObjectId, ref: "Order", default: [] }],
-    comments: [
-      { type: Schema.Types.ObjectId, ref: "Comment", default: [] },
-    ],
+    comments: [{ type: Schema.Types.ObjectId, ref: "Comment", default: [] }],
     cart: {
       items: [
         {
@@ -52,7 +50,12 @@ const zedkalaUserSchema = new Schema(
   { timestamps: true }
 );
 
-zedkalaUserSchema.index({ username: "text", firstName: "text" });
+zedkalaUserSchema.index(
+  { username: "text", firstName: "text" },
+  {
+    default_language: "persian",
+  }
+);
 
 const ZedkalaUser =
   models?.ZedkalaUser || model("ZedkalaUser", zedkalaUserSchema);

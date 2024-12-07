@@ -25,7 +25,17 @@ const zedkalaAdminSchema = new Schema(
   { timestamps: true }
 );
 
-zedkalaAdminSchema.index({ username: "text", firstName: "text" });
+zedkalaAdminSchema.index(
+  {
+    username: "text",
+    firstName: "text",
+    lastName: "text",
+    country: "text",
+  },
+  {
+    default_language: "persian",
+  }
+);
 
 const ZedkalaAdmin =
   models?.ZedkalaAdmin || model("ZedkalaAdmin", zedkalaAdminSchema);

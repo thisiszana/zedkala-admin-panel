@@ -6,10 +6,10 @@ import { Avatar, Modal } from "antd";
 import toast from "react-hot-toast";
 import moment from "moment-jalaali";
 
+import { backgroundColorsTasksPage, images, tasksStatus } from "@/constants";
 import CustomTextarea from "@/components/shared/form/CustomTextarea";
 import CustomDatePicker from "@/components/shared/CustomDatePicker";
 import CustomSelect from "@/components/shared/form/CustomSelect";
-import { backgroundColorsTasksPage, images } from "@/constants";
 import { createTask, editTask } from "@/actions/task.action";
 import CustomInp from "@/components/shared/form/CustomInp";
 import { useGetTaskDetails } from "@/hooks/useTasksQuery";
@@ -221,12 +221,7 @@ export default function TaskForm({
             name="status"
             onChange={handleStatus}
             value={form.status}
-            options={[
-              { value: "Todo", label: "انجام دادن" },
-              { value: "Progress", label: "در حال انجام" },
-              { value: "Preview", label: "بررسی" },
-              { value: "Done", label: "انجام شده" },
-            ]}
+            options={tasksStatus}
           />
           <div className="flex items-center justify-between">
             <div className="space-y-2">

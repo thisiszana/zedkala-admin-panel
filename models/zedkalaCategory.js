@@ -57,18 +57,15 @@ const categorySchema = new Schema({
   published: { type: Boolean, default: false },
 });
 
-categorySchema.pre("save", async function (next) {
-  if (this.parent) {
-    const parentCategory = await this.model("ZedkalaCategory").findById(
-      this.parent
-    );
-    if (parentCategory) {
-      parentCategory.children.push(this._id);
-      await parentCategory.save();
-    }
+categorySchema.index(
+  {
+    name: "text",
+    slug: "text",
+  },
+  {
+    default_language: "persian",
   }
-  next();
-});
+);
 
 export const ZedkalaCategory =
   models.ZedkalaCategory || model("ZedkalaCategory", categorySchema);

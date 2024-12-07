@@ -44,7 +44,7 @@ export default function CategoryInformation({ info }) {
           >
             <Image
               as={NextImage}
-              src={info?.createdBy.image || images.admin}
+              src={info?.createdBy.images || images.admin}
               width={50}
               height={50}
               alt="creator"

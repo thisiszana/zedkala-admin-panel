@@ -142,7 +142,7 @@ export const getCategory = async (id) => {
       .populate({
         path: "createdBy",
         model: ZedkalaAdmin,
-        select: "username firstName image",
+        select: "username firstName images",
       })
       .lean();
 

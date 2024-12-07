@@ -74,7 +74,12 @@ import { FiArrowDown } from "react-icons/fi";
 import { BsLuggage } from "react-icons/bs";
 import { CiImageOn } from "react-icons/ci";
 import { RxSize } from "react-icons/rx";
-import { MdOutlinePublic, MdSaveAs, MdOutlineReplay, MdAttachFile } from "react-icons/md";
+import {
+  MdOutlinePublic,
+  MdSaveAs,
+  MdOutlineReplay,
+  MdAttachFile,
+} from "react-icons/md";
 
 import { e2p, reducePrice, sp } from "@/utils/fun";
 import Image from "next/image";
@@ -339,7 +344,6 @@ export const notifications = [
 
 export const productInformationDetails = (info) => {
   const hasDiscount = info?.discount && info?.discount?.value > 0;
-
   return [
     {
       name: !hasDiscount ? "قیمت" : "",
@@ -399,6 +403,13 @@ export const rollOptions = [
   { label: "کاربر عادی", value: "USER" },
   { label: "فروشنده", value: "VENDOR" },
   { label: "ادمین", value: "ADMIN" },
+];
+
+export const tasksStatus = [
+  { value: "Todo", label: "انجام دادن" },
+  { value: "Progress", label: "در حال انجام" },
+  { value: "Preview", label: "بررسی" },
+  { value: "Done", label: "انجام شده" },
 ];
 
 export const sortOptions = [

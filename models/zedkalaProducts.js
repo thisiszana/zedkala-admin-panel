@@ -82,7 +82,18 @@ const productSchema = new Schema({
   },
 });
 
-productSchema.index({ title: "text", description: "text", brand: "text" });
+productSchema.index(
+  {
+    title: "text",
+    description: "text",
+    brand: "text",
+    keywords: "text",
+    discount: "text",
+  },
+  {
+    default_language: "persian",
+  }
+);
 
 export const ZedkalaProducts =
   models?.ZedkalaProducts || model("ZedkalaProducts", productSchema);

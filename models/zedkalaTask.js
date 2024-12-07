@@ -70,7 +70,12 @@ const zedkalaTaskSchema = new Schema({
   ],
 });
 
-zedkalaTaskSchema.index({ title: "text", description: "text" });
+zedkalaTaskSchema.index(
+  { title: "text", description: "text" },
+  {
+    default_language: "persian",
+  }
+);
 
 export const ZedkalaTask =
   models?.ZedkalaTask || model("ZedkalaTask", zedkalaTaskSchema);

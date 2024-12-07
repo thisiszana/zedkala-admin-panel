@@ -16,8 +16,8 @@ const zedkalaVendorSchema = new Schema(
     businessLicense: { type: String, default: "", required: true },
     storeInfo: {
       storeName: { type: String, default: "", required: true },
-      storeAddress: { type: String, default: "", required: true }, 
-      images: { type: [String], default: [] }, 
+      storeAddress: { type: String, default: "", required: true },
+      images: { type: [String], default: [] },
     },
     productCategory: { type: String, default: "", required: true },
     roll: { type: String, default: "VENDOR" },
@@ -28,7 +28,12 @@ const zedkalaVendorSchema = new Schema(
   { timestamps: true }
 );
 
-zedkalaVendorSchema.index({ username: "text", firstName: "text" });
+zedkalaVendorSchema.index(
+  { username: "text", firstName: "text" },
+  {
+    default_language: "persian",
+  }
+);
 
 const ZedkalaVendor =
   models?.ZedkalaVendor || model("ZedkalaVendor", zedkalaVendorSchema);

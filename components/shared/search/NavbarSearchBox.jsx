@@ -56,8 +56,7 @@ export default function NavbarSearchBox() {
     if (result.code !== 200) {
       setError(result.error?.message);
     } else {
-      setSearchResult(result.result);
-      console.log(result);
+      setSearchResult(JSON.parse(JSON.stringify(result.result)));
     }
   };
 
