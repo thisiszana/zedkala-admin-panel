@@ -536,9 +536,7 @@ export async function reviewTask({ taskID, status, reviewComment }) {
 
     if (status === "approved") {
       task.status = "Done";
-    } else {
-      task.status = "needsReview";
-    }
+    } 
 
     await task.save();
 

@@ -190,7 +190,7 @@ export default function TaskActions({ id, currentStatus, currentUser,currentRoll
   return (
     <>
       <div className="flex items-center gap-3">
-        <div className="flex items-center flex-col md:flex-row gap-y-3 gap-x-2">
+        <div className="flex items-center flex-col gap-y-3 gap-x-2">
           {currentRoll === "OWNER" && currentStatus === "Preview" && (
             <CustomBtn
             type="button"

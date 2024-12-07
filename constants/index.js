@@ -420,18 +420,22 @@ export const sortOptions = [
   { value: "likes_desc", label: "لایک: بالا به پایین" },
   { value: "likes_asc", label: "لایک: پایین به بالا" },
 ];
+
 // Tasks
 export const backgroundColorsTasksPage = [
-  { bg: "rgb(255, 228, 196)", id: 1 }, // مناسب متن مشکی
-  { bg: "rgb(173, 216, 230)", id: 2 }, // مناسب متن مشکی
-  { bg: "rgb(144, 238, 144)", id: 3 }, // مناسب متن مشکی
-  { bg: "rgb(255, 182, 193)", id: 4 }, // مناسب متن مشکی
-  { bg: "rgb(240, 248, 255)", id: 5 }, // مناسب متن مشکی
-  { bg: "rgb(245, 245, 220)", id: 6 }, // مناسب متن مشکی
-  { bg: "rgb(224, 255, 255)", id: 7 }, // مناسب متن مشکی
-  { bg: "rgb(250, 235, 215)", id: 8 }, // مناسب متن مشکی
-  { bg: "rgb(211, 211, 211)", id: 9 }, // مناسب متن مشکی
-  { bg: "rgb(255, 239, 213)", id: 10 }, // مناسب متن مشکی
+  { bg: "rgb(255, 223, 186)", id: 1 },
+  { bg: "rgb(174, 216, 246)", id: 2 },
+  { bg: "rgb(186, 255, 174)", id: 3 },
+  { bg: "rgb(255, 204, 212)", id: 4 },
+  { bg: "rgb(224, 243, 255)", id: 5 },
+  { bg: "rgb(255, 249, 204)", id: 6 },
+  { bg: "rgb(200, 255, 255)", id: 7 },
+  { bg: "rgb(255, 245, 204)", id: 8 },
+  { bg: "rgb(224, 224, 224)", id: 9 },
+  { bg: "rgb(255, 223, 186)", id: 10 },
+  { bg: "#fd7e14", id: 11 },
+  { bg: "#17a2b8", id: 12 },
+  { bg: "#ffc107", id: 13 },
 ];
 
 export const boardMoodOptions = [
@@ -440,14 +444,14 @@ export const boardMoodOptions = [
 ];
 
 export const tagsComment = [
-  { label: "اطلاعیه", value: "announcement", color: "#007bff" }, // آبی برای پیام‌های رسمی
-  { label: "مهم", value: "important", color: "#dc3545" }, // قرمز برای اهمیت بالا
-  { label: "پشتیبانی", value: "support", color: "#28a745" }, // سبز برای کمک و پشتیبانی
-  { label: "فوری", value: "urgent", color: "#ffc107" }, // زرد برای هشدارهای فوری
-  { label: "پیگیری", value: "follow-up", color: "#17a2b8" }, // آبی کم‌رنگ برای پیگیری‌ها
-  { label: "نظر", value: "feedback", color: "#6610f2" }, // بنفش برای بازخورد
-  { label: "پیشنهاد", value: "suggestion", color: "#20c997" }, // سبز روشن برای پیشنهادات
-  { label: "هشدار", value: "warning", color: "#e83e8c" }, // صورتی پررنگ برای هشدارها
-  { label: "عمومی", value: "general", color: "#6c757d" }, // خاکستری برای عمومی
-  { label: "شخصی", value: "personal", color: "#fd7e14" }, // نارنجی برای پیام‌های شخصی
+  { label: "اطلاعیه", value: "announcement", color: "#007bff" },
+  { label: "مهم", value: "important", color: "#dc3545" }, 
+  { label: "پشتیبانی", value: "support", color: "#28a745" },
+  { label: "فوری", value: "urgent", color: "#ffc107" }, 
+  { label: "پیگیری", value: "follow-up", color: "#17a2b8" },
+  { label: "نظر", value: "feedback", color: "#6610f2" },
+  { label: "پیشنهاد", value: "suggestion", color: "#20c997" },
+  { label: "هشدار", value: "warning", color: "#e83e8c" },
+  { label: "عمومی", value: "general", color: "#6c757d" },
+  { label: "شخصی", value: "personal", color: "#fd7e14" },
 ];
