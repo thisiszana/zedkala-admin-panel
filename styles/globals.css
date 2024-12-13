@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html.dark {
-  background-color: #182027;
+  background-color: #33384d;
 }
 
 .custom-badge {
@@ -37,22 +37,22 @@ html.dark {
 }
 
 .dark .ant-table {
-  background-color: #182027;
+  background-color: #33384d;
   color: #fff;
 }
 
 .dark .ant-table-thead > tr > th {
-  background-color: #141a21;
+  background-color: #232b33;
   color: #fff;
 }
 
 .dark .ant-table-tbody > tr > td {
-  background-color: #182027;
+  background-color: #33384d;
   color: #fff;
 }
 
 .dark .ant-table-row:hover > .ant-table-cell {
-  background-color: #182027;
+  background-color: #33384d;
   color: #ffffff;
 }
 
@@ -64,7 +64,7 @@ html.dark {
 
 *.dark {
   scrollbar-width: thin;
-  scrollbar-color: #182027 #bfbcbc;
+  scrollbar-color: #33384d #bfbcbc;
 }
 
 ::-webkit-scrollbar {
