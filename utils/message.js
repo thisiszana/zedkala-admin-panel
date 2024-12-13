@@ -35,6 +35,7 @@ export const MESSAGES = {
   updateProfile: "پروفایل آپدیت شد",
   noMatchPassword: "رمز عبور فعلی نادرست است!",
   confirmPassword: "رمز عبور جدید نادرست است!",
+  password_length: "تعداد حروف رمز عبور باید بیشتر از 6 عدد باشد!",
   existItemCategory: "شما قبلاً این آیتم را انتخاب کرده‌اید",
   addItemCategory: "آیتم اضافه شد",
   brandField: "لطفا نام و تصویر برند را وارد کنید.",
