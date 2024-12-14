@@ -1,18 +1,35 @@
 import { NextResponse } from "next/server";
 
-import { cookies } from "next/headers";
 import { sign } from "jsonwebtoken";
 
-import { SECRET_KEY, SESSION_EXPIRATION } from "@/utils/var";
+import {
+  REFRESH_TOKEN_EXPIRATION,
+  SECRET_KEY,
+  SESSION_EXPIRATION,
+} from "@/utils/var";
 import { MESSAGES, STATUS_CODES } from "@/utils/message";
 import ZedkalaUser from "@/models/shop/zedkalaUser";
 import { verifyPassword } from "@/utils/fun";
 import connectDB from "@/utils/connectDB";
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "http://localhost:3000",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+export async function OPTIONS() {
+  return new Response(null, {
+    headers: corsHeaders,
+    status: 204,
+  });
+}
+
 export async function POST(req) {
   try {
     await connectDB();
   } catch (error) {
+    console.error("Database connection error:", error.message);
     return NextResponse.json(
       { msg: MESSAGES.server, success: false },
       { status: STATUS_CODES.server }
@@ -22,15 +39,16 @@ export async function POST(req) {
   try {
     const { username, password } = await req.json();
 
-    if (!username || !password)
+    if (!username || !password) {
       return NextResponse.json(
         { msg: MESSAGES.fields, success: false },
-        { status: STATUS_CODES.failed }
+        { status: STATUS_CODES.badRequest }
       );
+    }
 
     const user = await ZedkalaUser.findOne({ username });
 
-    if (!user)
+    if (!user) {
       return NextResponse.json(
         {
           msg: MESSAGES.userNotFound,
@@ -38,51 +56,47 @@ export async function POST(req) {
         },
         { status: STATUS_CODES.not_found }
       );
+    }
 
     const isValidPass = await verifyPassword(password, user.password);
 
-    if (!isValidPass)
+    if (!isValidPass) {
       return NextResponse.json(
         {
-          message: MESSAGES.userNotFound,
+          msg: MESSAGES.userNotFound,
           success: false,
         },
         { status: STATUS_CODES.not_found }
       );
+    }
 
     const accessToken = sign(
       {
         username,
         userId: user._id,
         displayName: user.displayName,
-        image: null,
       },
       SECRET_KEY,
-      {
-        expiresIn: SESSION_EXPIRATION,
-      }
+      { expiresIn: SESSION_EXPIRATION }
     );
 
-    cookies().set("accessToken", accessToken, {
-      httpOnly: true,
-      secure: true,
-      expires: new Date(Date.now() + SESSION_EXPIRATION),
-      sameSite: "lax",
-      path: "/",
+    const refreshToken = sign({ userId: user._id }, SECRET_KEY, {
+      expiresIn: REFRESH_TOKEN_EXPIRATION,
     });
 
-    const response = NextResponse.json(
+    return NextResponse.json(
       {
         msg: MESSAGES.login,
-        status: true,
+        success: true,
+        accessToken,
+        refreshToken,
+        accessExpiresIn: SESSION_EXPIRATION,
+        refreshExpiresIn: REFRESH_TOKEN_EXPIRATION,
       },
-      { status: STATUS_CODES.created }
+      { status: STATUS_CODES.success }
     );
-
-    response.headers.set("Cache-Control", "no-store");
-    return response;
   } catch (error) {
-  console.log("error in login user", error.message)
+    console.error("Error during login:", error.message);
     return NextResponse.json(
       { msg: MESSAGES.server, success: false },
       { status: STATUS_CODES.server }
