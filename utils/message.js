@@ -7,6 +7,7 @@ export const MESSAGES = {
   invalidId: "Invalid Id",
   badRequest: "Bad Request!",
   
+  invalidToken: "توکن نامعتبر است!",
   reviewSuccess: "تسک بررسی شد!",
   searchSome: "چیزی را جستجو کنید!",
   likeRemoved: "لایک پاک شد",
