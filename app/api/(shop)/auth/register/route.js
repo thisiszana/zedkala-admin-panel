@@ -6,23 +6,6 @@ import ZedkalaUser from "@/models/shop/zedkalaUser";
 import { hashedPassword } from "@/utils/fun";
 import connectDB from "@/utils/connectDB";
 
-const jsonResponse = (data, status) => {
-  const response = NextResponse.json(data, { status });
-  response.headers.set(
-    "Cache-Control",
-    "no-store",
-    "no-cache",
-    "must-revalidate"
-  );
-  response.headers.set("Access-Control-Allow-Origin", "http://localhost:3000/");
-  response.headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  response.headers.set(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Authorization"
-  );
-  return response;
-};
-
 const validateInputs = (data) => {
   const { displayName, username, password } = data;
 
@@ -43,36 +26,38 @@ const validateInputs = (data) => {
   return { valid: true };
 };
 
-export async function POST(req) {
-  if (req.method === "OPTIONS") {
-    return new Response(null, {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      },
-      status: 204,
-    });
-  }
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "http://localhost:3000",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
 
+export async function OPTIONS() {
+  return new Response(null, {
+    headers: corsHeaders,
+    status: 204,
+  });
+}
+
+export async function POST(req) {
   try {
     await connectDB();
   } catch (error) {
     console.error("Database Connection Error:", error);
-    return jsonResponse(
+    return NextResponse.json(
       { msg: MESSAGES.server, success: false },
-      STATUS_CODES.server
+      { status: STATUS_CODES.server }
     );
   }
 
   try {
     const requestBody = await req.json();
-
+    console.log(requestBody);
     const validation = validateInputs(requestBody);
     if (!validation.valid) {
-      return jsonResponse(
+      return NextResponse.json(
         { msg: validation.message, success: false },
-        STATUS_CODES.failed
+        { status: STATUS_CODES.badRequest }
       );
     }
 
@@ -80,9 +65,9 @@ export async function POST(req) {
 
     const existingUser = await ZedkalaUser.findOne({ username });
     if (existingUser) {
-      return jsonResponse(
+      return NextResponse.json(
         { msg: MESSAGES.user_exist, success: false },
-        STATUS_CODES.exist
+        { status: STATUS_CODES.exist }
       );
     }
 
@@ -94,15 +79,27 @@ export async function POST(req) {
     });
 
     revalidatePath("/account");
-    return jsonResponse(
+
+    const response = NextResponse.json(
       { msg: MESSAGES.register, success: true },
-      STATUS_CODES.created
+      { status: STATUS_CODES.created }
     );
+
+    response.headers.set(
+      "Access-Control-Allow-Origin",
+      "http://localhost:3000"
+    );
+    response.headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    response.headers.set(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
+    return response;
   } catch (error) {
-    console.error("Server Error:", error);
-    return jsonResponse(
+    console.error("Server Error:", error.message);
+    return NextResponse.json(
       { msg: MESSAGES.server, success: false },
-      STATUS_CODES.server
+      { status: STATUS_CODES.server }
     );
   }
 }
