@@ -8,7 +8,12 @@ import connectDB from "@/utils/connectDB";
 
 const jsonResponse = (data, status) => {
   const response = NextResponse.json(data, { status });
-  response.headers.set("Cache-Control", "no-store");
+  response.headers.set(
+    "Cache-Control",
+    "no-store",
+    "no-cache",
+    "must-revalidate"
+  );
   response.headers.set("Access-Control-Allow-Origin", "http://localhost:3000/");
   response.headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   response.headers.set(
