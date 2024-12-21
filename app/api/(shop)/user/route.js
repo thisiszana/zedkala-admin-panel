@@ -6,6 +6,19 @@ import { MESSAGES, STATUS_CODES } from "@/utils/message";
 import ZedkalaUser from "@/models/shop/zedkalaUser";
 import { verify } from "jsonwebtoken";
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "http://localhost:3000",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+export async function OPTIONS() {
+  return new Response(null, {
+    headers: corsHeaders,
+    status: 204,
+  });
+}
+
 export async function GET(req) {
   try {
     await connectDB();

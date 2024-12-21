@@ -6,7 +6,8 @@ export const MESSAGES = {
   blogEdited: "Blog Edited",
   invalidId: "Invalid Id",
   badRequest: "Bad Request!",
-  
+
+  tokenRefreshed: "رفرش توکن آپدیت شد!",
   invalidToken: "توکن نامعتبر است!",
   reviewSuccess: "تسک بررسی شد!",
   searchSome: "چیزی را جستجو کنید!",
@@ -27,7 +28,7 @@ export const MESSAGES = {
     "دیتای شما برای مدیرت جهت اسعلام ارسال شد، تشکر از صبر و شکیبایی شما",
   vendorAddInfoDesc:
     "اطمینان حاصل کنید که تمامی اطلاعات به درستی وارد شده است.",
-    vendorAddInfoMess: "لطفا اطلاعات مورد نظر با دقت وارد کنید",
+  vendorAddInfoMess: "لطفا اطلاعات مورد نظر با دقت وارد کنید",
   noContent: "دیتایی وجود ندارد!",
   adminHasContent: "ادمین محتوای موجود دارد!",
   deleteAdmin: "ادمین حذف شد!",
@@ -44,7 +45,7 @@ export const MESSAGES = {
   deleteImage: "تصویر با موفقیت حذف شد!",
   deleteFile: "فایل با موفقیت حذف شد!",
   fileAttachedSuccessfully: "فایل پیوست با موفقیت ارسال شد!",
-  uploadFileFailed:  "ارسال فایل پیوست با شکست مواجه شد!",
+  uploadFileFailed: "ارسال فایل پیوست با شکست مواجه شد!",
   highSizeImage: "حجم تصویر بیش از حد مجاز است!",
   highSizeFile: "حجم فایل بیش از حد مجاز است!",
   invalidFileType: "نوع فایل باید zip یا rar باشد!",
