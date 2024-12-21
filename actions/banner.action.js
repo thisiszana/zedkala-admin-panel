@@ -62,6 +62,8 @@ export const createBanner = async (data) => {
 
 export const getBanner = async () => {
   try {
+    await connectDB();
+    
     const banner = await ZedkalaBanner.find();
 
     if (!banner)

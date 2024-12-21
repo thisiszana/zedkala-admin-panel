@@ -207,7 +207,7 @@ export const menuLinks = [
     link: "/add-category",
   },
   {
-    title: "ایجاد بننر",
+    title: "ایجاد بنر",
     image: icons.layerPlus,
     link: "/add-banner",
   },
