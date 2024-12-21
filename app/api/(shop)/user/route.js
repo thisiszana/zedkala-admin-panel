@@ -30,9 +30,7 @@ export async function GET(req) {
   }
 
   try {
-    console.log(req.headers);
     const authorization = req.headers.get("Authorization");
-    console.log("authorization", authorization);
 
     if (!authorization || !authorization.startsWith("Bearer ")) {
       return NextResponse.json(
@@ -76,7 +74,6 @@ export async function GET(req) {
       { msg: MESSAGES.success, success: true, user },
       { status: STATUS_CODES.success }
     );
-    console.log("userrrrrrrrrrr", user);
     response.headers.set("Cache-Control", "no-store");
     return response;
   } catch (error) {
