@@ -9,6 +9,9 @@ import { uploadImages } from "@/utils/fun";
 import CustomBtn from "@/components/shared/CustomBtn";
 import CustomInp from "@/components/shared/form/CustomInp";
 import CustomSwitch from "@/components/shared/form/CustomSwitch";
+import { createBanner } from "@/actions/banner.action";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function AddBannerPage() {
   const [loading, setLoading] = useState(false);
@@ -19,6 +22,8 @@ export default function AddBannerPage() {
     published: false,
     order: 0,
   });
+
+  const router = useRouter();
 
   const handleDateChange = (value, dateType) => {
     const date = new Date(value);
@@ -71,7 +76,7 @@ export default function AddBannerPage() {
   );
 
   const handleSubmit = async () => {
-    setLoading(true);
+    setLoading(() => true);
 
     const uploadedImages = await uploadImages(form.images);
 
@@ -80,7 +85,16 @@ export default function AddBannerPage() {
       images: uploadedImages,
     };
 
-    setLoading(false);
+    const res = await createBanner(payload);
+
+    setLoading(() => false);
+
+    if (res.code === 200 || res.code === 201 || res.code === 202) {
+      toast.success(res.message);
+      // router.push("/banner");
+    } else {
+      toast.error(res.message);
+    }
   };
 
   return (

@@ -19,5 +19,5 @@ const bannerSchema = new Schema({
   },
 });
 
-export const zedkalaBanner =
-  models?.zedkalaBanner || model("zedkalaBanner", bannerSchema);
+export const ZedkalaBanner =
+  models?.ZedkalaBanner || model("ZedkalaBanner", bannerSchema);

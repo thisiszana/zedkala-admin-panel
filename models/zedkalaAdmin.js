@@ -13,6 +13,7 @@ const zedkalaAdminSchema = new Schema(
     images: { type: String, default: "" },
     roll: { type: String, default: "USER" },
     productsCreated: [{ type: Schema.Types.ObjectId, ref: "ZedkalaProducts" }],
+    bannerCreated: [{ type: Schema.Types.ObjectId, ref: "ZedkalaBanner" }],
     categoryCreated: [{ type: Schema.Types.ObjectId, ref: "ZedkalaCategory" }],
     blogsCreated: [{ type: Schema.Types.ObjectId, ref: "ZedkalaBlog" }],
     isOnline: { type: Boolean, default: false },
