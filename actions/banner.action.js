@@ -59,3 +59,30 @@ export const createBanner = async (data) => {
     };
   }
 };
+
+export const getBanner = async () => {
+  try {
+    const banner = await ZedkalaBanner.find();
+
+    if (!banner)
+      return {
+        message: MESSAGES.bannerNotFound,
+        status: MESSAGES.failed,
+        code: STATUS_CODES.not_found,
+      };
+
+    return {
+      message: MESSAGES.success,
+      status: MESSAGES.success,
+      code: STATUS_CODES.success,
+      banner,
+    };
+  } catch (error) {
+    console.log("error in get banner", error.message);
+    return {
+      message: MESSAGES.server,
+      status: MESSAGES.failed,
+      code: STATUS_CODES.server,
+    };
+  }
+};
