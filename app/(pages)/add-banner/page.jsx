@@ -1,3 +1,5 @@
+import AddBannerPage from "@/components/pages/add-banner/AddBannerPage";
+
 export default function AddBanner() {
-  return <div>page</div>;
+  return <AddBannerPage />;
 }
