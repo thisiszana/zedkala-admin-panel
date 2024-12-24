@@ -14,7 +14,7 @@ export async function GET(req) {
   }
 
   try {
-    const category = await ZedkalaCategory.find();
+    const category = await ZedkalaCategory.find({published: true});
 
     const response = NextResponse.json(
       { msg: MESSAGES.success, success: false, category },
