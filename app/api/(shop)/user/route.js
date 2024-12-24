@@ -7,7 +7,7 @@ import ZedkalaUser from "@/models/shop/zedkalaUser";
 import { verify } from "jsonwebtoken";
 
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "http://localhost:3000",
+  "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };

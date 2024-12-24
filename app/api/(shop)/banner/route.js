@@ -4,7 +4,7 @@ import { MESSAGES, STATUS_CODES } from "@/utils/message";
 import { NextResponse } from "next/server";
 
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "http://localhost:3000",
+  "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
@@ -43,7 +43,7 @@ export async function GET() {
     response.headers.set("Cache-Control", "no-store");
     return response;
   } catch (error) {
-    console.error("Error in API:", error);
+    console.error("Error in API:", error.message);
     return NextResponse.json(
       { msg: MESSAGES.server, success: false },
       { status: STATUS_CODES.server }
