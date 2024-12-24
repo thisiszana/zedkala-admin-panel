@@ -24,7 +24,7 @@ export async function GET(req) {
     response.headers.set("Cache-Control", "no-store");
     return response;
   } catch (error) {
-    console.error("Error in API:", error);
+    console.error("Error in API:", error.message);
     return NextResponse.json(
       { msg: MESSAGES.server, success: false },
       { status: STATUS_CODES.server }
