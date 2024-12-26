@@ -20,6 +20,7 @@ export async function OPTIONS() {
 }
 
 export async function GET(req) {
+  console.log(req)
   try {
     await connectDB();
   } catch (error) {

@@ -2,6 +2,7 @@ import { Schema, models, model } from "mongoose";
 
 const zedkalaUserSchema = new Schema(
   {
+    images: { type: String, default: "" },
     username: {
       type: String,
       required: true,
