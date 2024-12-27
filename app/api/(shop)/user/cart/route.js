@@ -1,25 +1,14 @@
 import { NextResponse } from "next/server";
 
-import { SECRET_KEY } from "@/utils/var";
-import connectDB from "@/utils/connectDB";
-import { MESSAGES, STATUS_CODES } from "@/utils/message";
-import ZedkalaUser from "@/models/shop/zedkalaUser";
 import { verify } from "jsonwebtoken";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization",
-};
-
-export async function OPTIONS() {
-  return new Response(null, {
-    headers: corsHeaders,
-    status: 204,
-  });
-}
+import { MESSAGES, STATUS_CODES } from "@/utils/message";
+import ZedkalaUser from "@/models/shop/zedkalaUser";
+import connectDB from "@/utils/connectDB";
+import { SECRET_KEY } from "@/utils/var";
 
 export async function GET(req) {
+  console.log(req);
   try {
     await connectDB();
   } catch (error) {
@@ -39,19 +28,20 @@ export async function GET(req) {
       );
     }
 
-    const accessToken = authorization.split(" ")[1];
+    const accessToken = authorization.spplit(" ")[1];
 
-    let decoded;
+    let decode;
     try {
-      decoded = verify(accessToken, SECRET_KEY);
-    } catch (err) {
+      decode = verify(accessToken, SECRET_KEY);
+    } catch (error) {
       return NextResponse.json(
         { msg: MESSAGES.invalidToken, success: false },
         { status: STATUS_CODES.unAuthorized }
       );
     }
 
-    const userId = decoded?.userId;
+    const userId = decode?.userId;
+
     if (!userId) {
       return NextResponse.json(
         { msg: MESSAGES.invalidToken, success: false },
@@ -59,25 +49,21 @@ export async function GET(req) {
       );
     }
 
-    const user = await ZedkalaUser.findById(userId).select(
-      "displayName username email phoneNumber images"
-    );
+    const userCart = await ZedkalaUser.findOne({ _id: userId }).select("cart");
 
-    if (!user) {
+    if (!userCart)
       return NextResponse.json(
         { msg: MESSAGES.aUserNotFound, success: false },
         { status: STATUS_CODES.not_found }
       );
-    }
 
     const response = NextResponse.json(
-      { msg: MESSAGES.success, success: true, user },
+      { msg: MESSAGES.success, success: true, userCart },
       { status: STATUS_CODES.success }
     );
     response.headers.set("Cache-Control", "no-store");
     return response;
   } catch (error) {
-    console.error("Error in API:", error);
     return NextResponse.json(
       { msg: MESSAGES.server, success: false },
       { status: STATUS_CODES.server }
