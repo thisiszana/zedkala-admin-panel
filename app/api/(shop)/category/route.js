@@ -3,6 +3,19 @@ import connectDB from "@/utils/connectDB";
 import { MESSAGES, STATUS_CODES } from "@/utils/message";
 import { NextResponse } from "next/server";
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+export async function OPTIONS() {
+  return new Response(null, {
+    headers: corsHeaders,
+    status: 204,
+  });
+}
+
 export async function GET(req) {
   try {
     await connectDB();
@@ -14,7 +27,7 @@ export async function GET(req) {
   }
 
   try {
-    const category = await ZedkalaCategory.find({published: true});
+    const category = await ZedkalaCategory.find({ published: true });
 
     const response = NextResponse.json(
       { msg: MESSAGES.success, success: false, category },
