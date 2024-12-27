@@ -6,7 +6,8 @@ export const MESSAGES = {
   blogEdited: "Blog Edited",
   invalidId: "Invalid Id",
   badRequest: "Bad Request!",
-
+  
+  invalidAction: "اکشن نامعتبر است!",
   bannerNotFound: "بنری پیدا نشد",
   bannerCreated: "بنر ایجاد شد",
   tokenRefreshed: "رفرش توکن آپدیت شد!",
