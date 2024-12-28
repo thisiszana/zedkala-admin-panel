@@ -20,7 +20,11 @@ export const useGetTaskDetails = (taskID) => {
   };
 };
 
-export const useGetTaskComments = (taskID, sortOrder = "createdAt_desc", sortTags) => {
+export const useGetTaskComments = (
+  taskID,
+  sortOrder = "createdAt_desc",
+  sortTags
+) => {
   const {
     data: commentsData,
     isLoading,
@@ -32,11 +36,16 @@ export const useGetTaskComments = (taskID, sortOrder = "createdAt_desc", sortTag
     queryKey: [QUERY_KEY.tasks_comments, taskID, sortOrder, sortTags],
     queryFn: ({ queryKey, pageParam = 1 }) =>
       fetchTasksComments({ queryKey, pageParam, sortOrder, sortTags }),
-    enabled: !!taskID,
-    getNextPageParam: (lastPage) =>
-      lastPage.currentPage < lastPage.totalPages
-        ? lastPage.currentPage + 1
-        : false,
+    initialPageParam: 1,
+    // enabled: !!taskID,
+    getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => {
+
+      if (lastPage?.currentPage && lastPage?.totalPages > lastPage.currentPage) {
+        return lastPageParam + 1;
+      } else {
+        return null;
+      }
+    },
   });
 
   const uniqueComments =
