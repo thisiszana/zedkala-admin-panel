@@ -23,7 +23,7 @@ export default function StatusBox({ status, taskCount, tasks }) {
       <div className="bg-lightGray dark:bg-dark2 rounded-box p-box flex flex-col gap-4">
         {tasks.length !== 0 ? (
           tasks.map((task) => {
-            
+            console.log(task?.taskOwner)
             return (
               <div
                 key={task._id}
@@ -71,7 +71,7 @@ export default function StatusBox({ status, taskCount, tasks }) {
                     (task?.taskOwner ? (
                       <div className="flex items-center gap-3">
                         <Image
-                          src={task?.taskOwner?.images || images.admin}
+                          src={task?.taskOwner?.userId.images || images.admin}
                           width={40}
                           height={40}
                           alt={task?.taskOwner?.username}

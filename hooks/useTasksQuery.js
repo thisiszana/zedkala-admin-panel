@@ -39,8 +39,10 @@ export const useGetTaskComments = (
     initialPageParam: 1,
     // enabled: !!taskID,
     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => {
-
-      if (lastPage?.currentPage && lastPage?.totalPages > lastPage.currentPage) {
+      if (
+        lastPage?.currentPage &&
+        lastPage?.totalPages > lastPage.currentPage
+      ) {
         return lastPageParam + 1;
       } else {
         return null;
