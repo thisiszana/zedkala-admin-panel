@@ -62,7 +62,7 @@ export default function CategoryInformation({ info }) {
         <div>
           <Image
             as={NextImage}
-            src={info.images[0]}
+            src={info.images[0] || images.imageNotFound}
             width={100}
             height={100}
             alt={info?.name}

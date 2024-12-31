@@ -9,7 +9,7 @@ import { FiArrowDown } from "react-icons/fi";
 
 export default function SubCategoryAccordion({ categories }) {
   return (
-    <div className="w-full max-w-md p-2 mx-auto bg-white border rounded-2xl">
+    <div className="w-full max-w-md p-2 mx-auto bg-white border rounded-2xl h-full">
       <Disclosure>
         {({ open }) => (
           <>
@@ -23,7 +23,7 @@ export default function SubCategoryAccordion({ categories }) {
             </Disclosure.Button>
             <Disclosure.Panel
               className={`px-4 pt-4 pb-2 text-sm text-gray-500 overflow-hidden transition-[max-height] duration-500 ease-in-out ${
-                open ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+                open ? "max-h-screen overflow-y-scroll opacity-100" : "max-h-0 opacity-0"
               }`}
             >
               <div className="space-y-2">
