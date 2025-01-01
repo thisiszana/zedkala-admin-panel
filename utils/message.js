@@ -4,9 +4,9 @@ export const MESSAGES = {
   blogUpdated: "Blog Updated",
   blogDeleted: "Blog Deleted",
   blogEdited: "Blog Edited",
-  invalidId: "Invalid Id",
   badRequest: "Bad Request!",
   
+  invalidId: "آیدی نامعتبر است!",
   invalidAction: "اکشن نامعتبر است!",
   bannerNotFound: "بنری پیدا نشد",
   bannerCreated: "بنر ایجاد شد",
