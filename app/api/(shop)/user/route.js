@@ -59,9 +59,7 @@ export async function GET(req) {
       );
     }
 
-    const user = await ZedkalaUser.findById(userId).select(
-      "displayName username email phoneNumber images"
-    );
+    const user = await ZedkalaUser.findById(userId).lean();
 
     if (!user) {
       return NextResponse.json(
@@ -74,10 +72,13 @@ export async function GET(req) {
       { msg: MESSAGES.success, success: true, user },
       { status: STATUS_CODES.success }
     );
-    
+
     response.headers.set("Access-Control-Allow-Origin", "*");
     response.headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    response.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    response.headers.set(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
     response.headers.set("Cache-Control", "no-store");
     return response;
   } catch (error) {

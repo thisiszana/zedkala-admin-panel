@@ -20,6 +20,14 @@ const zedkalaUserSchema = new Schema(
       type: String,
       default: "",
     },
+    job: {
+      type: String,
+      default: "",
+    },
+    nationalcode: {
+      type: Number,
+      default: 0,
+    },
     password: {
       type: String,
       required: true,
@@ -28,6 +36,16 @@ const zedkalaUserSchema = new Schema(
       type: String,
       enum: ["man", "female", "etc"],
       default: "etc",
+    },
+    birthDate: {
+      type: Date,
+      required: false,
+      validate: {
+        validator: function (value) {
+          return value <= new Date();
+        },
+        message: 'تاریخ تولد نمی‌تواند در آینده باشد!',
+      },
     },
     orders: [{ type: Schema.Types.ObjectId, ref: "Order", default: [] }],
     comments: [{ type: Schema.Types.ObjectId, ref: "Comment", default: [] }],
