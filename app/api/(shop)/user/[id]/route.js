@@ -1,6 +1,7 @@
 import ZedkalaUser from "@/models/shop/zedkalaUser";
 import connectDB from "@/utils/connectDB";
-import { hashedPassword } from "@/utils/fun";
+import { hashedPassword, verifyPassword } from "@/utils/fun";
+
 import { MESSAGES, STATUS_CODES } from "@/utils/message";
 import { SECRET_KEY } from "@/utils/var";
 import { verify } from "jsonwebtoken";
@@ -66,16 +67,36 @@ export async function PATCH(req) {
     }
 
     const body = await req.json();
-console.log(body)
-    const updates = body;
+    console.log("body", body);
 
-    if (body.password) {
-      const hashPassword = await hashedPassword(body.password);
-      updates.password = hashPassword;
+
+    if (body.currentPassword) {
+      const isPasswordValid = await verifyPassword(
+        body.currentPassword,
+        user.password
+      );
+      if (!isPasswordValid) {
+        return NextResponse.json(
+          { msg: MESSAGES.noMatchPassword, success: false },
+          { status: STATUS_CODES.badRequest }
+        );
+      }
+    } else {
+      return NextResponse.json(
+        { msg: "رمز عبور فعلی الزامی است.", success: false },
+        { status: STATUS_CODES.badRequest }
+      );
     }
 
-    Object.keys(updates).forEach((key) => {
-      user[key] = updates[key];
+    if (body.newPassword) {
+      const hashPassword = await hashedPassword(body.newPassword);
+      user.password = hashPassword;
+    }
+
+    Object.keys(body).forEach((key) => {
+      if (key !== "currentPassword" && key !== "password") {
+        user[key] = body[key];
+      }
     });
 
     await user.save();
