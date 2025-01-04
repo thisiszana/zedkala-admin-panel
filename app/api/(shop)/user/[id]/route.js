@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server";
-
-import { SECRET_KEY } from "@/utils/var";
-import connectDB from "@/utils/connectDB";
-import { MESSAGES, STATUS_CODES } from "@/utils/message";
 import ZedkalaUser from "@/models/shop/zedkalaUser";
+import connectDB from "@/utils/connectDB";
+import { hashedPassword } from "@/utils/fun";
+import { MESSAGES, STATUS_CODES } from "@/utils/message";
+import { SECRET_KEY } from "@/utils/var";
 import { verify } from "jsonwebtoken";
+import { NextResponse } from "next/server";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -19,7 +19,7 @@ export async function OPTIONS() {
   });
 }
 
-export async function GET(req) {
+export async function PATCH(req) {
   try {
     await connectDB();
   } catch (error) {
@@ -31,7 +31,6 @@ export async function GET(req) {
 
   try {
     const authorization = req.headers.get("Authorization");
-
     if (!authorization || !authorization.startsWith("Bearer ")) {
       return NextResponse.json(
         { msg: MESSAGES.unAuthorized, success: false },
@@ -40,7 +39,6 @@ export async function GET(req) {
     }
 
     const accessToken = authorization.split(" ")[1];
-
     let decoded;
     try {
       decoded = verify(accessToken, SECRET_KEY);
@@ -55,18 +53,32 @@ export async function GET(req) {
     if (!userId) {
       return NextResponse.json(
         { msg: MESSAGES.invalidToken, success: false },
-        { status: STATUS_CODES.invalidToken }
+        { status: STATUS_CODES.unAuthorized }
       );
     }
 
-    const user = await ZedkalaUser.findById(userId).lean();
-
+    const user = await ZedkalaUser.findById(userId);
     if (!user) {
       return NextResponse.json(
-        { msg: MESSAGES.aUserNotFound, success: false },
+        { msg: MESSAGES.userNotFound, success: false },
         { status: STATUS_CODES.not_found }
       );
     }
+
+    const body = await req.json();
+console.log(body)
+    const updates = body;
+
+    if (body.password) {
+      const hashPassword = await hashedPassword(body.password);
+      updates.password = hashPassword;
+    }
+
+    Object.keys(updates).forEach((key) => {
+      user[key] = updates[key];
+    });
+
+    await user.save();
 
     const response = NextResponse.json(
       { msg: MESSAGES.success, success: true, user },
@@ -86,7 +98,7 @@ export async function GET(req) {
 
     return response;
   } catch (error) {
-    console.error("Error in API:", error);
+    console.error("Error in PATCH API:", error.message);
     return NextResponse.json(
       { msg: MESSAGES.server, success: false },
       { status: STATUS_CODES.server }

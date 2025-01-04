@@ -36,7 +36,8 @@
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
     "swiper": "^11.1.14",
-    "use-debounce": "^10.0.4"
+    "use-debounce": "^10.0.4",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "postcss": "^8",

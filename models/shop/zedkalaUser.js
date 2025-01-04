@@ -3,10 +3,19 @@ import { Schema, models, model } from "mongoose";
 const zedkalaUserSchema = new Schema(
   {
     images: { type: String, default: "" },
+    imageType: {
+      type: String,
+      enum: ["default", "custom"],
+      default: "custom",
+    },
     username: {
       type: String,
       required: true,
       unique: true,
+    },
+    email: {
+      type: String,
+      default: "",
     },
     displayName: {
       type: String,
@@ -25,8 +34,8 @@ const zedkalaUserSchema = new Schema(
       default: "",
     },
     nationalcode: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: "",
     },
     password: {
       type: String,
@@ -34,7 +43,7 @@ const zedkalaUserSchema = new Schema(
     },
     gender: {
       type: String,
-      enum: ["man", "female", "etc"],
+      enum: ["male", "female", "etc"],
       default: "etc",
     },
     birthDate: {
@@ -44,7 +53,7 @@ const zedkalaUserSchema = new Schema(
         validator: function (value) {
           return value <= new Date();
         },
-        message: 'تاریخ تولد نمی‌تواند در آینده باشد!',
+        message: "تاریخ تولد نمی‌تواند در آینده باشد!",
       },
     },
     orders: [{ type: Schema.Types.ObjectId, ref: "Order", default: [] }],

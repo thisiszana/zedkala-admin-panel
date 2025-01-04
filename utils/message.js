@@ -83,6 +83,7 @@ export const MESSAGES = {
   login: "با موفقیت وارد شدید!",
   user_exist: "نام کاربری از قبل وجود دارد!",
   fillInp: "لطفا داده های معتبر را وارد کنید!",
+  invalidInput: "داده‌های ورودی نامعتبر است.",
   invalidData: "دیتا نامعتبر.",
   success: "موفق",
   update: "آپدیت شد!",
