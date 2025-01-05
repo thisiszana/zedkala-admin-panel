@@ -1,5 +1,63 @@
 import { Schema, models, model } from "mongoose";
 
+const deliverySchema = new Schema({
+  deliveryOptions: {
+    fastDelivery: { type: Boolean, default: false },
+    freeDelivery: { type: Boolean, default: false },
+    deliveryFee: {
+      type: Number,
+      default: 0,
+      validate: {
+        validator: function (value) {
+          return this.freeDelivery ? value === 0 : value >= 0;
+        },
+        message: "اگر ارسال رایگان باشد، هزینه ارسال باید ۰ باشد.",
+      },
+    },
+    estimatedDeliveryTime: {
+      type: [
+        {
+          day: {
+            type: String,
+            enum: [
+              "شنبه",
+              "یکشنبه",
+              "دوشنبه",
+              "سه‌شنبه",
+              "چهارشنبه",
+              "پنجشنبه",
+              "جمعه",
+            ],
+            required: true,
+          },
+          timeSlots: {
+            type: [
+              {
+                startTime: { type: String, required: true }, 
+                endTime: { type: String, required: true },
+              },
+            ],
+            validate: {
+              validator: function (value) {
+                return value.length > 0;
+              },
+              message: "هر روز باید حداقل یک بازه زمانی داشته باشد.",
+            },
+          },
+        },
+      ],
+      validate: {
+        validator: function (value) {
+          return value.length > 0;
+        },
+        message: "حداقل باید یک روز با بازه‌های زمانی تعیین شود.",
+      },
+    },
+    courierService: { type: String },
+    deliveryNotes: { type: String },
+  },
+});
+
 const productSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, default: "" },
@@ -68,10 +126,7 @@ const productSchema = new Schema({
     },
   ],
   relatedProducts: [{ type: Schema.Types.ObjectId, ref: "ZedkalaProducts" }],
-  deliveryOptions: {
-    fastDelivery: { type: Boolean, default: false },
-    freeDelivery: { type: Boolean, default: false },
-  },
+  deliveryOptions: deliverySchema,
   insurance: {
     insuranceType: { type: String },
     insuranceDuration: { type: Number },

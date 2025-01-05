@@ -320,7 +320,7 @@ export default function ProductForm({
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 relative">
       <DetailedBox
         title="جزئیات اولیه"
         subtitle="عنوان، توضیحات، تصویر"
@@ -388,7 +388,7 @@ export default function ProductForm({
           </div>
         }
       />
-      <div className="flex items-center justify-end gap-10 space-x-8">
+      <div className="flex items-center justify-end gap-10 space-x-8 fixed bottom-3 left-1 bg-white dark:bg-dark2 p-4 w-fit z-50 rounded-[8px]">
         <div className="flex items-center gap-2">
           <CustomSwitch
             id="publish"
