@@ -27,6 +27,7 @@ export default function AddProductPage({ data }) {
     deliveryOptions: data?.deliveryOptions || {
       fastDelivery: false,
       freeDelivery: false,
+      deliveryFee: 0,
     },
     isGrocery: data?.isGrocery || { value: false, slug: "grocery-product" },
     insurance: data?.insurance || {
@@ -38,7 +39,7 @@ export default function AddProductPage({ data }) {
       mandatoryInsurance: false,
     },
   });
-
+console.log(form)
   const onChange = (e) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({ ...prevForm, [name]: value }));

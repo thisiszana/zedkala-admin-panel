@@ -15,10 +15,11 @@ import Specifications from "./Specifications";
 import UploadedImage from "./UploadedImage";
 import { MESSAGES } from "@/utils/message";
 import CustomSwitch from "./CustomSwitch";
-import {  uploadImages } from "@/utils/fun";
+import { uploadImages } from "@/utils/fun";
 import DetailedBox from "../DetailedBox";
 import CustomBtn from "../CustomBtn";
 import CustomInp from "./CustomInp";
+import DeliveryDetails from "@/components/pages/add-product/ui/DeliveryDetails";
 
 export default function ProductForm({
   type,
@@ -234,54 +235,6 @@ export default function ProductForm({
     </div>
   );
 
-  const deliveryDetails = (
-    <div className="flex flex-col sm:flex-row sm:gap-8 gap-4 w-full h-auto">
-      <div className="flex items-center w-full sm:w-auto">
-        <input
-          type="checkbox"
-          id="fastDelivery"
-          name="fastDelivery"
-          checked={form.deliveryOptions?.fastDelivery || false}
-          onChange={(e) =>
-            setForm((prev) => ({
-              ...prev,
-              deliveryOptions: {
-                ...prev.deliveryOptions,
-                fastDelivery: e.target.checked,
-              },
-            }))
-          }
-          className="h-5 w-5 mr-2"
-        />
-        <label htmlFor="fastDelivery" className="text-p1 mr-3">
-          تحویل سریع
-        </label>
-      </div>
-
-      <div className="flex items-center w-full sm:w-auto">
-        <input
-          type="checkbox"
-          id="freeDelivery"
-          name="freeDelivery"
-          checked={form.deliveryOptions?.freeDelivery || false}
-          onChange={(e) =>
-            setForm((prev) => ({
-              ...prev,
-              deliveryOptions: {
-                ...prev.deliveryOptions,
-                freeDelivery: e.target.checked,
-              },
-            }))
-          }
-          className="h-5 w-5 mr-2"
-        />
-        <label htmlFor="freeDelivery" className="text-p1 mr-3">
-          تحویل رایگان
-        </label>
-      </div>
-    </div>
-  );
-
   const handleSubmit = async () => {
     if (
       !form.title ||
@@ -349,7 +302,7 @@ export default function ProductForm({
       <DetailedBox
         title="تنضیمات تحویل"
         subtitle="تنضیمات تحویل سریع و رایگان"
-        content={deliveryDetails}
+        content={<DeliveryDetails form={form} setForm={setForm} />}
       />
       <DetailedBox
         title="گارانتی"
@@ -383,12 +336,12 @@ export default function ProductForm({
       <DetailedBox
         title="کلمات‌کلیدی"
         content={
-          <div className="w-full h-full">
+          <div className="w-full h-full mb-7 md:mb-0">
             <KeywordsSelection form={form} setForm={setForm} />
           </div>
         }
       />
-      <div className="flex items-center justify-end gap-10 space-x-8 fixed bottom-3 left-1 bg-white dark:bg-dark2 p-4 w-fit z-50 rounded-[8px]">
+      <div className="flex flex-col-reverse md:flex-row md:items-center md:justify-end gap-10 space-x-8 fixed bottom-0 left-0 md:bottom-3 md:left-1 bg-white dark:bg-dark2 p-4 w-fit z-50 rounded-[8px]">
         <div className="flex items-center gap-2">
           <CustomSwitch
             id="publish"
@@ -403,7 +356,7 @@ export default function ProductForm({
         <CustomBtn
           classNames={`${
             loading ? "bg-lightGray" : "bg-dark1 text-white"
-          } flex items-center justify-center w-[150px] dark:bg-lightGray dark:text-dark1 h-[50px] rounded-btn text-p1 font-bold`}
+          } flex items-center justify-center w-fit md:w-[150px] px-3 md:px-0 dark:bg-lightGray dark:text-dark1 h-[50px] rounded-btn text-[12px] md:text-p1 font-bold`}
           type="button"
           disabled={loading}
           isLoading={loading}
