@@ -39,7 +39,7 @@ export default function AddProductPage({ data }) {
       mandatoryInsurance: false,
     },
   });
-console.log(form)
+
   const onChange = (e) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({ ...prevForm, [name]: value }));

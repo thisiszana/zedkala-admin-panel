@@ -46,12 +46,7 @@ const deliverySchema = new Schema({
           },
         },
       ],
-      validate: {
-        validator: function (value) {
-          return value.length > 0;
-        },
-        message: "حداقل باید یک روز با بازه‌های زمانی تعیین شود.",
-      },
+      
     },
     courierService: { type: String },
     deliveryNotes: { type: String },

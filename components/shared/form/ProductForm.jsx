@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import toast from "react-hot-toast";
+import { Tabs } from "antd";
 
 import { createProduct, editProduct } from "@/actions/product.action";
 import CategoryTreeSelection from "./CategoryTreeSelection";
@@ -19,7 +20,7 @@ import { uploadImages } from "@/utils/fun";
 import DetailedBox from "../DetailedBox";
 import CustomBtn from "../CustomBtn";
 import CustomInp from "./CustomInp";
-import DeliveryDetails from "@/components/pages/add-product/ui/DeliveryDetails";
+import { Trash } from "@/components/icons/Icons";
 
 export default function ProductForm({
   type,
@@ -32,15 +33,203 @@ export default function ProductForm({
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const basicDetails = (
+  const handleSubmit = async () => {
+    if (
+      !form.title ||
+      !form.price ||
+      !form.stock ||
+      !form.categoryName ||
+      !form.subCategories ||
+      !form.brand ||
+      form.keywords.length === 0
+    )
+      return toast.error(MESSAGES.fields);
+    setLoading(() => true);
+
+    const uploadedImages = await uploadImages(form.images);
+
+    const payload = {
+      ...form,
+      images: uploadedImages,
+    };
+
+    let res;
+    if (type === "CREATE") {
+      res = await createProduct(JSON.parse(JSON.stringify(payload)));
+    } else {
+      res = await editProduct({ ...payload, id });
+    }
+
+    setLoading(() => false);
+
+    if (res.code === 200 || res.code === 201 || res.code === 202) {
+      toast.success(res.message);
+      router.push("/products");
+    } else {
+      toast.error(res.message);
+    }
+  };
+
+  const items = [
+    {
+      key: "details",
+      label: (
+        <div className="flex items-center gap-2 dark:text-white">
+          <p className="text-[14px] font-bold mr-2">جزئیات اولیه</p>
+        </div>
+      ),
+      children: (
+        <DetailedBox
+          title="جزئیات اولیه"
+          subtitle="عنوان، توضیحات، تصویر"
+          content={
+            <BasicDetails
+              form={form}
+              setForm={setForm}
+              onChange={onChange}
+              editImage={editImage}
+            />
+          }
+        />
+      ),
+    },
+    {
+      key: "categories",
+      label: (
+        <div className="flex items-center gap-2 dark:text-white mr-3">
+          <p className="text-[14px] font-bold mr-2">دسته‌بندی</p>
+        </div>
+      ),
+      children: (
+        <DetailedBox
+          title="دسته‌بندی"
+          subtitle="دسته‌بندی"
+          content={<CategoryTreeSelection form={form} setForm={setForm} />}
+        />
+      ),
+    },
+    {
+      key: "properties",
+      label: (
+        <div className="flex items-center gap-2 dark:text-white">
+          <p className="text-[14px] font-bold mr-2">ویژگی</p>
+        </div>
+      ),
+      children: (
+        <DetailedBox
+          title="ویژگی ها"
+          subtitle="قیمت، موجودی، تخفیف، ..."
+          content={
+            <Properties form={form} setForm={setForm} onChange={onChange} />
+          }
+        />
+      ),
+    },
+    {
+      key: "specifications",
+      label: (
+        <div className="flex items-center gap-2 dark:text-white">
+          <p className="text-[14px] font-bold mr-2">مشخصات</p>
+        </div>
+      ),
+      children: (
+        <DetailedBox
+          title="مشخصات"
+          subtitle="مشخصات را اضافه یا حذف کنید"
+          content={<Specifications form={form} setForm={setForm} />}
+        />
+      ),
+    },
+    {
+      key: "insurance",
+      label: (
+        <div className="flex items-center gap-2 dark:text-white">
+          <p className="text-[14px] font-bold mr-2">بیمه</p>
+        </div>
+      ),
+      children: (
+        <DetailedBox
+          title="بیمه"
+          subtitle="جزئیات بیمه محصول"
+          content={
+            <InsuranceDetails
+              form={form}
+              setForm={setForm}
+              onChange={onChange}
+            />
+          }
+        />
+      ),
+    },
+    {
+      key: "delivery",
+      label: (
+        <div className="flex items-center gap-2 dark:text-white">
+          <p className="text-[14px] font-bold mr-2">تحویل</p>
+        </div>
+      ),
+      children: (
+        <DetailedBox
+          title="تنضیمات تحویل"
+          subtitle="تنضیمات تحویل سریع و رایگان"
+          content={<DeliveryDetails form={form} setForm={setForm} />}
+        />
+      ),
+    },
+    {
+      key: "warranty",
+      label: (
+        <div className="flex items-center gap-2 dark:text-white">
+          <p className="text-[14px] font-bold mr-2">گارانتی</p>
+        </div>
+      ),
+      children: (
+        <DetailedBox
+          title="گارانتی"
+          subtitle="گارانتی، کلمات کلیدی و سیاست بازگشت کالا"
+          content={
+            <Warranty
+              form={form}
+              type={type}
+              setForm={setForm}
+              loading={loading}
+              onChange={onChange}
+              handleSubmit={handleSubmit}
+            />
+          }
+        />
+      ),
+    },
+  ];
+
+  return (
+    <div className="max-w-[1100px] mx-auto space-y-14">
+      <Tabs items={items} />
+    </div>
+  );
+}
+
+function BasicDetails({ form, setForm, onChange, editImage }) {
+  return (
     <div className="flex flex-col gap-box w-full h-full">
-      <CustomInp
-        type="text"
-        name="title"
-        label="عنوان *"
-        value={form.title}
-        onChange={onChange}
-      />
+      <div className="flex flex-wrap gap-box w-full h-full">
+        <CustomInp
+          type="text"
+          name="title"
+          label="عنوان *"
+          value={form.title}
+          onChange={onChange}
+          wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+        />
+        <CustomInp
+          type="text"
+          name="brand"
+          label="نام تجاری *"
+          value={form.brand}
+          onChange={onChange}
+          wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+        />
+      </div>
       <CustomTextarea
         type="text"
         name="description"
@@ -51,8 +240,10 @@ export default function ProductForm({
       <UploadedImage form={form} setForm={setForm} editImage={editImage} />
     </div>
   );
+}
 
-  const properties = (
+function Properties({ form, setForm, onChange }) {
+  return (
     <div className="flex flex-wrap gap-box w-full h-full">
       <CustomInp
         type="number"
@@ -105,14 +296,7 @@ export default function ProductForm({
         </div>
         <CustomDataPicker form={form} setForm={setForm} />
       </div>
-      <CustomInp
-        type="text"
-        name="brand"
-        label="نام تجاری *"
-        value={form.brand}
-        onChange={onChange}
-        wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
-      />
+
       <div className="flex items-center gap-2">
         <CustomSwitch
           id="isGrocery"
@@ -132,8 +316,57 @@ export default function ProductForm({
       </div>
     </div>
   );
+}
 
-  const insuranceDetails = (
+function Warranty({ form, setForm, onChange, handleSubmit, loading, type }) {
+  return (
+    <div className="flex flex-col gap-box w-full h-full">
+      <CustomInp
+        type="text"
+        name="warranty"
+        label="گارانتی"
+        value={form.warranty}
+        onChange={onChange}
+      />
+      <CustomTextarea
+        name="returnPolicy"
+        label="سیاست بازگشت"
+        value={form.returnPolicy || ""}
+        onChange={onChange}
+      />
+      <KeywordsSelection form={form} setForm={setForm} />
+      <div className="flex items-center justify-end gap-10 bg-white dark:bg-dark2 w-full rounded-[8px]">
+        <div className="flex items-center gap-2">
+          <CustomSwitch
+            id="publish"
+            label="منتشر شود؟"
+            checked={form.published}
+            onChange={(checked) => {
+              setForm((prevForm) => ({
+                ...prevForm,
+                published: checked,
+              }));
+            }}
+            name="published"
+          />
+        </div>
+        <CustomBtn
+          classNames={`${
+            loading ? "bg-lightGray" : "bg-dark1 text-white"
+          } flex items-center justify-center w-[100px] md:w-[150px] dark:bg-lightGray dark:text-dark1 h-[50px] rounded-btn text-[12px] md:text-p1 font-bold`}
+          type="button"
+          disabled={loading}
+          isLoading={loading}
+          onClick={handleSubmit}
+          title={type === "CREATE" ? "ایجاد محصول" : "ویرایش محصول"}
+        />
+      </div>
+    </div>
+  );
+}
+
+function InsuranceDetails({ form, setForm, onChange }) {
+  return (
     <div className="flex flex-wrap gap-box w-full h-full">
       <div className="flex flex-wrap gap-box">
         <CustomInp
@@ -234,136 +467,263 @@ export default function ProductForm({
       </div>
     </div>
   );
+}
 
-  const handleSubmit = async () => {
-    if (
-      !form.title ||
-      !form.price ||
-      !form.stock ||
-      !form.categoryName ||
-      !form.subCategories ||
-      !form.brand ||
-      form.keywords.length === 0
-    )
-      return toast.error(MESSAGES.fields);
-    setLoading(() => true);
+function DeliveryDetails({ form, setForm }) {
+  const [newDay, setNewDay] = useState("");
+  const [timeSlots, setTimeSlots] = useState({});
+  const [newTimeSlot, setNewTimeSlot] = useState({
+    startTime: "",
+    endTime: "",
+  });
 
-    const uploadedImages = await uploadImages(form.images);
+  const handleAddDay = () => {
+    if (!newDay.trim()) return;
+    setForm((prev) => ({
+      ...prev,
+      deliveryOptions: {
+        ...prev.deliveryOptions,
+        estimatedDeliveryTime: [
+          ...(prev.deliveryOptions?.estimatedDeliveryTime || []),
+          { day: newDay, timeSlots: [] },
+        ],
+      },
+    }));
+    setNewDay("");
+  };
 
-    const payload = {
-      ...form,
-      images: uploadedImages,
-    };
+  const handleAddTimeSlot = (day) => {
+    if (!newTimeSlot.startTime || !newTimeSlot.endTime) return;
+    setForm((prev) => ({
+      ...prev,
+      deliveryOptions: {
+        ...prev.deliveryOptions,
+        estimatedDeliveryTime: prev.deliveryOptions?.estimatedDeliveryTime.map(
+          (item) =>
+            item.day === day
+              ? {
+                  ...item,
+                  timeSlots: [...item.timeSlots, newTimeSlot],
+                }
+              : item
+        ),
+      },
+    }));
+    setNewTimeSlot({ startTime: "", endTime: "" });
+  };
 
-    let res;
-    if (type === "CREATE") {
-      res = await createProduct(JSON.parse(JSON.stringify(payload)));
-    } else {
-      res = await editProduct({ ...payload, id });
-    }
+  const handleRemoveDay = (day) => {
+    setForm((prev) => ({
+      ...prev,
+      deliveryOptions: {
+        ...prev.deliveryOptions,
+        estimatedDeliveryTime:
+          prev.deliveryOptions?.estimatedDeliveryTime.filter(
+            (item) => item.day !== day
+          ),
+      },
+    }));
+  };
 
-    setLoading(() => false);
-
-    if (res.code === 200 || res.code === 201 || res.code === 202) {
-      toast.success(res.message);
-      router.push("/products");
-    } else {
-      toast.error(res.message);
-    }
+  const handleRemoveTimeSlot = (day, idx) => {
+    setForm((prev) => ({
+      ...prev,
+      deliveryOptions: {
+        ...prev.deliveryOptions,
+        estimatedDeliveryTime: prev.deliveryOptions?.estimatedDeliveryTime.map(
+          (item) =>
+            item.day === day
+              ? {
+                  ...item,
+                  timeSlots: item.timeSlots.filter((_, i) => i !== idx),
+                }
+              : item
+        ),
+      },
+    }));
   };
 
   return (
-    <div className="space-y-8 relative">
-      <DetailedBox
-        title="جزئیات اولیه"
-        subtitle="عنوان، توضیحات، تصویر"
-        content={basicDetails}
-      />
-      <DetailedBox
-        title="دسته‌بندی"
-        subtitle="دسته‌بندی"
-        content={<CategoryTreeSelection form={form} setForm={setForm} />}
-      />
-      <DetailedBox
-        title="ویژگی ها"
-        subtitle="قیمت، موجودی، تخفیف، ..."
-        content={properties}
-      />
-      <DetailedBox
-        title="مشخصات"
-        subtitle="مشخصات را اضافه یا حذف کنید"
-        content={<Specifications form={form} setForm={setForm} />}
-      />
-      <DetailedBox
-        title="بیمه"
-        subtitle="جزئیات بیمه محصول"
-        content={insuranceDetails}
-      />
-      <DetailedBox
-        title="تنضیمات تحویل"
-        subtitle="تنضیمات تحویل سریع و رایگان"
-        content={<DeliveryDetails form={form} setForm={setForm} />}
-      />
-      <DetailedBox
-        title="گارانتی"
-        subtitle="مشخصات گارانتی"
-        content={
-          <div className="flex flex-col gap-box w-full h-full">
-            <CustomInp
-              type="text"
-              name="warranty"
-              label="گارانتی"
-              value={form.warranty}
-              onChange={onChange}
-            />
-          </div>
+    <div className="flex flex-col gap-8 w-full h-auto p-6">
+      <div className="flex flex-col sm:flex-row sm:gap-8 gap-4 w-full">
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            id="fastDelivery"
+            name="fastDelivery"
+            checked={form.deliveryOptions?.fastDelivery || false}
+            onChange={(e) =>
+              setForm((prev) => ({
+                ...prev,
+                deliveryOptions: {
+                  ...prev.deliveryOptions,
+                  fastDelivery: e.target.checked,
+                },
+              }))
+            }
+            className="h-5 w-5 mr-2 accent-blue-500"
+          />
+          <label
+            htmlFor="fastDelivery"
+            className="text-sm font-medium text-gray-700 mr-3 text-[14px]"
+          >
+            تحویل سریع
+          </label>
+        </div>
+
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            id="freeDelivery"
+            name="freeDelivery"
+            checked={form.deliveryOptions?.freeDelivery || false}
+            onChange={(e) =>
+              setForm((prev) => ({
+                ...prev,
+                deliveryOptions: {
+                  ...prev.deliveryOptions,
+                  freeDelivery: e.target.checked,
+                },
+              }))
+            }
+            className="h-5 w-5 mr-2 accent-green-500"
+          />
+          <label
+            htmlFor="freeDelivery"
+            className="text-sm font-medium text-gray-700 mr-3 text-[14px"
+          >
+            تحویل رایگان
+          </label>
+        </div>
+      </div>
+
+      <CustomInp
+        type="number"
+        id="deliveryFee"
+        name="deliveryFee"
+        label="هزینه ارسال"
+        disabled={form.deliveryOptions?.freeDelivery}
+        value={form.deliveryOptions?.deliveryFee || ""}
+        onChange={(e) =>
+          setForm((prev) => ({
+            ...prev,
+            deliveryOptions: {
+              ...prev.deliveryOptions,
+              deliveryFee: e.target.value,
+            },
+          }))
         }
       />
-      <DetailedBox
-        title="سیاست بازگشت"
-        subtitle="سیاست بازگشت کالا را مشخص کنید"
-        content={
-          <div className="flex flex-col gap-box w-full h-full">
-            <CustomTextarea
-              name="returnPolicy"
-              label="سیاست بازگشت"
-              value={form.returnPolicy || ""}
-              onChange={onChange}
-            />
-          </div>
-        }
-      />
-      <DetailedBox
-        title="کلمات‌کلیدی"
-        content={
-          <div className="w-full h-full mb-7 md:mb-0">
-            <KeywordsSelection form={form} setForm={setForm} />
-          </div>
-        }
-      />
-      <div className="flex flex-col-reverse md:flex-row md:items-center md:justify-end gap-10 space-x-8 fixed bottom-0 left-0 md:bottom-3 md:left-1 bg-white dark:bg-dark2 p-4 w-fit z-50 rounded-[8px]">
-        <div className="flex items-center gap-2">
-          <CustomSwitch
-            id="publish"
-            label="منتشر شود؟"
-            checked={form.published}
-            onChange={(checked) => {
-              setForm((prevForm) => ({ ...prevForm, published: checked }));
-            }}
-            name="published"
+
+      <div className="flex flex-col gap-6">
+        <div className="flex items-center gap-4">
+          <CustomInp
+            type="text"
+            label="روز جدید را وارد کنید"
+            value={newDay}
+            onChange={(e) => setNewDay(e.target.value)}
+          />
+          <CustomBtn
+            title="افزودن"
+            onClick={handleAddDay}
+            disabled={!newDay.trim()}
+            classNames="flex items-center justify-center px-4 h-[50px] w-fit bg-dark1 text-white dark:bg-lightGray dark:text-dark1  rounded-btn text-[12px] "
           />
         </div>
-        <CustomBtn
-          classNames={`${
-            loading ? "bg-lightGray" : "bg-dark1 text-white"
-          } flex items-center justify-center w-fit md:w-[150px] px-3 md:px-0 dark:bg-lightGray dark:text-dark1 h-[50px] rounded-btn text-[12px] md:text-p1 font-bold`}
-          type="button"
-          disabled={loading}
-          isLoading={loading}
-          onClick={handleSubmit}
-          title={type === "CREATE" ? "ایجاد محصول" : "ویرایش محصول"}
-        />
+        <div>
+          {form.deliveryOptions?.estimatedDeliveryTime?.map((day, index) => (
+            <div key={index} className="mb-6 border-b pb-4">
+              <div className="flex items-center gap-5">
+                <h4 className="text-md font-semibold">{day.day}</h4>
+                <CustomBtn
+                  icon={<Trash size={16} />}
+                  onClick={() => handleRemoveDay(day.day)}
+                  classNames="text-[20px] text-red-500"
+                />
+              </div>
+
+              <div className="ml-4 mt-2">
+                {day.timeSlots.map((slot, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center gap-4 text-sm text-gray-600 mb-3"
+                  >
+                    <span>
+                      {slot.startTime} - {slot.endTime}
+                    </span>
+                    <CustomBtn
+                      icon={<Trash size={16} />}
+                      onClick={() => handleRemoveTimeSlot(day.day, idx)}
+                      classNames="text-[16px] text-red-400"
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-2 flex gap-2 flex-col md:flex-row">
+                <CustomInp
+                  type="time"
+                  value={newTimeSlot.startTime}
+                  onChange={(e) =>
+                    setNewTimeSlot((prev) => ({
+                      ...prev,
+                      startTime: e.target.value,
+                    }))
+                  }
+                />
+                <CustomInp
+                  type="time"
+                  value={newTimeSlot.endTime}
+                  onChange={(e) =>
+                    setNewTimeSlot((prev) => ({
+                      ...prev,
+                      endTime: e.target.value,
+                    }))
+                  }
+                />
+                <CustomBtn
+                  title="افزودن"
+                  onClick={() => handleAddTimeSlot(day.day)}
+                  classNames="flex items-center justify-center px-4 h-[50px] w-fit bg-dark1 text-white dark:bg-lightGray dark:text-dark1  rounded-btn text-[12px] "
+                />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
+
+      <CustomInp
+        type="text"
+        id="courierService"
+        name="courierService"
+        label="سرویس پستی"
+        value={form.deliveryOptions?.courierService || ""}
+        onChange={(e) =>
+          setForm((prev) => ({
+            ...prev,
+            deliveryOptions: {
+              ...prev.deliveryOptions,
+              courierService: e.target.value,
+            },
+          }))
+        }
+      />
+      <CustomTextarea
+        id="deliveryNotes"
+        name="deliveryNotes"
+        label=" توضیحات ارسال"
+        value={form.deliveryOptions?.deliveryNotes || ""}
+        onChange={(e) =>
+          setForm((prev) => ({
+            ...prev,
+            deliveryOptions: {
+              ...prev.deliveryOptions,
+              deliveryNotes: e.target.value,
+            },
+          }))
+        }
+        className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
     </div>
   );
 }
