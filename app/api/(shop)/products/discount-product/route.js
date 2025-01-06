@@ -15,7 +15,7 @@ export async function GET(req) {
 
   try {
     const productsDiscount = await ZedkalaProducts.find()
-      .sort({ discount: -1 }, { createdAt: -1 })
+      .sort({ discount: -1, createdAt: -1 })
       .limit(10)
       .lean();
     const response = NextResponse.json(
