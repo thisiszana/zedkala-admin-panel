@@ -203,7 +203,7 @@ export default function ProductForm({
   ];
 
   return (
-    <div >
+    <div>
       <Tabs items={items} />
     </div>
   );
@@ -570,6 +570,30 @@ function DeliveryDetails({ form, setForm }) {
             تحویل سریع
           </label>
         </div>
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            id="fastDelivery"
+            name="fastDelivery"
+            checked={form.deliveryOptions?.shippingToday || false}
+            onChange={(e) =>
+              setForm((prev) => ({
+                ...prev,
+                deliveryOptions: {
+                  ...prev.deliveryOptions,
+                  shippingToday: e.target.checked,
+                },
+              }))
+            }
+            className="h-5 w-5 mr-2 accent-red-500"
+          />
+          <label
+            htmlFor="fastDelivery"
+            className="text-sm font-medium text-gray-700 mr-3 text-[14px]"
+          >
+            تحویل امروز
+          </label>
+        </div>
 
         <div className="flex items-center">
           <input
@@ -621,12 +645,13 @@ function DeliveryDetails({ form, setForm }) {
             type="text"
             label="روز جدید را وارد کنید"
             value={newDay}
+            disabled={form.deliveryOptions?.shippingToday}
             onChange={(e) => setNewDay(e.target.value)}
           />
           <CustomBtn
             title="افزودن"
             onClick={handleAddDay}
-            disabled={!newDay.trim()}
+            disabled={!newDay.trim() || form.deliveryOptions?.shippingToday}
             classNames="flex items-center justify-center px-4 h-[50px] w-fit bg-dark1 text-white dark:bg-lightGray dark:text-dark1  rounded-btn text-[12px] "
           />
         </div>

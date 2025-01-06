@@ -4,6 +4,7 @@ const deliverySchema = new Schema({
   deliveryOptions: {
     fastDelivery: { type: Boolean, default: false },
     freeDelivery: { type: Boolean, default: false },
+    shippingToday: { type: Boolean, default: false },
     deliveryFee: {
       type: Number,
       default: 0,
