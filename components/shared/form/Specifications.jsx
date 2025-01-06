@@ -152,6 +152,7 @@ export default function Specifications({ form, setForm }) {
         icon={<Trash />}
         classNames="bg-red-500 text-white px-4 py-[18px] rounded-[10px]"
         onClick={() => handleRemoveSpecification(index)}
+        disabled={index <= 0}
       />
     </div>
   ));

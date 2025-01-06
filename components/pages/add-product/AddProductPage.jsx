@@ -11,6 +11,7 @@ export default function AddProductPage({ data }) {
     slug: data?.slug || "",
     description: data?.description || "",
     introduction: data?.introduction || {},
+    expertReview: data?.expertReview || [{ title: "", description: "" }],
     images: [],
     price: data?.price || 0,
     stock: data?.stock || 0,

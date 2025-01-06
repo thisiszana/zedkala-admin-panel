@@ -34,6 +34,7 @@ export const createProduct = async (data) => {
     const {
       title,
       description,
+      expertReview,
       introduction,
       images,
       price,
@@ -58,6 +59,7 @@ export const createProduct = async (data) => {
     const newProduct = await ZedkalaProducts.create({
       title,
       description,
+      expertReview,
       introduction,
       images,
       price,
@@ -357,6 +359,7 @@ export const editProduct = async (data) => {
       title,
       slug,
       description,
+      expertReview,
       introduction,
       images,
       price,
@@ -446,6 +449,7 @@ export const editProduct = async (data) => {
     product.title = title;
     product.slug = slug;
     product.description = description;
+    product.expertReview = expertReview;
     product.introduction = introduction;
     product.images = newImage;
     product.price = price;

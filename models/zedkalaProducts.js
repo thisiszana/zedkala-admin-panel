@@ -57,7 +57,16 @@ const productSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, default: "" },
   images: { type: [String] },
-  introduction: { type: { title: "", description: "" } },
+  introduction: {
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+  },
+  expertReview: [
+    {
+      title: { type: String, required: true },
+      description: { type: String, required: true },
+    },
+  ],
   price: { type: Number, required: true },
   stock: { type: Number, required: true },
   discount: {

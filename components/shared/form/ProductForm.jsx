@@ -21,6 +21,7 @@ import DetailedBox from "../DetailedBox";
 import CustomBtn from "../CustomBtn";
 import CustomInp from "./CustomInp";
 import { Trash } from "@/components/icons/Icons";
+import ExpertReview from "@/components/pages/add-product/ui/ExpertReview";
 
 export default function ProductForm({
   type,
@@ -140,11 +141,18 @@ export default function ProductForm({
         </div>
       ),
       children: (
-        <DetailedBox
-          title="مشخصات"
-          subtitle="مشخصات را اضافه یا حذف کنید"
-          content={<Specifications form={form} setForm={setForm} />}
-        />
+        <div className="space-y-8">
+          <DetailedBox
+            title="مشخصات"
+            subtitle="مشخصات را اضافه یا حذف کنید"
+            content={<Specifications form={form} setForm={setForm} />}
+          />
+          <DetailedBox
+            title="بررسی"
+            subtitle="بررسی تخصصی محصول"
+            content={<ExpertReview form={form} setForm={setForm} />}
+          />
+        </div>
       ),
     },
     {
