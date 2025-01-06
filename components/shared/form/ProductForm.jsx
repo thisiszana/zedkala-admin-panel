@@ -79,18 +79,25 @@ export default function ProductForm({
         </div>
       ),
       children: (
-        <DetailedBox
-          title="جزئیات اولیه"
-          subtitle="عنوان، توضیحات، تصویر"
-          content={
-            <BasicDetails
-              form={form}
-              setForm={setForm}
-              onChange={onChange}
-              editImage={editImage}
-            />
-          }
-        />
+        <div className="space-y-8">
+          <DetailedBox
+            title="جزئیات اولیه"
+            subtitle="عنوان، توضیحات، تصویر"
+            content={
+              <BasicDetails
+                form={form}
+                setForm={setForm}
+                onChange={onChange}
+                editImage={editImage}
+              />
+            }
+          />
+          <DetailedBox
+            title="معرفی"
+            subtitle="معرفی محصول"
+            content={<IntroductionDetails form={form} onChange={onChange} />}
+          />
+        </div>
       ),
     },
     {
@@ -238,6 +245,28 @@ function BasicDetails({ form, setForm, onChange, editImage }) {
         onChange={onChange}
       />
       <UploadedImage form={form} setForm={setForm} editImage={editImage} />
+    </div>
+  );
+}
+
+function IntroductionDetails({ form, onChange }) {
+  return (
+    <div className="flex flex-col gap-box w-full h-full">
+      <CustomInp
+        type="text"
+        name="title"
+        label="عنوان"
+        value={form.introduction?.title}
+        onChange={onChange}
+        wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+      />
+      <CustomTextarea
+        type="text"
+        name="description"
+        label="توضیحات"
+        value={form.introduction?.description}
+        onChange={onChange}
+      />
     </div>
   );
 }

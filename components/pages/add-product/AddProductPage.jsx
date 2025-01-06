@@ -10,6 +10,7 @@ export default function AddProductPage({ data }) {
     title: data?.title || "",
     slug: data?.slug || "",
     description: data?.description || "",
+    introduction: data?.introduction || {},
     images: [],
     price: data?.price || 0,
     stock: data?.stock || 0,

@@ -57,6 +57,7 @@ const productSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, default: "" },
   images: { type: [String] },
+  introduction: { type: { title: "", description: "" } },
   price: { type: Number, required: true },
   stock: { type: Number, required: true },
   discount: {
@@ -74,11 +75,11 @@ const productSchema = new Schema({
   subCategories: [
     {
       name: { type: String, required: true },
-      slug:{ type: String, required: true, },
+      slug: { type: String, required: true },
       items: {
         type: [
           {
-            name: { type: String, required: true, },
+            name: { type: String, required: true },
             slug: { type: String, required: true },
           },
         ],
