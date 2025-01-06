@@ -33,7 +33,7 @@ const deliverySchema = new Schema({
           timeSlots: {
             type: [
               {
-                startTime: { type: String, required: true }, 
+                startTime: { type: String, required: true },
                 endTime: { type: String, required: true },
               },
             ],
@@ -46,7 +46,6 @@ const deliverySchema = new Schema({
           },
         },
       ],
-      
     },
     courierService: { type: String },
     deliveryNotes: { type: String },
@@ -74,7 +73,16 @@ const productSchema = new Schema({
   subCategories: [
     {
       name: { type: String, required: true },
-      items: { type: [String], default: [] },
+      slug:{ type: String, required: true, },
+      items: {
+        type: [
+          {
+            name: { type: String, required: true, },
+            slug: { type: String, required: true },
+          },
+        ],
+        default: [],
+      },
     },
   ],
   isGrocery: {

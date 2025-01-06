@@ -17,7 +17,7 @@ export default function ProductAction({ id }) {
       />
       <div className="flex items-center gap-3">
         <Tooltip placement="bottom" title="زنده">
-          <Link href="/" target="_blank">
+          <Link href={`${process.env.REMOTE_API}product/${id}`} target="_blank">
             <CustomBtn
               icon={<EyeOpen className="text-darkGray" />}
               classNames="iconButton"

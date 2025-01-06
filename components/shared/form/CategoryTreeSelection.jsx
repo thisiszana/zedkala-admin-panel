@@ -28,13 +28,22 @@ export default function CategoryTreeSelection({ form, setForm }) {
                 sub.name === selectedNode.parentTitle
                   ? {
                       ...sub,
-                      items: [...new Set([...sub.items, selectedNode.title])],
+                      items: [
+                        ...new Set([
+                          ...sub.items,
+                          { name: selectedNode.title, slug: selectedNode.key },
+                        ]),
+                      ],
                     }
                   : sub
               )
             : [
                 ...prevForm.subCategories,
-                { name: selectedNode.parentTitle, items: [selectedNode.title] },
+                {
+                  name: selectedNode.parentTitle,
+                  slug: selectedNode.key,
+                  items: [{ name: selectedNode.title, slug: selectedNode.key }],
+                },
               ],
         };
       });
@@ -50,7 +59,7 @@ export default function CategoryTreeSelection({ form, setForm }) {
               ...prevForm,
               subCategories: [
                 ...prevForm.subCategories,
-                { name: selectedNode.title, items: [] },
+                { name: selectedNode.title, slug: selectedNode.key, items: [] },
               ],
             };
       });
@@ -76,6 +85,7 @@ export default function CategoryTreeSelection({ form, setForm }) {
   };
 
   const handleSubCategoryChange = (selectedValues) => {
+    console.log(selectedValues);
     setForm((prevForm) => ({
       ...prevForm,
       subCategories: selectedValues.map((sub) => ({
@@ -89,7 +99,15 @@ export default function CategoryTreeSelection({ form, setForm }) {
     setForm((prevForm) => ({
       ...prevForm,
       subCategories: prevForm.subCategories.map((sub) =>
-        sub.name === subCategoryName ? { ...sub, items: selectedValues } : sub
+        sub.name === subCategoryName
+          ? {
+              ...sub,
+              items: selectedValues.map((value) => {
+                const [name, slug] = value.split("|");
+                return { name, slug };
+              }),
+            }
+          : sub
       ),
     }));
   };
@@ -112,13 +130,13 @@ export default function CategoryTreeSelection({ form, setForm }) {
           children:
             cat.subcategories?.map((sub) => ({
               title: sub.name,
-              key: `${cat.slug}-${sub.name}`,
+              key: sub.slug,
               parentTitle: cat.name,
               children:
                 sub.items?.map((item, index) => ({
                   title:
                     typeof item === "string" ? item : item.name || "بدون نام",
-                  key: `${cat.slug}-${sub.name}-${index}`,
+                  key: item.slug,
                   isLeaf: true,
                   parentTitle: sub.name,
                 })) || [],
@@ -186,15 +204,18 @@ export default function CategoryTreeSelection({ form, setForm }) {
             placeholder={`انتخاب آیتم‌های زیر‌دسته ${sub.name}`}
             mode="multiple"
             onChange={(value) => handleItemChange(sub.name, value)}
-            value={sub.items}
+            value={sub.items.map((item) => `${item.name}|${item.slug}`)}
             maxTagCount={2}
             style={{ width: "100%", marginBottom: 10 }}
           >
             {categories
               .find((cat) => cat.name === form.categoryName)
               ?.subcategories.find((s) => s.name === sub.name)
-              ?.items.map((item, index) => (
-                <Option key={index} value={item.name}>
+              ?.items.map((item) => (
+                <Option
+                  key={`${item.name}|${item.slug}`}
+                  value={`${item.name}|${item.slug}`}
+                >
                   {item.name}
                 </Option>
               ))}
