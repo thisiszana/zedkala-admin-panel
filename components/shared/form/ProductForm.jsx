@@ -203,7 +203,7 @@ export default function ProductForm({
   ];
 
   return (
-    <div className="max-w-[1100px] mx-auto space-y-14">
+    <div >
       <Tabs items={items} />
     </div>
   );
@@ -335,7 +335,7 @@ function Warranty({ form, setForm, onChange, handleSubmit, loading, type }) {
         onChange={onChange}
       />
       <KeywordsSelection form={form} setForm={setForm} />
-      <div className="flex items-center justify-end gap-10 bg-white dark:bg-dark2 w-full rounded-[8px]">
+      <div className="flex items-center justify-end gap-10 w-full rounded-[8px]">
         <div className="flex items-center gap-2">
           <CustomSwitch
             id="publish"

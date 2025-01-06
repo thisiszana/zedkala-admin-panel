@@ -1,4 +1,5 @@
 import { Schema, models, model } from "mongoose";
+import slugify from "slugify";
 
 const categorySchema = new Schema({
   name: {
@@ -39,9 +40,17 @@ const categorySchema = new Schema({
   subcategories: [
     {
       name: String,
+      slug: {
+        type: String,
+        unique: true,
+      },
       items: [
         {
           name: String,
+          slug: {
+            type: String,
+            unique: true,
+          },
           image: String,
         },
       ],
@@ -66,6 +75,74 @@ categorySchema.index(
     default_language: "persian",
   }
 );
+
+categorySchema.index(
+  {
+    name: "text",
+    slug: "text",
+  },
+  {
+    default_language: "persian",
+  }
+);
+
+categorySchema.pre("save", function (next) {
+  if (this.isModified("name")) {
+    this.slug = slugify(this.name, { lower: true, strict: true });
+  }
+
+  if (this.subcategories) {
+    this.subcategories.forEach((subcategory) => {
+      if (!subcategory.slug) {
+        subcategory.slug = slugify(subcategory.name, {
+          lower: true,
+          strict: true,
+        });
+      }
+
+      if (subcategory.items) {
+        subcategory.items.forEach((item) => {
+          if (!item.slug) {
+            item.slug = slugify(item.name, { lower: true, strict: true });
+          }
+        });
+      }
+    });
+  }
+
+  next();
+});
+
+categorySchema.pre("findOneAndUpdate", async function (next) {
+  const update = this.getUpdate();
+
+  if (update.name) {
+    update.slug = slugify(update.name, { lower: true, strict: true });
+  }
+
+  if (update.subcategories) {
+    update.subcategories = update.subcategories.map((subcategory) => {
+      if (subcategory.name && !subcategory.slug) {
+        subcategory.slug = slugify(subcategory.name, {
+          lower: true,
+          strict: true,
+        });
+      }
+
+      if (subcategory.items) {
+        subcategory.items = subcategory.items.map((item) => {
+          if (item.name && !item.slug) {
+            item.slug = slugify(item.name, { lower: true, strict: true });
+          }
+          return item;
+        });
+      }
+      return subcategory;
+    });
+  }
+
+  next();
+});
 
 export const ZedkalaCategory =
   models.ZedkalaCategory || model("ZedkalaCategory", categorySchema);
