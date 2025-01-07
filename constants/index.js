@@ -271,6 +271,16 @@ export const profileLinks = [
   },
 ];
 
+export const tabsAddProduct = [
+  { key: "details", title: "جزئیات اولیه" },
+  { key: "categories", title: "دسته‌بندی" },
+  { key: "properties", title: "ویژگی" },
+  { key: "specifications", title: "مشخصات" },
+  { key: "insurance", title: "بیمه" },
+  { key: "delivery", title: "تحویل" },
+  { key: "warranty", title: "گارانتی" },
+];
+
 export const notifications = [
   {
     key: "1",

@@ -5,13 +5,12 @@ import { useEffect, useState } from "react";
 import { Modal, Input, Tooltip, Select } from "antd";
 import { SketchPicker } from "react-color";
 
+import Specification from "@/components/pages/add-product/ui/Specification";
 import { Trash } from "@/components/icons/Icons";
 import { sizesDefault } from "@/constants";
 import CustomBtn from "../CustomBtn";
-import CustomInp from "./CustomInp";
 
 export default function Specifications({ form, setForm }) {
-  const [specifications, setSpecifications] = useState(form.specifications);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentColor, setCurrentColor] = useState("#fff");
   const [selectedSize, setSelectedSize] = useState("");
@@ -20,7 +19,6 @@ export default function Specifications({ form, setForm }) {
   const [newColor, setNewColor] = useState("");
   const [colors, setColors] = useState([]);
   const [sizes, setSizes] = useState([]);
-
 
   useEffect(() => {
     setColors(form.colors || []);
@@ -66,39 +64,6 @@ export default function Specifications({ form, setForm }) {
     localStorage.setItem("colors", JSON.stringify(updatedColors));
   };
 
-  const handleAddSpecification = () => {
-    const allLabelsFilled = specifications.every(
-      (spec) => spec.label.trim() !== ""
-    );
-
-    if (allLabelsFilled) {
-      setSpecifications([...specifications, { label: "", value: "" }]);
-    }
-  };
-
-  const handleRemoveSpecification = (index) => {
-    const updatedSpecifications = specifications.filter((_, i) => i !== index);
-    setSpecifications(updatedSpecifications);
-    setForm({
-      ...form,
-      specifications: updatedSpecifications,
-    });
-  };
-
-  const handleSpecificationChange = (index, field, value) => {
-    const updatedSpecifications = [...specifications];
-    updatedSpecifications[index][field] = value;
-    setSpecifications(updatedSpecifications);
-    setForm({
-      ...form,
-      specifications: updatedSpecifications,
-    });
-  };
-
-  const canAddSpecification = specifications.every(
-    (spec) => spec.label.trim() !== ""
-  );
-
   const handleAddSize = () => {
     if (selectedSize && !sizes.includes(selectedSize)) {
       const updatedSizes = [...sizes, selectedSize];
@@ -125,52 +90,9 @@ export default function Specifications({ form, setForm }) {
     setForm({ ...form, sizes: updatedSizes });
   };
 
-  const specificationFields = specifications.map((spec, index) => (
-    <div key={index} className="flex flex-col sm:flex-row gap-4 items-center ">
-      <CustomInp
-        type="text"
-        name={`spec-label-${index}`}
-        value={spec.label}
-        label="برچسب"
-        onChange={(e) =>
-          handleSpecificationChange(index, "label", e.target.value)
-        }
-        wrapperClassName="flex flex-5"
-      />
-      <CustomInp
-        type="text"
-        name={`spec-value-${index}`}
-        value={spec.value}
-        label="مقدار"
-        onChange={(e) =>
-          handleSpecificationChange(index, "value", e.target.value)
-        }
-        wrapperClassName="flex flex-5"
-      />
-      <CustomBtn
-        type="button"
-        icon={<Trash />}
-        classNames="bg-red-500 text-white px-4 py-[18px] rounded-[10px]"
-        onClick={() => handleRemoveSpecification(index)}
-        disabled={index <= 0}
-      />
-    </div>
-  ));
-
   return (
     <div className="w-full flex flex-col 2xl:flex-row justify-between items-center gap-8 lg:gap-20">
-      <div className="flex flex-col gap-4 flex-5">
-        {specificationFields}
-        <CustomBtn
-          classNames={`bg-dark1 dark:bg-white dark:text-dark1 text-white px-4 py-2 rounded ${
-            !canAddSpecification ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-          type="button"
-          onClick={handleAddSpecification}
-          title="اضافه"
-          disabled={!canAddSpecification}
-        />
-      </div>
+      <Specification form={form} setForm={setForm} />
       <div className="flex flex-col gap-4 items-center">
         <SketchPicker
           color={currentColor}
@@ -212,7 +134,7 @@ export default function Specifications({ form, setForm }) {
             onChange={(value) => setSelectedSize(value)}
             style={{ width: "100%", maxWidth: 200 }}
           >
-            {sizesDefault.map((size,index) => (
+            {sizesDefault.map((size, index) => (
               <Select.Option key={index} value={size}>
                 {size}
               </Select.Option>

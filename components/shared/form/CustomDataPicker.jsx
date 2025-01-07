@@ -18,7 +18,7 @@ export default function CustomDataPicker({ form, setForm }) {
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-4 flex-1 dark:bg-dark1">
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col md:flex-row md:items-center gap-4">
         <label className="text-gray-600 text-[14px] dark:text-white">
           تاریخ شروع تخفیف
         </label>
@@ -35,7 +35,7 @@ export default function CustomDataPicker({ form, setForm }) {
           calendarPosition="bottom-right"
         />
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col md:flex-row md:items-center gap-4">
         <label className="text-gray-600 text-[14px] dark:text-white">
           تاریخ انقضای تخفیف
         </label>

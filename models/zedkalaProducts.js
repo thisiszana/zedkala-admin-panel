@@ -129,8 +129,13 @@ const productSchema = new Schema({
   createdBy: { type: Schema.Types.ObjectId, ref: "ZedkalaAdmin" },
   specifications: [
     {
-      label: { type: String, required: true },
-      value: { type: String, required: true },
+      title: { type: String, required: true },
+      items: [
+        {
+          label: { type: String, required: true },
+          value: { type: String, required: true },
+        },
+      ],
     },
   ],
   orders: [

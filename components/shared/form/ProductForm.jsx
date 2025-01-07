@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import toast from "react-hot-toast";
-import { Tabs } from "antd";
 
+import ExpertReview from "@/components/pages/add-product/ui/ExpertReview";
 import { createProduct, editProduct } from "@/actions/product.action";
 import CategoryTreeSelection from "./CategoryTreeSelection";
 import KeywordsSelection from "./KeywordsSelection";
@@ -21,7 +21,7 @@ import DetailedBox from "../DetailedBox";
 import CustomBtn from "../CustomBtn";
 import CustomInp from "./CustomInp";
 import { Trash } from "@/components/icons/Icons";
-import ExpertReview from "@/components/pages/add-product/ui/ExpertReview";
+import { tabsAddProduct } from "@/constants";
 
 export default function ProductForm({
   type,
@@ -31,8 +31,17 @@ export default function ProductForm({
   editImage,
   id,
 }) {
+  const [selectedTab, setSelectedTab] = useState(0);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const handleNext = () => {
+    if (selectedTab < tabsAddProduct.length - 1) setSelectedTab(selectedTab + 1);
+  };
+
+  const handleBack = () => {
+    if (selectedTab > 0) setSelectedTab(selectedTab - 1);
+  };
 
   const handleSubmit = async () => {
     if (
@@ -43,9 +52,11 @@ export default function ProductForm({
       !form.subCategories ||
       !form.brand ||
       form.keywords.length === 0
-    )
+    ) {
       return toast.error(MESSAGES.fields);
-    setLoading(() => true);
+    }
+
+    setLoading(true);
 
     const uploadedImages = await uploadImages(form.images);
 
@@ -61,7 +72,7 @@ export default function ProductForm({
       res = await editProduct({ ...payload, id });
     }
 
-    setLoading(() => false);
+    setLoading(false);
 
     if (res.code === 200 || res.code === 201 || res.code === 202) {
       toast.success(res.message);
@@ -71,15 +82,24 @@ export default function ProductForm({
     }
   };
 
-  const items = [
-    {
-      key: "details",
-      label: (
-        <div className="flex items-center gap-2 dark:text-white">
-          <p className="text-[14px] font-bold mr-2">جزئیات اولیه</p>
-        </div>
-      ),
-      children: (
+  return (
+    <div className="w-full p-4 space-y-4">
+      <div className="flex flex-wrap gap-3 pb-3 items-center overflow-x-auto border-b w-fit">
+        {tabsAddProduct.map((tab, index) => (
+          <CustomBtn
+            key={tab.key}
+            title={tab.title}
+            classNames={`px-2 py-1 rounded-btn text-[12px] ${
+              selectedTab === index
+                ? "bg-dark1 text-white dark:bg-dark2 "
+                : "bg-gray-200 dark:text-dark1"
+            }`}
+            onClick={() => setSelectedTab(index)}
+          />
+        ))}
+      </div>
+
+      {selectedTab === 0 && (
         <div className="space-y-8">
           <DetailedBox
             title="جزئیات اولیه"
@@ -99,48 +119,24 @@ export default function ProductForm({
             content={<IntroductionDetails form={form} onChange={onChange} />}
           />
         </div>
-      ),
-    },
-    {
-      key: "categories",
-      label: (
-        <div className="flex items-center gap-2 dark:text-white mr-3">
-          <p className="text-[14px] font-bold mr-2">دسته‌بندی</p>
-        </div>
-      ),
-      children: (
+      )}
+      {selectedTab === 1 && (
         <DetailedBox
           title="دسته‌بندی"
           subtitle="دسته‌بندی"
           content={<CategoryTreeSelection form={form} setForm={setForm} />}
         />
-      ),
-    },
-    {
-      key: "properties",
-      label: (
-        <div className="flex items-center gap-2 dark:text-white">
-          <p className="text-[14px] font-bold mr-2">ویژگی</p>
-        </div>
-      ),
-      children: (
+      )}
+      {selectedTab === 2 && (
         <DetailedBox
-          title="ویژگی ها"
+          title="ویژگی‌ها"
           subtitle="قیمت، موجودی، تخفیف، ..."
           content={
             <Properties form={form} setForm={setForm} onChange={onChange} />
           }
         />
-      ),
-    },
-    {
-      key: "specifications",
-      label: (
-        <div className="flex items-center gap-2 dark:text-white">
-          <p className="text-[14px] font-bold mr-2">مشخصات</p>
-        </div>
-      ),
-      children: (
+      )}
+      {selectedTab === 3 && (
         <div className="space-y-8">
           <DetailedBox
             title="مشخصات"
@@ -153,16 +149,8 @@ export default function ProductForm({
             content={<ExpertReview form={form} setForm={setForm} />}
           />
         </div>
-      ),
-    },
-    {
-      key: "insurance",
-      label: (
-        <div className="flex items-center gap-2 dark:text-white">
-          <p className="text-[14px] font-bold mr-2">بیمه</p>
-        </div>
-      ),
-      children: (
+      )}
+      {selectedTab === 4 && (
         <DetailedBox
           title="بیمه"
           subtitle="جزئیات بیمه محصول"
@@ -174,31 +162,15 @@ export default function ProductForm({
             />
           }
         />
-      ),
-    },
-    {
-      key: "delivery",
-      label: (
-        <div className="flex items-center gap-2 dark:text-white">
-          <p className="text-[14px] font-bold mr-2">تحویل</p>
-        </div>
-      ),
-      children: (
+      )}
+      {selectedTab === 5 && (
         <DetailedBox
           title="تنضیمات تحویل"
           subtitle="تنضیمات تحویل سریع و رایگان"
           content={<DeliveryDetails form={form} setForm={setForm} />}
         />
-      ),
-    },
-    {
-      key: "warranty",
-      label: (
-        <div className="flex items-center gap-2 dark:text-white">
-          <p className="text-[14px] font-bold mr-2">گارانتی</p>
-        </div>
-      ),
-      children: (
+      )}
+      {selectedTab === 6 && (
         <DetailedBox
           title="گارانتی"
           subtitle="گارانتی، کلمات کلیدی و سیاست بازگشت کالا"
@@ -213,13 +185,50 @@ export default function ProductForm({
             />
           }
         />
-      ),
-    },
-  ];
+      )}
 
-  return (
-    <div>
-      <Tabs items={items} />
+      <div className="flex justify-between mt-4">
+        <CustomBtn
+          title="برگشت"
+          classNames="px-4 py-2 bg-dark1 dark:bg-lightGray text-white dark:text-dark1 rounded-btn text-[12px] h-fit"
+          onClick={handleBack}
+          disabled={selectedTab === 0}
+        />
+        {selectedTab < tabsAddProduct.length - 1 ? (
+          <CustomBtn
+            title="ادامه"
+            classNames="px-4 py-2 bg-dark1 dark:bg-lightGray text-white dark:text-dark1 rounded-btn text-[12px] h-fit"
+            onClick={handleNext}
+          />
+        ) : (
+          <div className="flex flex-col-reverse md:flex-row items-end md:items-center justify-end gap-10 w-full rounded-[8px]">
+            <div className="flex items-center gap-2">
+              <CustomSwitch
+                id="publish"
+                label="منتشر شود؟"
+                checked={form.published}
+                onChange={(checked) => {
+                  setForm((prevForm) => ({
+                    ...prevForm,
+                    published: checked,
+                  }));
+                }}
+                name="published"
+              />
+            </div>
+            <CustomBtn
+              classNames={`${
+                loading ? "bg-lightGray" : "bg-dark1 text-white"
+              } flex items-center justify-center w-[100px] py-2 text-[12px] md:w-[150px] dark:bg-lightGray dark:text-dark1 h-fit rounded-btn text-[12px] md:text-[14px] font-bold`}
+              type="button"
+              disabled={loading}
+              isLoading={loading}
+              onClick={handleSubmit}
+              title={type === "CREATE" ? "ایجاد محصول" : "ویرایش محصول"}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -234,7 +243,7 @@ function BasicDetails({ form, setForm, onChange, editImage }) {
           label="عنوان *"
           value={form.title}
           onChange={onChange}
-          wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+          wrapperClassName="flex flex-1 flex-wrap xl:min-w-[400px] min-w-[150px]"
         />
         <CustomInp
           type="text"
@@ -242,7 +251,7 @@ function BasicDetails({ form, setForm, onChange, editImage }) {
           label="نام تجاری *"
           value={form.brand}
           onChange={onChange}
-          wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+          wrapperClassName="flex flex-1 flex-wrap xl:min-w-[400px] min-w-[150px]"
         />
       </div>
       <CustomTextarea
@@ -266,7 +275,6 @@ function IntroductionDetails({ form, onChange }) {
         label="عنوان"
         value={form.introduction?.title}
         onChange={onChange}
-        wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
       />
       <CustomTextarea
         type="text"
@@ -289,7 +297,7 @@ function Properties({ form, setForm, onChange }) {
         min={0}
         value={form.price}
         onChange={onChange}
-        wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+        wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[150px]"
       />
       <CustomInp
         type="number"
@@ -298,7 +306,7 @@ function Properties({ form, setForm, onChange }) {
         min={0}
         value={form.stock}
         onChange={onChange}
-        wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+        wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[150px]"
       />
       <div className="flex flex-col gap-box w-full h-full">
         <div className="flex flex-wrap gap-box w-full h-full">
@@ -314,7 +322,7 @@ function Properties({ form, setForm, onChange }) {
                 discount: { ...form.discount, value: e.target.value },
               })
             }
-            wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+            wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[150px]"
           />
 
           <CustomInp
@@ -328,7 +336,7 @@ function Properties({ form, setForm, onChange }) {
                 discount: { ...form.discount, title: e.target.value },
               })
             }
-            wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+            wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[150px]"
           />
         </div>
         <CustomDataPicker form={form} setForm={setForm} />
@@ -355,7 +363,7 @@ function Properties({ form, setForm, onChange }) {
   );
 }
 
-function Warranty({ form, setForm, onChange, handleSubmit, loading, type }) {
+function Warranty({ form, setForm, onChange }) {
   return (
     <div className="flex flex-col gap-box w-full h-full">
       <CustomInp
@@ -372,32 +380,6 @@ function Warranty({ form, setForm, onChange, handleSubmit, loading, type }) {
         onChange={onChange}
       />
       <KeywordsSelection form={form} setForm={setForm} />
-      <div className="flex items-center justify-end gap-10 w-full rounded-[8px]">
-        <div className="flex items-center gap-2">
-          <CustomSwitch
-            id="publish"
-            label="منتشر شود؟"
-            checked={form.published}
-            onChange={(checked) => {
-              setForm((prevForm) => ({
-                ...prevForm,
-                published: checked,
-              }));
-            }}
-            name="published"
-          />
-        </div>
-        <CustomBtn
-          classNames={`${
-            loading ? "bg-lightGray" : "bg-dark1 text-white"
-          } flex items-center justify-center w-[100px] md:w-[150px] dark:bg-lightGray dark:text-dark1 h-[50px] rounded-btn text-[12px] md:text-p1 font-bold`}
-          type="button"
-          disabled={loading}
-          isLoading={loading}
-          onClick={handleSubmit}
-          title={type === "CREATE" ? "ایجاد محصول" : "ویرایش محصول"}
-        />
-      </div>
     </div>
   );
 }
@@ -408,7 +390,7 @@ function InsuranceDetails({ form, setForm, onChange }) {
       <div className="flex flex-wrap gap-box">
         <CustomInp
           type="text"
-          wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+          wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[150px]"
           name="insuranceType"
           label="نوع بیمه"
           value={form.insurance?.insuranceType || ""}
@@ -421,7 +403,7 @@ function InsuranceDetails({ form, setForm, onChange }) {
         />
         <CustomInp
           type="number"
-          wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+          wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[150px]"
           name="insuranceDuration"
           label="مدت بیمه (ماه)"
           value={form.insurance?.insuranceDuration}
@@ -437,7 +419,7 @@ function InsuranceDetails({ form, setForm, onChange }) {
         />
         <CustomInp
           type="number"
-          wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[200px]"
+          wrapperClassName="flex flex-1 xl:min-w-[400px] min-w-[150px]"
           name="insuranceCost"
           label="هزینه بیمه"
           value={form.insurance?.insuranceCost}
@@ -463,7 +445,7 @@ function InsuranceDetails({ form, setForm, onChange }) {
       />
       <div className="flex flex-col gap-box w-full">
         <label className="font-semibold">نوع بیمه:</label>
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-4 flex-col-reverse md:flex-row md:items-center">
           <label className="flex items-center gap-2">
             <input
               type="radio"
@@ -602,7 +584,7 @@ function DeliveryDetails({ form, setForm }) {
           />
           <label
             htmlFor="fastDelivery"
-            className="text-sm font-medium text-gray-700 mr-3 text-[14px]"
+            className="text-sm font-medium text-gray-700 mr-3 text-[12px] md:text-[14px]"
           >
             تحویل سریع
           </label>
@@ -626,7 +608,7 @@ function DeliveryDetails({ form, setForm }) {
           />
           <label
             htmlFor="fastDelivery"
-            className="text-sm font-medium text-gray-700 mr-3 text-[14px]"
+            className="text-sm font-medium text-gray-700 mr-3 text-[12px] md:text-[14px]"
           >
             تحویل امروز
           </label>
@@ -651,7 +633,7 @@ function DeliveryDetails({ form, setForm }) {
           />
           <label
             htmlFor="freeDelivery"
-            className="text-sm font-medium text-gray-700 mr-3 text-[14px"
+            className="text-sm font-medium text-gray-700 mr-3 text-[12px] md:text-[14px]"
           >
             تحویل رایگان
           </label>
@@ -677,10 +659,10 @@ function DeliveryDetails({ form, setForm }) {
       />
 
       <div className="flex flex-col gap-6">
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col md:flex-row items-center gap-4">
           <CustomInp
             type="text"
-            label="روز جدید را وارد کنید"
+            label="روز"
             value={newDay}
             disabled={form.deliveryOptions?.shippingToday}
             onChange={(e) => setNewDay(e.target.value)}
@@ -689,7 +671,7 @@ function DeliveryDetails({ form, setForm }) {
             title="افزودن"
             onClick={handleAddDay}
             disabled={!newDay.trim() || form.deliveryOptions?.shippingToday}
-            classNames="flex items-center justify-center px-4 h-[50px] w-fit bg-dark1 text-white dark:bg-lightGray dark:text-dark1  rounded-btn text-[12px] "
+            classNames="flex items-center justify-center px-4 h-fit py-2 md:w-[50px] w-fit bg-dark1 text-white dark:bg-lightGray dark:text-dark1  rounded-btn text-[12px] "
           />
         </div>
         <div>
@@ -746,7 +728,7 @@ function DeliveryDetails({ form, setForm }) {
                 <CustomBtn
                   title="افزودن"
                   onClick={() => handleAddTimeSlot(day.day)}
-                  classNames="flex items-center justify-center px-4 h-[50px] w-fit bg-dark1 text-white dark:bg-lightGray dark:text-dark1  rounded-btn text-[12px] "
+                  classNames="flex items-center justify-center px-4 h-fit py-2 w-fit bg-dark1 text-white dark:bg-lightGray dark:text-dark1  rounded-btn text-[12px] "
                 />
               </div>
             </div>

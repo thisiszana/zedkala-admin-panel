@@ -280,11 +280,11 @@ export default function ProductInformation({ info }) {
                     {subcategory.items.length > 0 ? (
                       subcategory.items.map((item, index) => (
                         <li
-                          key={index}
+                          key={item.id}
                           className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2"
                         >
                           <span className="w-2 h-2 bg-primary rounded-full inline-block"></span>
-                          {item}
+                          {item.name}
                         </li>
                       ))
                     ) : (

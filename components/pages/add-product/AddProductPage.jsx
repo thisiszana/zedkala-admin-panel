@@ -18,7 +18,9 @@ export default function AddProductPage({ data }) {
     discount: data?.discount || {},
     categoryName: data?.categoryName || "",
     subCategories: data?.subCategories || [],
-    specifications: data?.specifications || [{ label: "", value: "" }],
+    specifications: data?.specifications || [
+      { title: "", items: [{ label: "", value: "" }] },
+    ],
     colors: data?.colors || [],
     sizes: data?.sizes || [],
     brand: data?.brand || "",
