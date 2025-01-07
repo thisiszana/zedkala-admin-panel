@@ -281,6 +281,18 @@ export const tabsAddProduct = [
   { key: "warranty", title: "گارانتی" },
 ];
 
+export const weightOption = [
+  { value: "g", label: "گرم (g)" },
+  { value: "kg", label: "کیلوگرم (kg)" },
+  { value: "mg", label: "میلی‌گرم (mg)" },
+  { value: "lb", label: "پوند (lb)" },
+  { value: "oz", label: "اونس (oz)" },
+  { value: "ton", label: "تن (ton)" },
+  { value: "ct", label: "قیراط (ct)" },
+  { value: "stone", label: "استون (stone)" },
+  { value: "gr", label: "گرین (gr)" },
+];
+
 export const notifications = [
   {
     key: "1",
@@ -460,9 +472,9 @@ export const boardMoodOptions = [
 
 export const tagsComment = [
   { label: "اطلاعیه", value: "announcement", color: "#007bff" },
-  { label: "مهم", value: "important", color: "#dc3545" }, 
+  { label: "مهم", value: "important", color: "#dc3545" },
   { label: "پشتیبانی", value: "support", color: "#28a745" },
-  { label: "فوری", value: "urgent", color: "#ffc107" }, 
+  { label: "فوری", value: "urgent", color: "#ffc107" },
   { label: "پیگیری", value: "follow-up", color: "#17a2b8" },
   { label: "نظر", value: "feedback", color: "#6610f2" },
   { label: "پیشنهاد", value: "suggestion", color: "#20c997" },

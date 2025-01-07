@@ -9,6 +9,7 @@ import Specification from "@/components/pages/add-product/ui/Specification";
 import { Trash } from "@/components/icons/Icons";
 import { sizesDefault } from "@/constants";
 import CustomBtn from "../CustomBtn";
+import WeightForm from "@/components/pages/add-product/ui/WeightForm";
 
 export default function Specifications({ form, setForm }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -169,6 +170,7 @@ export default function Specifications({ form, setForm }) {
             </Tooltip>
           ))}
         </div>
+        <WeightForm form={form} setForm={setForm} />
       </div>
 
       <Modal

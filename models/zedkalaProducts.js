@@ -53,6 +53,45 @@ const deliverySchema = new Schema({
   },
 });
 
+const WeightSchema = new Schema({
+  weight: {
+    value: {
+      type: Number,
+      required: true,
+      min: [0, "وزن نمی‌تواند کمتر از صفر باشد"],
+      validate: {
+        validator: (v) => v < 1000,
+        message: "وزن نباید بیش از 1000 باشد",
+      },
+    },
+    unit: {
+      type: String,
+      required: true,
+      enum: {
+        values: ["g", "kg", "lb", "oz"], 
+        message:
+          "واحد وارد شده معتبر نیست. از واحدهای g، kg، lb، یا oz استفاده کنید.",
+      },
+      default: "kg",
+    },
+    range: {
+      type: {
+        min: { type: Number, required: false },
+        max: { type: Number, required: false },
+      },
+      validate: {
+        validator: function (v) {
+          if (v.min != null && v.max != null) {
+            return v.min <= v.max;
+          }
+          return true;
+        },
+        message: "حداقل وزن نمی‌تواند بیشتر از حداکثر وزن باشد.",
+      },
+    },
+  },
+});
+
 const productSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, default: "" },
@@ -80,6 +119,7 @@ const productSchema = new Schema({
     },
     startAt: { type: Date, default: () => Date.now() },
   },
+  weight: WeightSchema,
   categoryName: { type: String, required: true },
   subCategories: [
     {

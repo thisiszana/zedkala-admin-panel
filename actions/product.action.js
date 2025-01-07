@@ -35,6 +35,7 @@ export const createProduct = async (data) => {
       title,
       description,
       expertReview,
+      weight,
       introduction,
       images,
       price,
@@ -60,6 +61,7 @@ export const createProduct = async (data) => {
       title,
       description,
       expertReview,
+      weight,
       introduction,
       images,
       price,
@@ -360,6 +362,7 @@ export const editProduct = async (data) => {
       slug,
       description,
       expertReview,
+      weight,
       introduction,
       images,
       price,
@@ -450,6 +453,7 @@ export const editProduct = async (data) => {
     product.slug = slug;
     product.description = description;
     product.expertReview = expertReview;
+    product.weight = weight;
     product.introduction = introduction;
     product.images = newImage;
     product.price = price;
