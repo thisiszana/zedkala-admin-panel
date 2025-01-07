@@ -57,7 +57,7 @@ const WeightSchema = new Schema({
   weight: {
     value: {
       type: Number,
-      required: true,
+      required: false,
       min: [0, "وزن نمی‌تواند کمتر از صفر باشد"],
       validate: {
         validator: (v) => v < 1000,
@@ -66,9 +66,9 @@ const WeightSchema = new Schema({
     },
     unit: {
       type: String,
-      required: true,
+      required: false,
       enum: {
-        values: ["g", "kg", "lb", "oz"], 
+        values: ["g", "kg", "lb", "oz", "gr", "mg", "ton", "stone", "ct"],
         message:
           "واحد وارد شده معتبر نیست. از واحدهای g، kg، lb، یا oz استفاده کنید.",
       },
@@ -118,6 +118,9 @@ const productSchema = new Schema({
       immutable: true,
     },
     startAt: { type: Date, default: () => Date.now() },
+  },
+  vendor: {
+    storeName: { type: String, required: true }, 
   },
   weight: WeightSchema,
   categoryName: { type: String, required: true },

@@ -584,7 +584,7 @@ function DeliveryDetails({ form, setForm }) {
           />
           <label
             htmlFor="fastDelivery"
-            className="text-sm font-medium text-gray-700 mr-3 text-[12px] md:text-[14px]"
+            className="text-sm font-medium mr-3 text-[12px] md:text-[14px]"
           >
             تحویل سریع
           </label>
@@ -608,7 +608,7 @@ function DeliveryDetails({ form, setForm }) {
           />
           <label
             htmlFor="fastDelivery"
-            className="text-sm font-medium text-gray-700 mr-3 text-[12px] md:text-[14px]"
+            className="text-sm font-medium mr-3 text-[12px] md:text-[14px]"
           >
             تحویل امروز
           </label>
@@ -633,7 +633,7 @@ function DeliveryDetails({ form, setForm }) {
           />
           <label
             htmlFor="freeDelivery"
-            className="text-sm font-medium text-gray-700 mr-3 text-[12px] md:text-[14px]"
+            className="text-sm font-medium mr-3 text-[12px] md:text-[14px]"
           >
             تحویل رایگان
           </label>

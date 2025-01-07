@@ -13,6 +13,7 @@ export default function AddProductPage({ data }) {
     introduction: data?.introduction || {},
     expertReview: data?.expertReview || [{ title: "", description: "" }],
     weight: data?.weight || { value: 0, unit: "", range: { min: 0, max: 0 } },
+    vendor: data?.vendor || { storeName: "" },
     images: [],
     price: data?.price || 0,
     stock: data?.stock || 0,
