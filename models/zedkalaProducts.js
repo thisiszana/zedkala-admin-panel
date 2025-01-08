@@ -120,7 +120,7 @@ const productSchema = new Schema({
     startAt: { type: Date, default: () => Date.now() },
   },
   vendor: {
-    storeName: { type: String, required: true }, 
+    storeName: { type: String, required: true },
   },
   weight: WeightSchema,
   categoryName: { type: String, required: true },
@@ -159,7 +159,7 @@ const productSchema = new Schema({
       createdAt: { type: Date, default: () => Date.now() },
     },
   ],
-  colors: { type: [String], default: ["#ffffff"] },
+  colors: [{ title: "", value: "" }],
   sizes: { type: [String], default: [] },
   returnPolicy: { type: String },
   warranty: { type: String },
@@ -205,11 +205,10 @@ productSchema.index(
     description: "text",
     brand: "text",
     keywords: "text",
-    discount: "text",
+    "specifications.items.label": "text",
+    "specifications.items.value": "text",
   },
-  {
-    default_language: "persian",
-  }
+  { default_language: "persian" }
 );
 
 export const ZedkalaProducts =

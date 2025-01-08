@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import { Modal, Input, Tooltip, Select } from "antd";
 import { SketchPicker } from "react-color";
 
@@ -15,10 +14,11 @@ import WeightForm from "./WeightForm";
 export default function Specifications({ form, setForm }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentColor, setCurrentColor] = useState("#fff");
+  const [colorTitle, setColorTitle] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   const [customSize, setCustomSize] = useState("");
   const [editIndex, setEditIndex] = useState(null);
-  const [newColor, setNewColor] = useState("");
+  const [newColor, setNewColor] = useState({ title: "", value: "" });
   const [colors, setColors] = useState([]);
   const [sizes, setSizes] = useState([]);
 
@@ -28,14 +28,22 @@ export default function Specifications({ form, setForm }) {
   }, [form.colors, form.sizes]);
 
   const handleAddColor = () => {
-    if (!colors.includes(currentColor)) {
-      const updatedColors = [...colors, currentColor];
+    if (
+      colorTitle &&
+      currentColor &&
+      !colors.some((c) => c.value === currentColor)
+    ) {
+      const updatedColors = [
+        ...colors,
+        { title: colorTitle, value: currentColor },
+      ];
       setColors(updatedColors);
       setForm((prevForm) => ({
         ...prevForm,
         colors: updatedColors,
       }));
-      localStorage.setItem("colors", JSON.stringify(updatedColors));
+      setColorTitle("");
+      setCurrentColor("#fff");
     }
   };
 
@@ -51,7 +59,6 @@ export default function Specifications({ form, setForm }) {
     );
     setColors(updatedColors);
     setForm({ ...form, colors: updatedColors });
-    localStorage.setItem("colors", JSON.stringify(updatedColors));
     setIsModalVisible(false);
   };
 
@@ -60,10 +67,9 @@ export default function Specifications({ form, setForm }) {
   };
 
   const handleRemoveColor = (color) => {
-    const updatedColors = colors.filter((c) => c !== color);
+    const updatedColors = colors.filter((c) => c.value !== color.value);
     setColors(updatedColors);
     setForm({ ...form, colors: updatedColors });
-    localStorage.setItem("colors", JSON.stringify(updatedColors));
   };
 
   const handleAddSize = () => {
@@ -94,11 +100,22 @@ export default function Specifications({ form, setForm }) {
 
   return (
     <div className="w-full flex flex-col 2xl:flex-row justify-between gap-8 lg:gap-20">
+      <div className="flex flex-col gap-3">
+
+      <WeightForm form={form} setForm={setForm} />
+      <VendorSelector form={form} setForm={setForm} />
       <Specification form={form} setForm={setForm} />
+      </div>
       <div className="flex flex-col gap-4 items-center">
         <SketchPicker
           color={currentColor}
           onChangeComplete={(color) => setCurrentColor(color.hex)}
+        />
+        <Input
+          placeholder="نام رنگ را وارد کنید"
+          value={colorTitle}
+          onChange={(e) => setColorTitle(e.target.value)}
+          style={{ width: "100%", maxWidth: 200 }}
         />
         <CustomBtn
           classNames="bg-dark1 dark:bg-lightGray dark:text-dark1 text-white px-4 py-2 rounded"
@@ -112,7 +129,7 @@ export default function Specifications({ form, setForm }) {
               <div className="flex items-center gap-2 border-1 border-dark1 dark:border-white px-2 py-1 rounded">
                 <div
                   style={{
-                    backgroundColor: color,
+                    backgroundColor: color.value,
                     width: "30px",
                     height: "30px",
                     borderRadius: "50%",
@@ -120,6 +137,7 @@ export default function Specifications({ form, setForm }) {
                   }}
                   onClick={() => showModal(index)}
                 />
+                <span>{color.title}</span>
                 <CustomBtn
                   type="button"
                   icon={<Trash width={15} />}
@@ -130,7 +148,7 @@ export default function Specifications({ form, setForm }) {
             </Tooltip>
           ))}
         </div>
-        <div className="flex flex-col items-center  gap-2 w-full sm:w-auto">
+        <div className="flex flex-col items-center gap-2 w-full sm:w-auto">
           <Select
             placeholder="انتخاب سایز استاندارد"
             onChange={(value) => setSelectedSize(value)}
@@ -149,7 +167,7 @@ export default function Specifications({ form, setForm }) {
             style={{ width: "100%", maxWidth: 200 }}
           />
           <CustomBtn
-            classNames="bg-dark1 dark:bg-lightGray dark:text-dark1 text-white px-4 py-2 rounded w-fit  sm:w-full sm:w-auto"
+            classNames="bg-dark1 dark:bg-lightGray dark:text-dark1 text-white px-4 py-2 rounded w-fit sm:w-full sm:w-auto"
             type="button"
             onClick={handleAddSize}
             title="افزودن سایز"
@@ -171,8 +189,6 @@ export default function Specifications({ form, setForm }) {
             </Tooltip>
           ))}
         </div>
-        <WeightForm form={form} setForm={setForm} />
-        <VendorSelector form={form} setForm={setForm} />
       </div>
 
       <Modal
@@ -181,9 +197,19 @@ export default function Specifications({ form, setForm }) {
         onOk={handleOk}
         onCancel={handleCancel}
       >
+        <Input
+          placeholder="ویرایش نام رنگ"
+          value={newColor.title}
+          onChange={(e) =>
+            setNewColor((prev) => ({ ...prev, title: e.target.value }))
+          }
+          style={{ marginBottom: "10px" }}
+        />
         <SketchPicker
-          color={newColor}
-          onChangeComplete={(color) => setNewColor(color.hex)}
+          color={newColor.value}
+          onChangeComplete={(color) =>
+            setNewColor((prev) => ({ ...prev, value: color.hex }))
+          }
         />
       </Modal>
     </div>
