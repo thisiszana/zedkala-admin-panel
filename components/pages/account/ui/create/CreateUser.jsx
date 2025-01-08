@@ -153,7 +153,6 @@ export default function CreateUser() {
     </div>
   );
 
-  console.log(form);
   const onSubmit = async (e) => {
     e.preventDefault();
 

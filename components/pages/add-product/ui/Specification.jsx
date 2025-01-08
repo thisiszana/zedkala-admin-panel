@@ -14,10 +14,15 @@ export default function Specification({ form, setForm }) {
     );
 
     if (allTitlesFilled) {
-      setSpecifications([
+      const updatedSpecifications = [
         ...specifications,
         { title: "", items: [{ label: "", value: "" }] },
-      ]);
+      ];
+      setSpecifications(updatedSpecifications);
+      setForm((prevForm) => ({
+        ...prevForm,
+        specifications: updatedSpecifications,
+      }));
     }
   };
 

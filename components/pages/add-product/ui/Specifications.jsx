@@ -5,12 +5,12 @@ import { useEffect, useState } from "react";
 import { Modal, Input, Tooltip, Select } from "antd";
 import { SketchPicker } from "react-color";
 
-import Specification from "@/components/pages/add-product/ui/Specification";
+import CustomBtn from "@/components/shared/CustomBtn";
 import { Trash } from "@/components/icons/Icons";
+import VendorSelector from "./VendorSelector";
+import Specification from "./Specification";
 import { sizesDefault } from "@/constants";
-import CustomBtn from "../CustomBtn";
-import WeightForm from "@/components/pages/add-product/ui/WeightForm";
-import VendorSelector from "@/components/pages/add-product/ui/VendorSelector";
+import WeightForm from "./WeightForm";
 
 export default function Specifications({ form, setForm }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -93,7 +93,7 @@ export default function Specifications({ form, setForm }) {
   };
 
   return (
-    <div className="w-full flex flex-col 2xl:flex-row justify-between items-center gap-8 lg:gap-20">
+    <div className="w-full flex flex-col 2xl:flex-row justify-between gap-8 lg:gap-20">
       <Specification form={form} setForm={setForm} />
       <div className="flex flex-col gap-4 items-center">
         <SketchPicker

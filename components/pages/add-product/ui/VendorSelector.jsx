@@ -43,10 +43,11 @@ export default function VendorSelector({ form, setForm }) {
         <CustomSelect
           label="انتخاب فروشنده"
           value={form.vendor?.storeName || ""}
-          options={vendors?.map((vendor) => ({
+          options={[{value: "زد-کالا", label: "زد-کالا - zedkala"},
+            ...vendors?.map((vendor) => ({
             value: vendor.storeInfo.storeName,
             label: `${vendor.storeInfo.storeName} - ${vendor.username}`,
-          }))}
+          }))]}
           onChange={handleChange}
         />
       )}
