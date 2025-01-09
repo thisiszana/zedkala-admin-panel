@@ -361,13 +361,13 @@ function DeliveryOptionReview({ info }) {
           {info.deliveryOptions.estimatedDeliveryTime.map((time, index) => (
             <div
               key={index}
-              className="bg-white dark:bg-dark1 px-2 py-1 rounded-md shadow-md"
+              className="bg-white dark:bg-dark1 px-2 py-1 rounded-md shadow-md h-fit"
             >
-              <span className="font-bold  block mb-1">{time.day} :</span>
+              <span className="font-bold  block mb-2">{time.day} :</span>
               {time.timeSlots.map((slot, slotIndex) => (
                 <span
                   key={slotIndex}
-                  className="bg-red-500 text-xs px-2 py-1 rounded-md block font-bold text-white text-center w-fit"
+                  className="bg-red-500 text-xs px-2 mb-2 py-1 rounded-md block font-bold text-white text-center w-fit"
                 >
                   {e2p(slot.startTime)} - {e2p(slot.endTime)}
                 </span>
