@@ -1,93 +1,89 @@
 import { Schema, models, model } from "mongoose";
 
 const deliverySchema = new Schema({
-  deliveryOptions: {
-    fastDelivery: { type: Boolean, default: false },
-    freeDelivery: { type: Boolean, default: false },
-    shippingToday: { type: Boolean, default: false },
-    deliveryFee: {
-      type: Number,
-      default: 0,
-      validate: {
-        validator: function (value) {
-          return this.freeDelivery ? value === 0 : value >= 0;
-        },
-        message: "اگر ارسال رایگان باشد، هزینه ارسال باید ۰ باشد.",
+  fastDelivery: { type: Boolean, default: false },
+  freeDelivery: { type: Boolean, default: false },
+  shippingToday: { type: Boolean, default: false },
+  deliveryFee: {
+    type: Number,
+    default: 0,
+    validate: {
+      validator: function (value) {
+        return this.freeDelivery ? value === 0 : value >= 0;
       },
+      message: "اگر ارسال رایگان باشد، هزینه ارسال باید ۰ باشد.",
     },
-    estimatedDeliveryTime: {
-      type: [
-        {
-          day: {
-            type: String,
-            enum: [
-              "شنبه",
-              "یکشنبه",
-              "دوشنبه",
-              "سه‌شنبه",
-              "چهارشنبه",
-              "پنجشنبه",
-              "جمعه",
-            ],
-            required: true,
-          },
-          timeSlots: {
-            type: [
-              {
-                startTime: { type: String, required: true },
-                endTime: { type: String, required: true },
-              },
-            ],
-            validate: {
-              validator: function (value) {
-                return value.length > 0;
-              },
-              message: "هر روز باید حداقل یک بازه زمانی داشته باشد.",
+  },
+  estimatedDeliveryTime: {
+    type: [
+      {
+        day: {
+          type: String,
+          enum: [
+            "شنبه",
+            "یکشنبه",
+            "دوشنبه",
+            "سه‌شنبه",
+            "چهارشنبه",
+            "پنجشنبه",
+            "جمعه",
+          ],
+          required: true,
+        },
+        timeSlots: {
+          type: [
+            {
+              startTime: { type: String, required: true },
+              endTime: { type: String, required: true },
             },
+          ],
+          validate: {
+            validator: function (value) {
+              return value.length > 0;
+            },
+            message: "هر روز باید حداقل یک بازه زمانی داشته باشد.",
           },
         },
-      ],
-    },
-    courierService: { type: String },
-    deliveryNotes: { type: String },
+      },
+    ],
   },
+  courierService: { type: String },
+  deliveryNotes: { type: String },
 });
 
 const WeightSchema = new Schema({
-  weight: {
-    value: {
-      type: Number,
-      required: false,
-      min: [0, "وزن نمی‌تواند کمتر از صفر باشد"],
-      validate: {
-        validator: (v) => v < 1000,
-        message: "وزن نباید بیش از 1000 باشد",
-      },
+  value: {
+    type: Number,
+    required: false,
+    min: [0, "وزن نمی‌تواند کمتر از صفر باشد"],
+    validate: {
+      validator: (v) => v < 1000,
+      message: "وزن نباید بیش از 1000 باشد",
     },
-    unit: {
-      type: String,
-      required: false,
-      enum: {
-        values: ["g", "kg", "lb", "oz", "gr", "mg", "ton", "stone", "ct"],
-        message:
-          "واحد وارد شده معتبر نیست. از واحدهای g، kg، lb، یا oz استفاده کنید.",
-      },
-      default: "kg",
+  },
+  unit: {
+    type: String,
+    required: false,
+    enum: {
+      values: ["g", "kg", "lb", "oz", "gr", "mg", "ton", "stone", "ct"],
+      message:
+        "واحد وارد شده معتبر نیست. از واحدهای g، kg، lb، یا oz استفاده کنید.",
     },
-    range: {
-      type: {
-        min: { type: Number, required: false },
-        max: { type: Number, required: false },
+    default: "kg",
+  },
+  range: {
+    type: {
+      min: { type: Number, required: false },
+      max: { type: Number, required: false },
+    },
+    validate: {
+      validator: function (v) {
+        if (v.min != null && v.max != null) {
+          return v.min <= v.max;
+        }
+        return true;
       },
-      validate: {
-        validator: function (v) {
-          if (v.min != null && v.max != null) {
-            return v.min <= v.max;
-          }
-          return true;
-        },
-        message: "حداقل وزن نمی‌تواند بیشتر از حداکثر وزن باشد.",
-      },
+      message: "حداقل وزن نمی‌تواند بیشتر از حداکثر وزن باشد.",
     },
   },
 });
@@ -159,7 +155,7 @@ const productSchema = new Schema({
       createdAt: { type: Date, default: () => Date.now() },
     },
   ],
-  colors: [{ title: "", value: "" }],
+  colors: [{ title: String, value: String }],
   sizes: { type: [String], default: [] },
   returnPolicy: { type: String },
   warranty: { type: String },

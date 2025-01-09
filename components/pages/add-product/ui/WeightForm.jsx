@@ -80,10 +80,10 @@ export default function WeightForm({ form, setForm }) {
               ...prev,
               weight: e.target.checked
                 ? {
-                    range: { min: "", max: "" },
+                    range: { min: 0, max: 0 },
                     unit: prev.weight?.unit || "kg",
                   }
-                : { value: "", unit: prev.weight?.unit || "kg" },
+                : { value: 0, unit: prev.weight?.unit || "kg" },
             }));
           }}
         />
@@ -94,17 +94,17 @@ export default function WeightForm({ form, setForm }) {
           <CustomInp
             type="number"
             name="weight-min"
-            value={form.weight?.range?.min || ""}
+            value={form.weight?.range?.min || 0}
             label="حداقل وزن"
-            onChange={(e) => handleChange("min", e.target.value)}
+            onChange={(e) => handleChange("min",  Number(e.target.value))}
             error={errors.range}
           />
           <CustomInp
             type="number"
             name="weight-max"
-            value={form.weight?.range?.max || ""}
+            value={form.weight?.range?.max || 0}
             label="حداکثر وزن"
-            onChange={(e) => handleChange("max", e.target.value)}
+            onChange={(e) => handleChange("max",  Number(e.target.value))}
             error={errors.range}
           />
         </div>
@@ -112,9 +112,9 @@ export default function WeightForm({ form, setForm }) {
         <CustomInp
           type="number"
           name="weight-value"
-          value={form.weight?.value || ""}
+          value={form.weight?.value || 0}
           label="وزن"
-          onChange={(e) => handleChange("value", e.target.value)}
+          onChange={(e) => handleChange("value", Number(e.target.value))}
           error={errors.value}
         />
       )}

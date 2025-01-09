@@ -1,10 +1,12 @@
 "use client";
 
 import NextImage from "next/image";
-import { Image } from "@nextui-org/react";
-import { Swiper, SwiperSlide } from "swiper/react";
+
 import { Pagination, Autoplay } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Image } from "@nextui-org/react";
 import "swiper/swiper-bundle.css";
+
 import { icons } from "@/constants";
 
 const ImageSlider = ({ images }) => {
@@ -17,7 +19,7 @@ const ImageSlider = ({ images }) => {
   }
 
   return (
-    <div className="w-full xl:w-[40%] mx-auto ml-5 space-y-5">
+    <div className="w-full md:w-[40%] md:ml-5 space-y-5">
       <Swiper
         modules={[Pagination, Autoplay]}
         pagination={{
@@ -27,7 +29,7 @@ const ImageSlider = ({ images }) => {
         }}
         autoplay={{ delay: 5000, disableOnInteraction: false }}
         loop={true}
-        spaceBetween={10}
+        spaceBetween={1}
         slidesPerView={1}
         className="rounded-lg overflow-hidden"
       >

@@ -68,18 +68,23 @@ import {
 } from "@/components/icons/Icons";
 
 import { BsCloudDownload } from "react-icons/bs";
+import { TbTruckDelivery, TbWeight } from "react-icons/tb";
 import { VscPreview } from "react-icons/vsc";
 import { IoIosColorPalette, IoIosTimer } from "react-icons/io";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { FiArrowDown } from "react-icons/fi";
+import { PiMoneyWavy } from "react-icons/pi";
 import { BsLuggage } from "react-icons/bs";
-import { CiImageOn } from "react-icons/ci";
-import { RxSize } from "react-icons/rx";
+import { CiCircleCheck, CiDeliveryTruck, CiImageOn } from "react-icons/ci";
+import { RxCrossCircled, RxSize } from "react-icons/rx";
 import {
   MdOutlinePublic,
   MdSaveAs,
   MdOutlineReplay,
   MdAttachFile,
+  MdOutlineDeliveryDining,
+  MdDeliveryDining,
+  MdOutlineEditNote,
 } from "react-icons/md";
 
 import { e2p, reducePrice, sp } from "@/utils/fun";
@@ -89,6 +94,7 @@ export const sizesDefault = ["XS", "S", "M", "L", "XL"];
 
 export const icons = {
   home: <Home />,
+  weight: <TbWeight />,
   timer: <IoIosTimer />,
   deliveryTruck: <Truck />,
   layerPlus: <LayerPlus />,
@@ -161,6 +167,14 @@ export const icons = {
   attachFile: <MdAttachFile />,
   download: <BsCloudDownload />,
   preview: <VscPreview />,
+  fastDelivery: <TbTruckDelivery />,
+  freeDelivery: <CiDeliveryTruck />,
+  shippingDelivery: <MdOutlineDeliveryDining />,
+  motorDelivery: <MdDeliveryDining />,
+  note: <MdOutlineEditNote />,
+  cost: <PiMoneyWavy />,
+  cross: <RxCrossCircled />,
+  check: <CiCircleCheck />,
 };
 
 export const images = {
@@ -375,15 +389,13 @@ export const productInformationDetails = (info) => {
   const hasDiscount = info?.discount && info?.discount?.value > 0;
   return [
     {
-      name: !hasDiscount ? "قیمت" : "",
+      name: !hasDiscount ? "قیمت :" : "",
       value: !hasDiscount ? (
-        <span style={{ textDecoration: "line-through", color: "gray" }}>
-          {sp(info?.price.toLocaleString())} تومان
-        </span>
+        <span style={{ color: "gray" }}>{sp(info?.price)} تومان</span>
       ) : null,
       icon: !hasDiscount ? (
         <Dollar
-          className="text-darkGray"
+          className=""
           wrapperClassName="cardShadow rounded-lg p-3"
         />
       ) : (
@@ -391,34 +403,106 @@ export const productInformationDetails = (info) => {
       ),
     },
     {
-      name: "موجودی:",
+      name: "موجودی :",
       value: e2p(info?.stock.toLocaleString()),
       icon: (
         <Stock
-          className="text-darkGray"
+          className=""
           wrapperClassName="cardShadow rounded-lg p-3"
         />
       ),
     },
     {
-      name: "برند:",
+      name: "نوع محصول",
+      value: info?.isGrocery.value ? "محصول سوپرمارکتی است" : "غیر سوپرمارکتی",
+      icon: (
+        <ShoppingBag
+          className=""
+          wrapperClassName="cardShadow rounded-lg p-3"
+        />
+      ),
+    },
+    {
+      name: "برند :",
       value: info?.brand,
       icon: (
         <Brand
-          className="text-darkGray"
+          className=""
           wrapperClassName="cardShadow rounded-lg p-3"
         />
+      ),
+    },
+    {
+      name: "وزن :",
+      value: `${e2p(info?.weight.value)} ${info?.weight.unit}`,
+      icon: (
+        <span className=" cardShadow rounded-lg p-3">
+          {icons.weight}
+        </span>
+      ),
+    },
+    {
+      name: "سایز :",
+      value: (
+        <div className="flex flex-wrap gap-2 items-center p-[8px]">
+          {info.sizes.length > 0 ? (
+            info.sizes.map((size, index) => (
+              <span
+                key={`${index}-${size}`}
+                className="px-2 py-1 bg-gray-200 rounded-md "
+              >
+                {size}
+              </span>
+            ))
+          ) : (
+            <span className="text-gray-500 text-[14px]">
+              سایزی تعریف نشده است
+            </span>
+          )}
+        </div>
+      ),
+      icon: (
+        <span className=" cardShadow rounded-lg p-3">
+          {icons.size}
+        </span>
+      ),
+    },
+    {
+      name: "رنگ :",
+      value:
+        info?.colors.length > 0 ? (
+          <div className="flex flex-col justify-end gap-2 xl:flex-row xl:items-center xl:justify-normal">
+            {info?.colors.map((color, index) => (
+              <div
+                key={`${index}-${color.value}`}
+                className="flex items-center gap-2 justify-end"
+              >
+                <p className="text-[12px]">{color.title}</p>
+                <div
+                  style={{ backgroundColor: color.value }}
+                  className="w-6 h-6 rounded-full border border-black dark:border-white"
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <span className="text-gray-500 text-[14px]">رنگی تعریف نشده است</span>
+        ),
+      icon: (
+        <span className=" cardShadow rounded-lg p-3">
+          {icons.color}
+        </span>
       ),
     },
 
     ...(hasDiscount
       ? [
           {
-            name: "تخفیف:",
+            name: "تخفیف :",
             value: `${e2p(info.discount?.value)}% (${info.discount?.title})`,
             icon: (
               <Discount
-                className="text-darkGray"
+                className=""
                 wrapperClassName="cardShadow rounded-lg p-3"
               />
             ),
