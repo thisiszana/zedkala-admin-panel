@@ -86,20 +86,26 @@ function DescriptionProductInfo({ info }) {
       </div>
 
       <div className="border-t pt-2 mb-2">
-        <p className="text-p1 font-bold mb-2">{info?.introduction?.title} :</p>
+        <p className="text-p1 font-bold mb-2">معرفی :</p>
         <p className="text-darkGray text-sm">
-          {info?.introduction?.description}
+          {info?.introduction?.description
+            ? info?.introduction?.description
+            : "تعریف نشده ..."}
         </p>
       </div>
 
       <div className="border-t pt-2">
         <p className="text-[16px] font-bold mb-2">بررسی تخصصی :</p>
-        {info?.expertReview.map((review, index) => (
-          <div className="border-dashed border-t pt-2 mb-2" key={index}>
-            <p className="text-p1 font-bold mb-2">{review?.title} :</p>
-            <p className="text-darkGray text-sm">{review?.description}</p>
-          </div>
-        ))}
+        {info?.expertReview.length > 0 ? (
+          info?.expertReview.map((review, index) => (
+            <div className="border-dashed border-t pt-2 mb-2" key={index}>
+              <p className="text-p1 font-bold mb-2">{review?.title} :</p>
+              <p className="text-darkGray text-sm">{review?.description}</p>
+            </div>
+          ))
+        ) : (
+          <p className="text-darkGray text-sm">تعریف نشده ..</p>
+        )}
       </div>
       <hr />
     </>
@@ -120,7 +126,7 @@ function Specifications({ info }) {
     <>
       <div className="space-y-2 border-t pt-2">
         <p className="text-p1 font-bold">مشخصات فنی :</p>
-        <div className="flex items-center gap-4 flex-wrap">
+        <div className="flex items-center gap-4 justify-center  flex-wrap">
           {info.specifications
             .flatMap((spec) => spec.items)
             .slice(0, 10)
@@ -156,7 +162,7 @@ function Specifications({ info }) {
         placement="bottom"
         onClose={handleDrawerClose}
         open={isDrawerOpen}
-        height="50%"
+        height="70%"
         className="dark:bg-dark1 transition-all duration-300"
       >
         <div className="px-4 pb-6 overflow-x-auto">
@@ -357,23 +363,29 @@ function DeliveryOptionReview({ info }) {
 
       <div>
         <p className="text-p1 font-bold mb-2">زمان‌های تحویل:</p>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 w-fit">
-          {info.deliveryOptions.estimatedDeliveryTime.map((time, index) => (
-            <div
-              key={index}
-              className="bg-white dark:bg-dark1 px-2 py-1 rounded-md shadow-md h-fit"
-            >
-              <span className="font-bold  block mb-2">{time.day} :</span>
-              {time.timeSlots.map((slot, slotIndex) => (
-                <span
-                  key={slotIndex}
-                  className="bg-red-500 text-xs px-2 mb-2 py-1 rounded-md block font-bold text-white text-center w-fit"
-                >
-                  {e2p(slot.startTime)} - {e2p(slot.endTime)}
-                </span>
-              ))}
-            </div>
-          ))}
+        <div className="flex items-start flex-wrap gap-4 w-fit justify-center">
+          {info.deliveryOptions.estimatedDeliveryTime.length > 0 ? (
+            info.deliveryOptions.estimatedDeliveryTime.map((time, index) => (
+              <div
+                key={index}
+                className="bg-white dark:bg-dark1 px-2 py-1 rounded-md shadow-md h-fit"
+              >
+                <span className="font-bold  block mb-2">{time.day} :</span>
+                {time.timeSlots.map((slot, slotIndex) => (
+                  <span
+                    key={slotIndex}
+                    className="bg-red-500 text-xs px-2 mb-2 py-1 rounded-md block font-bold text-white text-center w-fit"
+                  >
+                    {e2p(slot.startTime)} - {e2p(slot.endTime)}
+                  </span>
+                ))}
+              </div>
+            ))
+          ) : (
+            <span className="text-gray-500 text-[14px]">
+              روزی تعریف نشده است
+            </span>
+          )}
         </div>
       </div>
     </div>
@@ -422,9 +434,7 @@ function Insurance({ info }) {
           </p>
         </div>
       ) : (
-        <p className="text-darkGray">
-          بیمه‌ای تعریف نشده است
-        </p>
+        <p className="text-darkGray">بیمه‌ای تعریف نشده است</p>
       )}
     </div>
   );

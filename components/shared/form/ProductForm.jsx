@@ -357,7 +357,7 @@ function Properties({ form, setForm, onChange }) {
         <CustomDataPicker form={form} setForm={setForm} />
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 justify-between">
         <CustomSwitch
           id="isGrocery"
           label="کالای سوپرمارکتی است؟"
@@ -368,6 +368,21 @@ function Properties({ form, setForm, onChange }) {
               isGrocery: {
                 ...form.isGrocery,
                 value: checked,
+              },
+            });
+          }}
+          name="isGrocery"
+        />
+        <CustomSwitch
+          id="isGrocery"
+          label="فعال / غیرفعال کردن تخفیف"
+          checked={form.discount?.isActive || false}
+          onChange={(checked) => {
+            setForm({
+              ...form,
+              discount: {
+                ...form.discount,
+                isActive: checked,
               },
             });
           }}

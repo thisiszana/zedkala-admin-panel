@@ -7,12 +7,6 @@ const deliverySchema = new Schema({
   deliveryFee: {
     type: Number,
     default: 0,
-    validate: {
-      validator: function (value) {
-        return this.freeDelivery ? value === 0 : value >= 0;
-      },
-      message: "اگر ارسال رایگان باشد، هزینه ارسال باید ۰ باشد.",
-    },
   },
   estimatedDeliveryTime: {
     type: [
@@ -64,26 +58,12 @@ const WeightSchema = new Schema({
   unit: {
     type: String,
     required: false,
-    enum: {
-      values: ["g", "kg", "lb", "oz", "gr", "mg", "ton", "stone", "ct"],
-      message:
-        "واحد وارد شده معتبر نیست. از واحدهای g، kg، lb، یا oz استفاده کنید.",
-    },
     default: "kg",
   },
   range: {
     type: {
       min: { type: Number, required: false },
       max: { type: Number, required: false },
-    },
-    validate: {
-      validator: function (v) {
-        if (v.min != null && v.max != null) {
-          return v.min <= v.max;
-        }
-        return true;
-      },
-      message: "حداقل وزن نمی‌تواند بیشتر از حداکثر وزن باشد.",
     },
   },
 });
@@ -93,13 +73,13 @@ const productSchema = new Schema({
   description: { type: String, default: "" },
   images: { type: [String] },
   introduction: {
-    title: { type: String, required: true },
-    description: { type: String, required: true },
+    title: { type: String, required: false },
+    description: { type: String, required: false },
   },
   expertReview: [
     {
-      title: { type: String, required: true },
-      description: { type: String, required: true },
+      title: { type: String, required: false },
+      description: { type: String, required: false },
     },
   ],
   price: { type: Number, required: true },
@@ -114,6 +94,7 @@ const productSchema = new Schema({
       immutable: true,
     },
     startAt: { type: Date, default: () => Date.now() },
+    isActive: { type: Boolean, default: false },
   },
   vendor: {
     storeName: { type: String, required: true },

@@ -69,12 +69,12 @@ export default function Specification({ form, setForm }) {
   };
 
   const canAddSpecifications = specifications.every(
-    (spec) => spec.title.trim() !== "" && spec.items.length > 0
+    (spec) => spec.title?.trim() !== "" && spec.items?.length > 0
   );
 
   const canAddItem = (index) =>
     specifications[index].items.every(
-      (item) => item.label.trim() !== "" || item.value.trim() !== ""
+      (item) => item.label?.trim() !== "" || item?.value?.trim() !== ""
     );
 
   const specificationFields = specifications.map((spec, specIndex) => (

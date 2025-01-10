@@ -444,12 +444,12 @@ export const productInformationDetails = (info) => {
     {
       name: "سایز :",
       value: (
-        <div className="flex flex-wrap gap-2 items-center p-[8px]">
+        <div className="flex flex-wrap gap-2 items-center p-[8px] justify-end md:justify-normal">
           {info.sizes.length > 0 ? (
             info.sizes.map((size, index) => (
               <span
                 key={`${index}-${size}`}
-                className="px-2 py-1 bg-gray-200 rounded-md "
+                className="px-2 py-1 bg-white shadow-md rounded-md "
               >
                 {size}
               </span>
