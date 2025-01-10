@@ -140,8 +140,8 @@ export default function DeliveryDetails({ form, setForm }) {
         <div className="flex items-center">
           <input
             type="checkbox"
-            id="fastDelivery"
-            name="fastDelivery"
+            id="shippingToday"
+            name="shippingToday"
             checked={form.deliveryOptions?.shippingToday || false}
             onChange={(e) =>
               setForm((prev) => ({
@@ -155,7 +155,7 @@ export default function DeliveryDetails({ form, setForm }) {
             className="h-5 w-5 mr-2 accent-red-500"
           />
           <label
-            htmlFor="fastDelivery"
+            htmlFor="shippingToday"
             className="text-sm font-medium mr-3 text-[12px] md:text-[14px]"
           >
             تحویل امروز
@@ -224,7 +224,7 @@ export default function DeliveryDetails({ form, setForm }) {
         </div>
         <div>
           {form.deliveryOptions?.estimatedDeliveryTime?.map((day, index) => (
-            <div key={index} className="mb-6 border-b pb-4">
+            <div key={index} className="mb-6 border-b pb-4 w-fit">
               <div className="flex items-center gap-5">
                 <h4 className="text-md font-semibold">{day.day}</h4>
                 <CustomBtn

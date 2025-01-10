@@ -99,7 +99,7 @@ function DescriptionProductInfo({ info }) {
         {info?.expertReview.length > 0 ? (
           info?.expertReview.map((review, index) => (
             <div className="border-dashed border-t pt-2 mb-2" key={index}>
-              <p className="text-p1 font-bold mb-2">{review?.title} :</p>
+              <p className="text-p1 font-bold mb-2">{review?.title ? review?.title : "تعریف نشده ..."} </p>
               <p className="text-darkGray text-sm">{review?.description}</p>
             </div>
           ))
@@ -126,7 +126,7 @@ function Specifications({ info }) {
     <>
       <div className="space-y-2 border-t pt-2">
         <p className="text-p1 font-bold">مشخصات فنی :</p>
-        <div className="flex items-center gap-4 justify-center  flex-wrap">
+        <div className="flex items-center gap-4 justify-center flex-wrap">
           {info.specifications
             .flatMap((spec) => spec.items)
             .slice(0, 10)
