@@ -5,11 +5,12 @@ import { useState } from "react";
 import CustomTextarea from "@/components/shared/form/CustomTextarea";
 import CustomInp from "@/components/shared/form/CustomInp";
 import CustomBtn from "@/components/shared/CustomBtn";
-import { Trash } from "@/components/icons/Icons";
+import { Edit, Trash } from "@/components/icons/Icons";
 
 export default function DeliveryDetails({ form, setForm }) {
   const [newDay, setNewDay] = useState("");
   const [timeSlots, setTimeSlots] = useState({});
+  const [editDay, setEditDay] = useState(false);
   const [newTimeSlot, setNewTimeSlot] = useState({
     startTime: "",
     endTime: "",
@@ -17,16 +18,39 @@ export default function DeliveryDetails({ form, setForm }) {
 
   const handleAddDay = () => {
     if (!newDay.trim()) return;
-    setForm((prev) => ({
-      ...prev,
-      deliveryOptions: {
-        ...prev.deliveryOptions,
-        estimatedDeliveryTime: [
-          ...(prev.deliveryOptions?.estimatedDeliveryTime || []),
-          { day: newDay, timeSlots: [] },
-        ],
-      },
-    }));
+
+    if (editDay !== false) {
+      setForm((prev) => {
+        const updatedDeliveryTime = [
+          ...(prev.deliveryOptions.estimatedDeliveryTime || []),
+        ];
+        updatedDeliveryTime[editDay] = {
+          ...updatedDeliveryTime[editDay],
+          day: newDay,
+        };
+
+        return {
+          ...prev,
+          deliveryOptions: {
+            ...prev.deliveryOptions,
+            estimatedDeliveryTime: updatedDeliveryTime,
+          },
+        };
+      });
+      setEditDay(false);
+    } else {
+      setForm((prev) => ({
+        ...prev,
+        deliveryOptions: {
+          ...prev.deliveryOptions,
+          estimatedDeliveryTime: [
+            ...(prev.deliveryOptions?.estimatedDeliveryTime || []),
+            { day: newDay, timeSlots: [] },
+          ],
+        },
+      }));
+    }
+
     setNewDay("");
   };
 
@@ -79,6 +103,11 @@ export default function DeliveryDetails({ form, setForm }) {
         ),
       },
     }));
+  };
+
+  const handleEditDay = (day, index) => {
+    setNewDay(day);
+    setEditDay(index);
   };
 
   return (
@@ -187,7 +216,7 @@ export default function DeliveryDetails({ form, setForm }) {
             onChange={(e) => setNewDay(e.target.value)}
           />
           <CustomBtn
-            title="افزودن"
+            title={editDay !== false ? "ویرایش" : "افزودن"}
             onClick={handleAddDay}
             disabled={!newDay.trim() || form.deliveryOptions?.shippingToday}
             classNames="flex items-center justify-center px-4 h-fit py-2 md:w-[50px] w-fit bg-dark1 text-white dark:bg-lightGray dark:text-dark1  rounded-btn text-[12px] "
@@ -198,6 +227,11 @@ export default function DeliveryDetails({ form, setForm }) {
             <div key={index} className="mb-6 border-b pb-4">
               <div className="flex items-center gap-5">
                 <h4 className="text-md font-semibold">{day.day}</h4>
+                <CustomBtn
+                  icon={<Edit size={16} />}
+                  onClick={() => handleEditDay(day.day, index)}
+                  classNames="text-[20px] text-red-500"
+                />
                 <CustomBtn
                   icon={<Trash size={16} />}
                   onClick={() => handleRemoveDay(day.day)}
@@ -223,7 +257,7 @@ export default function DeliveryDetails({ form, setForm }) {
                 ))}
               </div>
 
-              <div className="mt-2 flex gap-2 flex-col md:flex-row">
+              <div className="mt-2 flex gap-2 flex-col md:flex-row items-center">
                 <CustomInp
                   type="time"
                   value={newTimeSlot.startTime}
