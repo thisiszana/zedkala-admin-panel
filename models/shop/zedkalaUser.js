@@ -74,6 +74,9 @@ const zedkalaUserSchema = new Schema(
         default: "pending",
       },
     },
+    favoriteProducts: [
+      { type: Schema.Types.ObjectId, ref: "ZedkalaProducts", default: [] },
+    ],
   },
   { timestamps: true }
 );

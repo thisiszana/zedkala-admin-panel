@@ -6,6 +6,8 @@ export const MESSAGES = {
   blogEdited: "Blog Edited",
   badRequest: "Bad Request!",
   
+  alreadyAdded: "محصول در لیست وجود دارد!",
+  notInFavorites: "محصول در لیست وجود ندارد!",
   invalidId: "آیدی نامعتبر است!",
   invalidAction: "اکشن نامعتبر است!",
   bannerNotFound: "بنری پیدا نشد",
@@ -39,6 +41,7 @@ export const MESSAGES = {
   updateRole: "نقش ادمین تغیر کرد!",
   updateProfile: "پروفایل آپدیت شد",
   noMatchPassword: "رمز عبور فعلی نادرست است!",
+  newPasswordNotFound: "رمز عبور جدید را وارد کنید",
   confirmPassword: "رمز عبور جدید نادرست است!",
   password_length: "تعداد حروف رمز عبور باید بیشتر از 6 عدد باشد!",
   existItemCategory: "شما قبلاً این آیتم را انتخاب کرده‌اید",
