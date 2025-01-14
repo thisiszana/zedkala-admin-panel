@@ -61,7 +61,13 @@ export async function GET(req) {
       );
     }
 
-    const user = await ZedkalaUser.findById(userId).lean();
+    const user = await ZedkalaUser.findById(userId)
+      .populate({
+        path: "favoriteProducts",
+        model: ZedkalaProducts,
+        select: "title images price stock discount isGrocery",
+      })
+      .lean();
 
     if (!user) {
       return NextResponse.json(
@@ -135,10 +141,7 @@ export async function PATCH(req) {
       );
     }
 
-    const user = await ZedkalaUser.findById(userId).populate(
-      "favoriteProducts",
-      "title images stock price discount"
-    );
+    const user = await ZedkalaUser.findById(userId);
 
     if (!user) {
       return NextResponse.json(
