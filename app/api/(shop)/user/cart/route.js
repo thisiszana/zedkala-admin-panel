@@ -6,6 +6,7 @@ import { MESSAGES, STATUS_CODES } from "@/utils/message";
 import ZedkalaUser from "@/models/shop/zedkalaUser";
 import connectDB from "@/utils/connectDB";
 import { SECRET_KEY } from "@/utils/var";
+import { ZedkalaProducts } from "@/models/zedkalaProducts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -61,7 +62,13 @@ export async function GET(req) {
       );
     }
 
-    const userCart = await ZedkalaUser.findOne({ _id: userId }).select("cart");
+    const userCart = await ZedkalaUser.findOne({ _id: userId })
+      .select("cart")
+      .populate({
+        path: "cart.selectedItems",
+        model: ZedkalaProducts,
+        select: "title images price stock isGrocery",
+      });
 
     if (!userCart)
       return NextResponse.json(
@@ -73,10 +80,13 @@ export async function GET(req) {
       { msg: MESSAGES.success, success: true, userCart },
       { status: STATUS_CODES.success }
     );
-    
+
     response.headers.set("Access-Control-Allow-Origin", "*");
     response.headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    response.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    response.headers.set(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
     response.headers.set("Cache-Control", "no-store");
     return response;
   } catch (error) {

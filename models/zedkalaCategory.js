@@ -31,6 +31,10 @@ const categorySchema = new Schema({
     {
       name: String,
       logo: String,
+      slug: {
+        type: String,
+        unique: true,
+      },
     },
   ],
   order: {
@@ -91,6 +95,14 @@ categorySchema.pre("save", function (next) {
     this.slug = slugify(this.name, { lower: true, strict: true });
   }
 
+  if (this.brands) {
+    this.brands.forEach((brand) => {
+      if (brand.name && !brand.slug) {
+        brand.slug = slugify(brand.name, { lower: true, strict: true });
+      }
+    });
+  }
+
   if (this.subcategories) {
     this.subcategories.forEach((subcategory) => {
       if (!subcategory.slug) {
@@ -118,6 +130,15 @@ categorySchema.pre("findOneAndUpdate", async function (next) {
 
   if (update.name) {
     update.slug = slugify(update.name, { lower: true, strict: true });
+  }
+
+  if (update.brands) {
+    update.brands = update.brands.map((brand) => {
+      if (brand.name && !brand.slug) {
+        brand.slug = slugify(brand.name, { lower: true, strict: true });
+      }
+      return brand;
+    });
   }
 
   if (update.subcategories) {
